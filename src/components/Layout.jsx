@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Layout.css';
 
 export default function Layout({ children }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuItems = [
         { path: '/', label: 'Inicio' },
         { path: '/quizzes', label: 'Jugar' },
@@ -17,6 +18,17 @@ export default function Layout({ children }) {
                     <Link to="/" className="header-link">
                         Kahoot Clone
                     </Link>
+                    
+                    {/* Menu hamburguesa para pantallas pequeñas */}
+                    <button 
+                        className="menu-toggle"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label="Abrir menú"
+                    >
+                        <span className="menu-icon"></span>
+                    </button>
+
+                    {/* Navegación principal */}
                     <nav className="header-nav">
                         {menuItems.map((item) => (
                             <Link
@@ -29,6 +41,24 @@ export default function Layout({ children }) {
                         ))}
                     </nav>
                 </div>
+
+                {/* Menú móvil */}
+                {isMenuOpen && (
+                    <div className="mobile-menu">
+                        <div className="mobile-menu-content">
+                            {menuItems.map((item) => (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className="header-link mobile-link"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </header>
 
             {/* Main Content */}
