@@ -114,7 +114,7 @@ export default function CreateQuiz() {
                                         ))}
                                     </div>
 
-                                    <div className="flex justify-between items-center">
+                                    <div className="question-actions">
                                         <button
                                             type="button"
                                             onClick={() => handleRemoveQuestion(index)}
