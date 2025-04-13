@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./QuizPage.css";
 
 const QuizPage = () => {
   const { id } = useParams();
@@ -68,9 +69,11 @@ const QuizPage = () => {
               <div className="answers-grid">
                 {quiz.questions[currentQuestion].answers.map((answer, i) => {
                   const isAnswerSelected = selectedAnswer === i;
-                  const isCorrect = isAnswerSelected && i === quiz.questions[currentQuestion].correctAnswer;
+                  const isCorrect =
+                    isAnswerSelected &&
+                    i === quiz.questions[currentQuestion].correctAnswer;
                   let answerClass = "";
-                  
+
                   if (isCorrect) {
                     answerClass = "correct";
                   } else if (isAnswerSelected) {
@@ -98,7 +101,7 @@ const QuizPage = () => {
           <p className="score-display">
             Score: {score}/{quiz.questions.length}
           </p>
-          <button className="primary-button" onClick={() => navigate("/")}>
+          <button className="btn-primary" onClick={() => navigate("/")}>
             Return Home
           </button>
         </div>

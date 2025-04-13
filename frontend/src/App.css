@@ -13,9 +13,6 @@ body {
   color: var(--text);
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Layout */
@@ -29,6 +26,7 @@ body {
 .header {
   background: rgba(0, 0, 0, 0.3);
   padding: 1rem 2rem;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
@@ -41,6 +39,13 @@ body {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* App Container */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Navigation */
@@ -79,7 +84,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 2rem;
-  margin-top: 2rem;
+  margin: 3rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -87,7 +92,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2rem;
-  margin-bottom: 2rem;
+  margin: 3rem 0;
 }
 
 .answer-button {
@@ -122,7 +127,8 @@ body {
   padding: 4rem 2rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  margin-top: 2rem;
+  margin: 3rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .score-display {
@@ -135,6 +141,7 @@ body {
 .footer {
   background: rgba(0, 0, 0, 0.3);
   padding: 1rem 2rem;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   position: sticky;
   bottom: 0;

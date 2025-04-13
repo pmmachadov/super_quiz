@@ -37,7 +37,7 @@
 
     /* Sección de Opciones */
     .options-section {
-        padding: var(--md-spacing-8) 0;
+        padding: var(--md-spacing-8) 2rem;
         max-width: 1200px;
         margin: 0 auto;
     }
@@ -47,6 +47,7 @@
         grid-template-columns: 1fr 1fr;
         gap: var(--md-spacing-8);
         margin-top: var(--md-spacing-8);
+        padding: 0 1rem;
     }
 
     /* Card de Opciones */
@@ -159,6 +160,18 @@
         cursor: pointer;
         transition: all 0.2s ease;
         z-index: 1001;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu-toggle svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--md-on-surface);
+        transform: translate(-50%, -50%);
     }
 
     .mobile-menu-toggle:hover {

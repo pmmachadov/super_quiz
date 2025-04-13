@@ -40,47 +40,73 @@ export default function Quiz() {
     }
   }, [timeLeft, selectedAnswer, handleAnswerSubmit]);
 
-  const handleAnswerSubmit = useCallback((answerIndex) => {
-    if (answerIndex === quiz.questions[currentQuestion].correctAnswer) {
-      setScore(score + 1);
-    }
-
-    setSelectedAnswer(answerIndex);
-    setShowResults(true);
-    setTimeout(() => {
-      setShowResults(false);
-      if (currentQuestion < quiz.questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-        setTimeLeft(10);
-        setSelectedAnswer(null);
-      } else {
-        navigate(`/results/${score}`);
+  const handleAnswerSubmit = useCallback(
+    (answerIndex) => {
+      if (answerIndex === quiz.questions[currentQuestion].correctAnswer) {
+        setScore(score + 1);
       }
-    }, 2000);
-  }, [currentQuestion, quiz, score, navigate]);
+
+      setSelectedAnswer(answerIndex);
+      setShowResults(true);
+      setTimeout(() => {
+        setShowResults(false);
+        if (currentQuestion < quiz.questions.length - 1) {
+          setCurrentQuestion(currentQuestion + 1);
+          setTimeLeft(10);
+          setSelectedAnswer(null);
+        } else {
+          navigate(`/results/${score}`);
+        }
+      }, 2000);
+    },
+    [currentQuestion, quiz, score, navigate]
+  );
 
   const getAnswerClasses = (answer, index) => {
-    const base = 'p-4 rounded-lg text-left transition-all';
-    if (!selectedAnswer && !showResults) return `${base} bg-gray-700 hover:bg-gray-600`;
-    
+    const base = "p-4 rounded-lg text-left transition-all";
+    if (!selectedAnswer && !showResults)
+      return `${base} bg-gray-700 hover:bg-gray-600`;
+
     const isCorrect = index === quiz.questions[currentQuestion].correctAnswer;
     const isSelected = index === selectedAnswer;
-    
+
     if (showResults) {
       if (isCorrect) return `${base} bg-green-600 text-white`;
       if (isSelected && !isCorrect) return `${base} bg-red-600 text-white`;
       return `${base} bg-gray-700`;
     }
-    
-    return isSelected ? `${base} bg-blue-600 text-white` : `${base} bg-gray-700`;
+
+    return isSelected
+      ? `${base} bg-blue-600 text-white`
+      : `${base} bg-gray-700`;
   };
 
   if (error) {
-    return <div className="text-red-500 text-center mt-8">{error}</div>;
+    return (
+      <div className="text-red-500 text-center mt-8">
+        {error}
+        <button
+          className="btn btn-primary w-full"
+          onClick={() => navigate("/")}
+        >
+          Return Home
+        </button>
+      </div>
+    );
   }
 
   if (!quiz) {
-    return <div className="text-center mt-8">Cargando cuestionario...</div>;
+    return (
+      <div className="text-center mt-8">
+        Cargando cuestionario...
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate("/")}
+        >
+          Return Home
+        </button>
+      </div>
+    );
   }
 
   const currentQ = quiz.questions[currentQuestion];
@@ -115,6 +141,12 @@ export default function Quiz() {
         <div className="mt-8 text-center text-xl">
           Puntuación actual: {score}
         </div>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate("/")}
+        >
+          Return Home
+        </button>
       </div>
     </div>
   );

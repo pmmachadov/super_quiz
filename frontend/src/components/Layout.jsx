@@ -1,19 +1,17 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Link, useLocation } from 'react-router-dom';
 
 import "./Layout.css";
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/quizzes", label: "Quizzes" },
-    { path: "/create-quiz", label: "Create Quiz" },
+    { path: '/', label: 'Home' },
+    { path: '/quizzes', label: 'Quizzes' },
+    { path: '/create-quiz', label: 'Create Quiz' },
   ];
 
   return (
-    <div className="app-container" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="app-container">
       <header className="header">
         <div className="header-content">
           <h1 className="logo">Kahoot Clone</h1>
@@ -31,7 +29,7 @@ const Layout = ({ children }) => {
         </div>
       </header>
 
-      <main className="main-content" style={{ flex: 1 }}>{children}</main>
+      <main className="main-content">{children}</main>
 
       <footer className="footer">
         <div className="footer-content">
@@ -40,10 +38,6 @@ const Layout = ({ children }) => {
       </footer>
     </div>
   );
-};
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

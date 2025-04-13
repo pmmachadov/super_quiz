@@ -82,7 +82,9 @@ export default function Home() {
             stroke="currentColor"
             strokeWidth="2"
           >
-            <path d="M3 6h18M3 12h18M3 18h18" />
+            <rect x="4" y="6" width="16" height="2" rx="1" />
+            <rect x="4" y="12" width="16" height="2" rx="1" />
+            <rect x="4" y="18" width="16" height="2" rx="1" />
           </svg>
         </button>
 
