@@ -8,28 +8,28 @@ export default function Home() {
     const options = [
         {
             path: '/quizzes',
-            label: 'Jugar',
-            description: 'Juega a los mejores cuestionarios',
+            label: 'Play',
+            description: 'Play the best interactive quizzes',
             icon: '🎮',
-            actionLabel: 'Jugar Ahora'
+            actionLabel: 'Play Now'
         },
         {
             path: '/create',
-            label: 'Crear',
-            description: 'Crea tu propio cuestionario',
+            label: 'Create',
+            description: 'Create your own interactive quiz',
             icon: '📝',
-            actionLabel: 'Crear Cuestionario'
+            actionLabel: 'Create Quiz'
         }
     ];
 
     return (
         <div>
             <section className="hero-section">
-                <h1 className="hero-title">Kahoot Clone</h1>
-                <p className="hero-description">¡Aprende jugando! Crea y juega cuestionarios con amigos</p>
+                <h1 className="hero-title">Welcome to Kahoot Clone</h1>
+                <p className="hero-description">Create and play interactive quizzes in real time</p>
                 <div className="hero-buttons">
-                    <Link to="/quizzes" className="btn primary">Jugar Ahora</Link>
-                    <Link to="/create" className="btn secondary">Crear Cuestionario</Link>
+                    <Link to="/quizzes" className="btn primary">Get Started</Link>
+                    <Link to="/create" className="btn secondary">Create Quiz</Link>
                 </div>
             </section>
 
@@ -66,7 +66,7 @@ export default function Home() {
                 <button
                     className="mobile-menu-toggle"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    aria-label="Abrir menú"
+                    aria-label="Open menu"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M3 6h18M3 12h18M3 18h18" />
@@ -79,7 +79,7 @@ export default function Home() {
                         <button
                             className="mobile-menu-close"
                             onClick={() => setIsMenuOpen(false)}
-                            aria-label="Cerrar menú"
+                            aria-label="Close menu"
                         >
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M6 18L18 6M6 6l12 12" />
@@ -93,21 +93,21 @@ export default function Home() {
                             className="mobile-menu-link"
                             onClick={() => setIsMenuOpen(false)}
                         >
-                            Inicio
+                            Home
                         </Link>
                         <Link
                             to="/quizzes"
                             className="mobile-menu-link"
                             onClick={() => setIsMenuOpen(false)}
                         >
-                            Jugar
+                            Play
                         </Link>
                         <Link
                             to="/create"
                             className="mobile-menu-link"
                             onClick={() => setIsMenuOpen(false)}
                         >
-                            Crear
+                            Create
                         </Link>
                     </nav>
                 </div>

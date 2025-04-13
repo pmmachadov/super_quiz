@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './Layout.css';
 
 export default function Layout({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuItems = [
-        { path: '/quizzes', label: 'Jugar' },
-        { path: '/create', label: 'Crear' },
+        { path: '/quizzes', label: 'Play' },
+        { path: '/create', label: 'Create' },
     ];
 
     return (
@@ -20,7 +21,7 @@ export default function Layout({ children }) {
                     <button 
                         className="menu-toggle"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        aria-label="Abrir menú"
+                        aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                     >
                         <span className="menu-icon"></span>
                     </button>
@@ -62,9 +63,13 @@ export default function Layout({ children }) {
 
             <footer className="footer">
                 <div className="footer-content">
-                    <p> 2025 Kahoot Clone. Todos los derechos reservados.</p>
+                    <p> 2025 Kahoot Clone. All rights reserved.</p>
                 </div>
             </footer>
         </div>
     );
 }
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
