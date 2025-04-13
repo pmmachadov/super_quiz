@@ -1,151 +1,152 @@
-import React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './CreateQuiz.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./CreateQuiz.css";
 
 export default function CreateQuiz() {
-    const [title, setTitle] = useState('');
-    const [questions, setQuestions] = useState([{ question: '', options: ['', '', '', ''] }]);
-    const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [questions, setQuestions] = useState([
+    { text: "", answers: ["", "", "", ""], correctIndex: 0 },
+  ]);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const quiz = {
-            title,
-            questions: questions.map(q => ({
-                question: q.question,
-                options: q.options,
-                correctAnswer: 0
-            }))
-        };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        try {
-            const response = await fetch('http://localhost:5000/api/quizzes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(quiz),
-            });
+    try {
+      const response = await fetch("http://localhost:5000/api/quizzes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          questions,
+        }),
+      });
 
-            if (response.ok) {
-                navigate('/quizzes');
-            } else {
-                throw new Error('Error al crear el cuestionario');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+      if (response.ok) {
+        navigate("/quizzes");
+      } else {
+        throw new Error("Error creating quiz");
+      }
+    } catch (error) {
+      console.error("Error creating quiz:", error);
+    }
+  };
 
-    const handleAddQuestion = () => {
-        setQuestions([...questions, { question: '', options: ['', '', '', ''] }]);
-    };
+  return (
+    <div className="form-container">
+      <div className="form-title">Create New Quiz</div>
+      <div className="form-description">
+        Add your quiz title and questions below
+      </div>
 
-    const handleRemoveQuestion = (index) => {
-        if (questions.length > 1) {
-            const newQuestions = [...questions];
-            newQuestions.splice(index, 1);
-            setQuestions(newQuestions);
-        }
-    };
-
-    return (
-        <div className="page-container">
-            <div className="container">
-                <div className="section">
-                    <div className="form-container">
-                        <h1 className="text-4xl font-bold text-white mb-8">Crear Cuestionario</h1>
-                        
-                        <form onSubmit={handleSubmit} className="space-y-8">
-                            <div className="form-group">
-                                <label className="block text-sm font-medium text-white mb-2">
-                                    Título del Cuestionario
-                                </label>
-                                <input
-                                    type="text"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="form-input w-full"
-                                    placeholder="Ingresa el título del cuestionario"
-                                    required
-                                />
-                            </div>
-
-                            {questions.map((question, index) => (
-                                <div key={index} className="space-y-6">
-                                    <div className="form-group">
-                                        <label className="block text-sm font-medium text-white mb-2">
-                                            Pregunta {index + 1}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            value={question.question}
-                                            onChange={(e) => {
-                                                const newQuestions = [...questions];
-                                                newQuestions[index].question = e.target.value;
-                                                setQuestions(newQuestions);
-                                            }}
-                                            className="form-input w-full"
-                                            placeholder="Ingresa la pregunta"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {question.options.map((option, optionIndex) => (
-                                            <div key={optionIndex} className="form-group">
-                                                <label className="block text-sm font-medium text-white mb-2">
-                                                    Opción {optionIndex + 1}
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    value={option}
-                                                    onChange={(e) => {
-                                                        const newQuestions = [...questions];
-                                                        newQuestions[index].options[optionIndex] = e.target.value;
-                                                        setQuestions(newQuestions);
-                                                    }}
-                                                    className="form-input w-full"
-                                                    placeholder={`Ingresa la opción ${optionIndex + 1}`}
-                                                    required
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="question-actions">
-                                        <button
-                                            type="button"
-                                            onClick={() => handleRemoveQuestion(index)}
-                                            className="btn btn-outlined text-red-500 hover:text-red-700"
-                                        >
-                                            Eliminar Pregunta
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            onClick={handleAddQuestion}
-                                            className="btn btn-outlined text-green-500 hover:text-green-700"
-                                        >
-                                            Añadir Pregunta
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-
-                            <div className="form-btn-group">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                >
-                                    Crear Cuestionario
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="form-group">
+          <label className="form-label">Quiz Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="form-input"
+            placeholder="Enter a descriptive title for your quiz"
+            required
+          />
         </div>
-    );
+
+        <div className="questions-section">
+          {questions.map((question, index) => (
+            <div key={index} className="question-group">
+              <div className="question-header">
+                <h3 className="question-number">Question {index + 1}</h3>
+                <div className="question-actions">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (questions.length > 1) {
+                        const newQuestions = [...questions];
+                        newQuestions.splice(index, 1);
+                        setQuestions(newQuestions);
+                      }
+                    }}
+                    className="question-action-btn"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Question Text</label>
+                <input
+                  type="text"
+                  placeholder="Write your question here"
+                  value={question.text}
+                  onChange={(e) => {
+                    const newQuestions = [...questions];
+                    newQuestions[index].text = e.target.value;
+                    setQuestions(newQuestions);
+                  }}
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="options-grid">
+                {question.answers.map((answer, ansIndex) => (
+                  <div key={ansIndex} className="option-group">
+                    <div className="option-label">Answer {ansIndex + 1}</div>
+                    <input
+                      type="text"
+                      placeholder={`Enter answer ${ansIndex + 1}`}
+                      value={answer}
+                      onChange={(e) => {
+                        const newQuestions = [...questions];
+                        newQuestions[index].answers[ansIndex] = e.target.value;
+                        setQuestions(newQuestions);
+                      }}
+                      className="form-input"
+                      required
+                    />
+                    <div className="correct-answer">
+                      <input
+                        type="radio"
+                        name={`correctAnswer-${index}`}
+                        checked={question.correctIndex === ansIndex}
+                        onChange={() => {
+                          const newQuestions = [...questions];
+                          newQuestions[index].correctIndex = ansIndex;
+                          setQuestions(newQuestions);
+                        }}
+                      />
+                      <label>Correct Answer</label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="form-btn-group">
+          <button
+            type="button"
+            onClick={() =>
+              setQuestions([
+                ...questions,
+                { text: "", answers: ["", "", "", ""], correctIndex: 0 },
+              ])
+            }
+            className="btn-primary"
+          >
+            Add Question
+          </button>
+
+          <button type="submit" className="btn-primary">
+            Create Quiz
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }

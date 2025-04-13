@@ -28,7 +28,13 @@ export default function Quizzes() {
     <div className="quiz-container">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Available Quizzes</h1>
-        <p className="text-xl text-gray-600">Select a quiz to begin</p>
+        <p className="text-xl text-gray-600 mb-4">Select a quiz to begin</p>
+        <button 
+          onClick={() => navigate('/create-quiz')}
+          className="btn-primary mb-4"
+        >
+          Create New Quiz
+        </button>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 quiz-grid">

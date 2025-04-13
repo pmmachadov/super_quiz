@@ -14,8 +14,8 @@ export default function Home() {
       actionLabel: "Play Now",
     },
     {
-      path: "/create",
-      label: "Create",
+      path: "/create-quiz",
+      label: "Create quiz",
       description: "Create your own interactive quiz",
       icon: "📝",
       actionLabel: "Create Quiz",
@@ -33,7 +33,7 @@ export default function Home() {
           <Link to="/quizzes" className="btn primary">
             Get Started
           </Link>
-          <Link to="/create" className="btn secondary">
+          <Link to="/create-quiz" className="btn secondary">
             Create Quiz
           </Link>
         </div>
@@ -123,7 +123,7 @@ export default function Home() {
               Play
             </Link>
             <Link
-              to="/create"
+              to="/create-quiz"
               className="mobile-menu-link"
               onClick={() => setIsMenuOpen(false)}
             >
