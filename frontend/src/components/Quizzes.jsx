@@ -27,8 +27,8 @@ export default function Quizzes() {
   return (
     <div className="quiz-container">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Cuestionarios Disponibles</h1>
-        <p className="text-xl text-gray-600">Selecciona un cuestionario para comenzar</p>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Available Quizzes</h1>
+        <p className="text-xl text-gray-600">Select a quiz to begin</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 quiz-grid">
@@ -36,13 +36,13 @@ export default function Quizzes() {
           <div key={quiz.id} className="quiz-card">
             <h3 className="quiz-title">{quiz.title}</h3>
             <p className="question-count">
-              {quiz.questions.length} preguntas
+              {quiz.questions.length} questions
             </p>
             <button
               className="btn-primary w-full py-3 text-lg"
               onClick={() => navigate(`/quizzes/${quiz.id}`)}
             >
-              Jugar ahora
+              Play now
             </button>
           </div>
         ))}
