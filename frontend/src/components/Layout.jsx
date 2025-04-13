@@ -11,14 +11,12 @@ export default function Layout({ children }) {
 
     return (
         <div className="layout">
-            {/* Header */}
             <header className="header">
                 <div className="header-content">
                     <Link to="/" className="header-link">
                         Kahoot Clone
                     </Link>
                     
-                    {/* Menu hamburguesa para pantallas pequeñas */}
                     <button 
                         className="menu-toggle"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -27,7 +25,6 @@ export default function Layout({ children }) {
                         <span className="menu-icon"></span>
                     </button>
 
-                    {/* Navegación principal */}
                     <nav className="header-nav">
                         {menuItems.map((item) => (
                             <Link
@@ -41,7 +38,6 @@ export default function Layout({ children }) {
                     </nav>
                 </div>
 
-                {/* Menú móvil */}
                 {isMenuOpen && (
                     <div className="mobile-menu">
                         <div className="mobile-menu-content">
@@ -60,12 +56,10 @@ export default function Layout({ children }) {
                 )}
             </header>
 
-            {/* Main Content */}
             <main className="main-content">
                 {children}
             </main>
 
-            {/* Footer */}
             <footer className="footer">
                 <div className="footer-content">
                     <p> 2025 Kahoot Clone. Todos los derechos reservados.</p>

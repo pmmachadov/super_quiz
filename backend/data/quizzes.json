@@ -1,0 +1,22 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Matemáticas Básicas",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuánto es 2 + 2?",
+          "options": ["2", "3", "4", "5"],
+          "correctAnswer": 2
+        },
+        {
+          "id": 2,
+          "question": "¿Cuál es la raíz cuadrada de 16?",
+          "options": ["2", "4", "6", "8"],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ]
+}
