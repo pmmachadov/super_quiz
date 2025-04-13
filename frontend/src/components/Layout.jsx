@@ -5,7 +5,6 @@ import './Layout.css';
 export default function Layout({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuItems = [
-        { path: '/', label: 'Inicio' },
         { path: '/quizzes', label: 'Jugar' },
         { path: '/create', label: 'Crear' },
     ];
