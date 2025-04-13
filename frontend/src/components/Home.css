@@ -1,4 +1,5 @@
 @layer base {
+
     /* Hero Section */
     .hero-section {
         text-align: center;
@@ -30,7 +31,7 @@
         margin-bottom: var(--md-spacing-8);
     }
 
-    .hero-buttons > .btn {
+    .hero-buttons>.btn {
         min-width: 200px;
     }
 
@@ -222,6 +223,41 @@
         color: var(--md-primary);
     }
 
+    /* Action Buttons */
+    .btn.primary {
+        background: #65dca5;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn.primary:hover {
+        background: #c49ce9;
+        transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+        background: #c49ce9;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn.secondary:hover {
+        background: #65dca5;
+        -webkit-transform: translateY(-2px);
+        -moz-transform: translateY(-2px);
+        -ms-transform: translateY(-2px);
+        -o-transform: translateY(-2px);
+        transform: translateY(-2px);
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .mobile-menu {
@@ -295,7 +331,7 @@
             font-size: 0.875rem;
         }
 
-        .hero-buttons > .btn {
+        .hero-buttons>.btn {
             min-width: 160px;
             font-size: 0.875rem;
             padding: var(--md-spacing-2) var(--md-spacing-4);

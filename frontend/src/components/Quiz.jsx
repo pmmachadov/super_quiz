@@ -1,164 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './Quiz.css';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Quiz() {
-    const { id } = useParams();
-    const [quiz, setQuiz] = useState(null);
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
-    const [showResults, setShowResults] = useState(false);
-    const [score, setScore] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [quiz, setQuiz] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [error, setError] = useState("");
+  const [showResults, setShowResults] = useState(false);
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/api/quizzes/${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar el cuestionario');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setQuiz(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                setLoading(false);
-            });
-    }, [id]);
-
-    if (error) {
-        return (
-            <div className="page-container">
-                <div className="container">
-                    <div className="alert alert-danger">
-                        <p>{error}</p>
-                    </div>
-                </div>
-            </div>
+  // frontend/src/components/Quiz.jsx
+  useEffect(() => {
+    console.log("Iniciando fetch para quiz ID:", id);
+    const fetchQuiz = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/quizzes/${id}`
         );
+        console.log("Datos recibidos:", response.data);
+        setQuiz(response.data);
+      } catch (error) {
+        console.error("Error fetching quiz:", error);
+        setError("Error al cargar el cuestionario");
+      }
+    };
+    fetchQuiz();
+  }, [id]);
+
+  useEffect(() => {
+    if (timeLeft > 0 && !selectedAnswer) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      handleAnswerSubmit();
+    }
+  }, [timeLeft, selectedAnswer, handleAnswerSubmit]);
+
+  const handleAnswerSubmit = useCallback((answerIndex) => {
+    if (answerIndex === quiz.questions[currentQuestion].correctAnswer) {
+      setScore(score + 1);
     }
 
-    if (loading) {
-        return (
-            <div className="page-container flex items-center justify-center">
-                <div className="loading-spinner"></div>
-            </div>
-        );
+    setSelectedAnswer(answerIndex);
+    setShowResults(true);
+    setTimeout(() => {
+      setShowResults(false);
+      if (currentQuestion < quiz.questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+        setTimeLeft(10);
+        setSelectedAnswer(null);
+      } else {
+        navigate(`/results/${score}`);
+      }
+    }, 2000);
+  }, [currentQuestion, quiz, score, navigate]);
+
+  const getAnswerClasses = (answer, index) => {
+    const base = 'p-4 rounded-lg text-left transition-all';
+    if (!selectedAnswer && !showResults) return `${base} bg-gray-700 hover:bg-gray-600`;
+    
+    const isCorrect = index === quiz.questions[currentQuestion].correctAnswer;
+    const isSelected = index === selectedAnswer;
+    
+    if (showResults) {
+      if (isCorrect) return `${base} bg-green-600 text-white`;
+      if (isSelected && !isCorrect) return `${base} bg-red-600 text-white`;
+      return `${base} bg-gray-700`;
     }
+    
+    return isSelected ? `${base} bg-blue-600 text-white` : `${base} bg-gray-700`;
+  };
 
-    const handleAnswerSelect = (answerIndex) => {
-        setSelectedAnswer(answerIndex);
-    };
+  if (error) {
+    return <div className="text-red-500 text-center mt-8">{error}</div>;
+  }
 
-    const handleNextQuestion = () => {
-        if (selectedAnswer === quiz.questions[currentQuestion].correctAnswer) {
-            setScore(score + 1);
-        }
-        setSelectedAnswer(null);
-        
-        if (currentQuestion < quiz.questions.length - 1) {
-            setCurrentQuestion(currentQuestion + 1);
-        } else {
-            setShowResults(true);
-        }
-    };
+  if (!quiz) {
+    return <div className="text-center mt-8">Cargando cuestionario...</div>;
+  }
 
-    const restartQuiz = () => {
-        setCurrentQuestion(0);
-        setSelectedAnswer(null);
-        setShowResults(false);
-        setScore(0);
-    };
+  const currentQ = quiz.questions[currentQuestion];
 
-    if (!quiz) return null;
-
-    return (
-        <div className="page-container">
-            <div className="container">
-                <div className="section">
-                    <div className="quiz-container">
-                        <h1 className="text-4xl font-bold text-white mb-8">{quiz.title}</h1>
-                        
-                        {!showResults ? (
-                            <>
-                                <div className="quiz-progress">
-                                    <div className="text-white">
-                                        Pregunta {currentQuestion + 1} de {quiz.questions.length}
-                                    </div>
-                                    <div className="quiz-progress-bar">
-                                        <div 
-                                            className="quiz-progress-filled" 
-                                            style={{ 
-                                                width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%` 
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-
-                                <div className="quiz-question">
-                                    {quiz.questions[currentQuestion].question}
-                                </div>
-
-                                <div className="quiz-options">
-                                    {quiz.questions[currentQuestion].options.map((option, index) => (
-                                        <div
-                                            key={index}
-                                            className={`quiz-option ${
-                                                selectedAnswer !== null 
-                                                    ? (index === quiz.questions[currentQuestion].correctAnswer 
-                                                        ? 'correct' 
-                                                        : index === selectedAnswer 
-                                                            ? 'wrong' 
-                                                            : 'disabled') 
-                                                    : ''
-                                            }`}
-                                            onClick={() => handleAnswerSelect(index)}
-                                            style={{
-                                                cursor: selectedAnswer !== null ? 'default' : 'pointer'
-                                            }}
-                                        >
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="mt-8">
-                                    {selectedAnswer !== null && (
-                                        <button
-                                            onClick={handleNextQuestion}
-                                            className="btn btn-primary w-full"
-                                        >
-                                            {currentQuestion < quiz.questions.length - 1
-                                                ? 'Siguiente Pregunta'
-                                                : 'Ver Resultados'}
-                                        </button>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            <div className="quiz-results">
-                                <h2 className="text-3xl font-bold text-white mb-6">
-                                    ¡Has terminado!
-                                </h2>
-                                <div className="quiz-score">
-                                    Puntuación: {score} de {quiz.questions.length}
-                                </div>
-                                <button
-                                    onClick={restartQuiz}
-                                    className="btn btn-primary w-full"
-                                >
-                                    Volver a intentar
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between mb-8">
+          <div className="text-xl">
+            Pregunta {currentQuestion + 1} de {quiz.questions.length}
+          </div>
+          <div className="text-xl">Tiempo: {timeLeft}s</div>
         </div>
-    );
+
+        <h2 className="text-3xl font-bold mb-8 text-center">
+          {currentQ.question}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentQ.answers.map((answer, index) => (
+            <button
+              key={`answer-${currentQ.id}-${index}`}
+              onClick={() => !selectedAnswer && handleAnswerSubmit(index)}
+              className={getAnswerClasses(answer, index)}
+              disabled={selectedAnswer !== null}
+            >
+              {answer}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center text-xl">
+          Puntuación actual: {score}
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -1,25 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import "./Layout.css";
 
-const menuItems = [
-  { path: "/quizzes", label: "Play" },
-  { path: "/create", label: "Create" },
-];
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const navItems = [
+    { path: "/", label: "Home" },
+    { path: "/quizzes", label: "Quizzes" },
+    { path: "/create-quiz", label: "Create Quiz" },
+  ];
 
-export default function Layout({ children }) {
   return (
-    <div className="layout">
+    <div className="app-container" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <header className="header">
         <div className="header-content">
-          <Link to="/" className="header-link">
-            My favorite Quizz
-          </Link>
-
-          <nav className="header-nav">
-            {menuItems.map((item) => (
-              <Link key={item.path} to={item.path} className="header-link">
+          <h1 className="logo">Kahoot Clone</h1>
+          <nav className="nav-links">
+            {navItems.map((item) => (
+              <Link 
+                key={item.path} 
+                to={item.path} 
+                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+              >
                 {item.label}
               </Link>
             ))}
@@ -27,17 +31,19 @@ export default function Layout({ children }) {
         </div>
       </header>
 
-      <main className="main-content">{children}</main>
+      <main className="main-content" style={{ flex: 1 }}>{children}</main>
 
       <footer className="footer">
         <div className="footer-content">
-          <p> 2025 Kahoot Clone. All rights reserved.</p>
+          <p>Super Quizz. Just play :)</p>
         </div>
       </footer>
     </div>
   );
-}
+};
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default Layout;
