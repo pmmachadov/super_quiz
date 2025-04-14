@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./QuizPage.css";
 
 const QuizPage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -12,97 +12,82 @@ const QuizPage = () => {
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    const mockQuiz = {
-      id: 1,
-      title: "Programming Fundamentals Quiz",
-      questions: [
-        {
-          question: "What is a variable?",
-          answers: ["Data storage container", "Type of loop", "Math operation"],
-          correctAnswer: 0,
-        },
-        {
-          question: "Which symbol is used for comments in JavaScript?",
-          answers: ["//", "#", "/*"],
-          correctAnswer: 0,
-        },
-      ],
+    const fetchQuiz = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/quizzes/${id}`);
+        if (!response.ok) throw new Error("Quiz not found");
+        let data = await response.json();
+        data.questions = data.questions.map((q) => ({
+          ...q,
+          answers: q.options,
+          correctIndex: q.correctAnswer,
+        }));
+        setQuiz(data);
+      } catch (err) {
+        setQuiz(null);
+      }
     };
-    setQuiz(mockQuiz);
+    fetchQuiz();
   }, [id]);
 
-  const handleAnswerSelect = (answerIndex) => {
-    if (selectedAnswer !== null) return; // Prevent multiple selections
+  if (!quiz) {
+    return <div>Loading quiz...</div>;
+  }
 
+  const handleAnswer = (answerIndex) => {
     setSelectedAnswer(answerIndex);
 
-    if (answerIndex === quiz.questions[currentQuestion].correctAnswer) {
+    if (answerIndex === quiz.questions[currentQuestion].correctIndex) {
       setScore(score + 1);
     }
 
-    setTimeout(() => {
-      if (currentQuestion < quiz.questions.length - 1) {
-        setCurrentQuestion((prev) => prev + 1);
-        setSelectedAnswer(null);
-      } else {
-        setShowResults(true);
-      }
-    }, 1500);
+    if (currentQuestion < quiz.questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(null);
+    } else {
+      setShowResults(true);
+    }
   };
 
-  if (!quiz) return <div className="text-white p-4">Loading quiz...</div>;
+  const currentQuestionData = quiz.questions[currentQuestion];
 
   return (
-    <div className="container">
+    <div className="quiz-container">
+      <h1 className="quiz-title">{quiz.title}</h1>
+
       {!showResults ? (
-        <div>
-          <div className="quiz-container">
-            <div className="header">
-              <h1 className="quiz-title">{quiz.title}</h1>
-              <div className="question-counter">
-                Question {currentQuestion + 1}/{quiz.questions.length}
-              </div>
-            </div>
+        <div className="question-container">
+          <h2 className="question-number">
+            Question {currentQuestion + 1} of {quiz.questions.length}
+          </h2>
+          <p className="question-text">{currentQuestionData.question}</p>
 
-            <div className="question-card">
-              <h2>{quiz.questions[currentQuestion].question}</h2>
-              <div className="answers-grid">
-                {quiz.questions[currentQuestion].answers.map((answer, i) => {
-                  const isAnswerSelected = selectedAnswer === i;
-                  const isCorrect =
-                    isAnswerSelected &&
-                    i === quiz.questions[currentQuestion].correctAnswer;
-                  let answerClass = "";
-
-                  if (isCorrect) {
-                    answerClass = "correct";
-                  } else if (isAnswerSelected) {
-                    answerClass = "incorrect";
-                  }
-
-                  return (
-                    <button
-                      key={i}
-                      className={`answer-button ${answerClass}`}
-                      onClick={() => handleAnswerSelect(i)}
-                      disabled={selectedAnswer !== null}
-                    >
-                      {answer}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+          <div className="answers-container">
+            {currentQuestionData.answers.map((answer, index) => (
+              <button
+                key={answer}
+                className={`answer-button ${
+                  selectedAnswer === index ? "selected" : ""
+                }`}
+                onClick={() => handleAnswer(index)}
+                disabled={selectedAnswer !== null}
+              >
+                {answer}
+              </button>
+            ))}
           </div>
         </div>
       ) : (
         <div className="results-container">
-          <h2>Quiz Complete!</h2>
-          <p className="score-display">
-            Score: {score}/{quiz.questions.length}
+          <h2>Quiz Results</h2>
+          <p>
+            You scored {score} out of {quiz.questions.length}
           </p>
-          <button className="btn-primary" onClick={() => navigate("/")}>
-            Return Home
+          <button
+            className="btn-primary"
+            onClick={() => navigate("/quizzes")}
+          >
+            Return to Quizzes
           </button>
         </div>
       )}

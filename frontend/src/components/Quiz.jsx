@@ -13,7 +13,6 @@ export default function Quiz() {
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  // frontend/src/components/Quiz.jsx
   useEffect(() => {
     console.log("Iniciando fetch para quiz ID:", id);
     const fetchQuiz = async () => {
@@ -98,9 +97,9 @@ export default function Quiz() {
   if (!quiz) {
     return (
       <div className="text-center mt-8">
-        Cargando cuestionario...
+        <span className="mb-2">Cargando cuestionario...</span>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="mt-4"
           onClick={() => navigate("/")}
         >
           Return Home
@@ -142,7 +141,7 @@ export default function Quiz() {
           Puntuación actual: {score}
         </div>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="mt-4"
           onClick={() => navigate("/")}
         >
           Return Home

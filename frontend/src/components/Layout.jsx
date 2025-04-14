@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from "prop-types";
 
 import "./Layout.css";
 
@@ -38,6 +39,10 @@ const Layout = ({ children }) => {
       </footer>
     </div>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

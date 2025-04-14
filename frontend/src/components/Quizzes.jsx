@@ -1,58 +1,53 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import './Quizzes.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+// import quizData from "../data/quizzes.json";
+import { useState, useEffect } from "react";
+import "./Quizzes.css";
 
-export default function Quizzes() {
+const Quizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/quizzes')
-      .then((response) => response.json())
-      .then((data) => {
-        setQuizzes(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError('Error loading quizzes');
-        setLoading(false);
-      });
+    const fetchQuizzes = async () => {
+      const response = await fetch('http://localhost:5000/api/quizzes');
+      const data = await response.json();
+      setQuizzes(data);
+    };
+    fetchQuizzes();
   }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  const navigate = useNavigate();
 
   return (
-    <div className="quiz-container">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Available Quizzes</h1>
-        <p className="text-xl text-gray-600 mb-4">Select a quiz to begin</p>
-        <button 
-          onClick={() => navigate('/create-quiz')}
-          className="btn-primary mb-4"
-        >
-          Create New Quiz
-        </button>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 quiz-grid">
+    <div className="quizzes-container">
+      <h1 className="page-title">Available Quizzes</h1>
+
+      <div className="quizzes-grid">
         {quizzes.map((quiz) => (
           <div key={quiz.id} className="quiz-card">
-            <h3 className="quiz-title">{quiz.title}</h3>
-            <p className="question-count">
+            <h2 className="quiz-title">{quiz.title}</h2>
+            <p className="quiz-description">
               {quiz.questions.length} questions
             </p>
             <button
-              className="btn-primary w-full py-3 text-lg"
-              onClick={() => navigate(`/quizzes/${quiz.id}`)}
+              className="btn-secondary"
+              onClick={() => navigate(`/quiz/${quiz.id}`)}
             >
-              Play now
+              Start Quiz
             </button>
           </div>
         ))}
       </div>
+
+      <div className="create-quiz-section">
+        <button
+          className="btn-secondary"
+          onClick={() => navigate("/create-quiz")}
+        >
+          Create New Quiz
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default Quizzes;

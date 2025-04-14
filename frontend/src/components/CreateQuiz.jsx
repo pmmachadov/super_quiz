@@ -13,6 +13,12 @@ export default function CreateQuiz() {
     e.preventDefault();
 
     try {
+      // Transform frontend questions to backend format
+      const backendQuestions = questions.map((q) => ({
+        question: q.text,
+        options: q.answers,
+        correctAnswer: q.correctIndex,
+      }));
       const response = await fetch("http://localhost:5000/api/quizzes", {
         method: "POST",
         headers: {
@@ -20,7 +26,7 @@ export default function CreateQuiz() {
         },
         body: JSON.stringify({
           title,
-          questions,
+          questions: backendQuestions,
         }),
       });
 
@@ -134,7 +140,7 @@ export default function CreateQuiz() {
             onClick={() =>
               setQuestions([
                 ...questions,
-                { text: "", answers: ["", "", "", ""], correctIndex: 0 },
+                { question: "", options: ["", "", "", ""], correctAnswer: 0 },
               ])
             }
             className="btn-primary"
