@@ -43,6 +43,16 @@
         /* Borders */
         --md-border-radius: 4px;
         --md-border-radius-large: 12px;
+
+        /* Elevation (sombra) */
+        --md-elevation-4: 0 4px 8px rgba(0,0,0,0.15);
+        --md-elevation-6: 0 6px 16px rgba(0,0,0,0.18);
+        --md-elevation-8: 0 8px 24px rgba(0,0,0,0.20);
+        --md-elevation-12: 0 12px 32px rgba(0,0,0,0.22);
+
+        /* Éxito */
+        --md-success: #4caf50;
+        --md-on-success: #fff;
     }
 
     /* Responsive Design */

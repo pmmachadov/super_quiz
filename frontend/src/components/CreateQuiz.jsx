@@ -13,12 +13,15 @@ export default function CreateQuiz() {
     e.preventDefault();
 
     try {
-      // Transform frontend questions to backend format
       const backendQuestions = questions.map((q) => ({
         question: q.text,
         options: q.answers,
         correctAnswer: q.correctIndex,
       }));
+      console.log("[FRONT] Enviando nuevo quiz al backend:", {
+        title,
+        questions: backendQuestions,
+      });
       const response = await fetch("http://localhost:5000/api/quizzes", {
         method: "POST",
         headers: {
@@ -29,7 +32,8 @@ export default function CreateQuiz() {
           questions: backendQuestions,
         }),
       });
-
+      const respData = await response.json();
+      console.log("[FRONT] Respuesta del backend al crear quiz:", respData);
       if (response.ok) {
         navigate("/quizzes");
       } else {

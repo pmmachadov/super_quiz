@@ -1,7 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-// import quizData from "../data/quizzes.json";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Quizzes.css";
 
 const Quizzes = () => {
@@ -9,8 +7,10 @@ const Quizzes = () => {
 
   useEffect(() => {
     const fetchQuizzes = async () => {
-      const response = await fetch('http://localhost:5000/api/quizzes');
+      console.log('[FRONT] Solicitando quizzes al backend...');
+      const response = await fetch("http://localhost:5000/api/quizzes");
       const data = await response.json();
+      console.log('[FRONT] Quizzes recibidos del backend:', data);
       setQuizzes(data);
     };
     fetchQuizzes();

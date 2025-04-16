@@ -14,9 +14,11 @@ const QuizPage = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        console.log(`[FRONT] Solicitando quiz con id ${id} al backend...`);
         const response = await fetch(`http://localhost:5000/api/quizzes/${id}`);
         if (!response.ok) throw new Error("Quiz not found");
         let data = await response.json();
+        console.log('[FRONT] Quiz recibido del backend:', data);
         data.questions = data.questions.map((q) => ({
           ...q,
           answers: q.options,
@@ -24,6 +26,7 @@ const QuizPage = () => {
         }));
         setQuiz(data);
       } catch (err) {
+        console.error('[FRONT] Error al obtener el quiz:', err);
         setQuiz(null);
       }
     };

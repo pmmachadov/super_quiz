@@ -1,15 +1,17 @@
 @layer base {
     .form-container {
+        -moz-border-radius: var(--md-border-radius-large);
+        -webkit-border-radius: var(--md-border-radius-large);
         background: var(--md-surface);
         border: 1px solid var(--md-outline);
         border-radius: var(--md-border-radius-large);
         box-shadow: var(--md-elevation-8);
-        margin: 0 auto;
-        max-width: 800px;
-        padding: var(--md-spacing-6);
-        min-height: calc(100vh - 120px);
         display: flex;
         flex-direction: column;
+        margin: 0 auto;
+        max-width: 800px;
+        min-height: calc(100vh - 120px);
+        padding: var(--md-spacing-6);
     }
 
     .form-title {
@@ -22,10 +24,10 @@
 
     .form-description {
         color: var(--md-on-surface);
+        font-size: 1.1rem;
         margin-bottom: var(--md-spacing-6);
         opacity: 0.87;
         text-align: center;
-        font-size: 1.1rem;
     }
 
     .form-group {
@@ -40,10 +42,10 @@
         border: 1px solid var(--md-outline);
         border-radius: var(--md-border-radius);
         color: var(--md-on-surface);
+        font-size: 1rem;
         padding: var(--md-spacing-3) var(--md-spacing-4);
         transition: all 0.2s ease;
         width: 100%;
-        font-size: 1rem;
     }
 
     .form-input:focus {
@@ -68,47 +70,45 @@
         width: 100%;
     }
 
-    /* Hover efects */
     .btn:hover {
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         transform: translateY(-2px);
     }
 
-    /* Botón principal */
     .btn-primary {
         background: linear-gradient(135deg, #77d07a 0%, #5ebd5e 100%);
         color: rgb(0, 0, 0);
     }
 
-    /* Botón de acción de pregunta */
     .question-action-btn {
         background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-        color: white;
         border: none;
         border-radius: 0.375rem;
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 120px;
-        position: relative;
-        overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: white;
+        cursor: pointer;
+        font-size: 0.9rem;
+        min-width: 120px;
+        overflow: hidden;
+        padding: 0.8rem 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
     }
 
     .question-action-btn::before {
         content: '';
+        height: 100%;
+        left: 0;
         position: absolute;
         top: 0;
-        left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
         width: 100%;
-        height: 100%;
+
         background: linear-gradient(120deg,
                 transparent,
                 rgba(255, 255, 255, 0.2),
                 transparent);
-        transform: translateX(-100%);
-        transition: transform 0.5s ease;
     }
 
     .question-action-btn:hover {
@@ -121,8 +121,8 @@
     }
 
     .questions-section {
-        margin-top: var(--md-spacing-8);
         flex: 1;
+        margin-top: var(--md-spacing-8);
         overflow-y: auto;
     }
 
@@ -135,9 +135,9 @@
     }
 
     .question-header {
+        align-items: center;
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-bottom: var(--md-spacing-4);
     }
 
@@ -159,13 +159,13 @@
     }
 
     .option-group {
+        background: var(--md-surface);
+        border: 1px solid var(--md-outline);
+        border-radius: var(--md-border-radius);
         display: flex;
         flex-direction: column;
         gap: var(--md-spacing-2);
         padding: var(--md-spacing-2);
-        background: var(--md-surface);
-        border: 1px solid var(--md-outline);
-        border-radius: var(--md-border-radius);
     }
 
     .option-label {
@@ -175,19 +175,19 @@
     }
 
     .correct-answer {
-        display: flex;
         align-items: center;
+        display: flex;
         gap: var(--md-spacing-2);
         margin-top: 0.5rem;
     }
 
     .correct-answer input[type="radio"] {
-        width: 1.2rem;
+        cursor: pointer;
         height: 1.2rem;
         margin: 0;
-        cursor: pointer;
         transform: scale(1.5);
         transform-origin: center;
+        width: 1.2rem;
     }
 
     .correct-answer label {
@@ -195,7 +195,6 @@
         font-size: 0.9rem;
     }
 
-    /* Responsive */
     @media (max-width: 640px) {
         .form-container {
             padding: var(--md-spacing-4);
@@ -206,8 +205,8 @@
         }
 
         .form-description {
-            margin-bottom: var(--md-spacing-4);
             font-size: 1rem;
+            margin-bottom: var(--md-spacing-4);
         }
 
         .form-input {
@@ -219,15 +218,15 @@
         }
 
         .btn {
-            padding: 0.6rem 1.2rem;
             font-size: 0.9rem;
             min-width: 100px;
+            padding: 0.6rem 1.2rem;
         }
 
         .question-action-btn {
-            padding: 0.6rem 1.2rem;
             font-size: 0.8rem;
             min-width: 100px;
+            padding: 0.6rem 1.2rem;
         }
     }
 
@@ -248,4 +247,9 @@
             padding: var(--md-spacing-1) var(--md-spacing-2);
         }
     }
+
+    /* Hover efects */
+    /* Botón principal */
+    /* Botón de acción de pregunta */
+    /* Responsive */
 }
