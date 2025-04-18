@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import "./Quiz.css";
 
 export default function Quiz() {
   const { id } = useParams();
@@ -12,131 +13,287 @@ export default function Quiz() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [fadeIn, setFadeIn] = useState(false);
+  const [animateQuestion, setAnimateQuestion] = useState(false);
+  const [questionTransition, setQuestionTransition] = useState(false);
+  const [resetProgress, setResetProgress] = useState(false);
+  const timerProgressRef = useRef(null);
 
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(
           `http://localhost:5000/api/quizzes/${id}`
         );
-        setQuiz(response.data);
+        const quizData = response.data;
+
+        if (quizData.questions && quizData.questions.length > 0) {
+          if (quizData.questions[0].options && !quizData.questions[0].answers) {
+            quizData.questions = quizData.questions.map((q) => ({
+              ...q,
+              answers: q.options || [],
+              correctAnswer:
+                q.correctAnswer !== undefined ? q.correctAnswer : 0,
+            }));
+          }
+        }
+
+        setQuiz(quizData);
+        setTimeout(() => {
+          setFadeIn(true);
+          setAnimateQuestion(true);
+          setIsLoading(false);
+        }, 300);
       } catch (error) {
-        setError("Error al cargar el cuestionario");
+        console.error("Error fetching quiz:", error);
+        setError("Error loading the quiz");
+        setIsLoading(false);
       }
     };
     fetchQuiz();
   }, [id]);
 
   useEffect(() => {
-    if (timeLeft > 0 && !selectedAnswer) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0) {
-      handleAnswerSubmit();
+    let timer;
+    if (timeLeft > 0 && !selectedAnswer && !isLoading) {
+      timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    } else if (timeLeft === 0 && !selectedAnswer && !isLoading && quiz) {
+      handleAnswerSelect(null);
     }
-  }, [timeLeft, selectedAnswer, handleAnswerSubmit]);
+    return () => clearTimeout(timer);
+  }, [timeLeft, selectedAnswer, isLoading, quiz]);
 
-  const handleAnswerSubmit = useCallback(
-    (answerIndex) => {
-      if (answerIndex === quiz.questions[currentQuestion].correctAnswer) {
-        setScore(score + 1);
-      }
+  useEffect(() => {
+    if (!isLoading && quiz) {
+      setResetProgress(true);
+      setTimeout(() => {
+        setResetProgress(false);
+      }, 50);
+    }
+  }, [currentQuestion, isLoading, quiz]);
 
-      setSelectedAnswer(answerIndex);
-      setShowResults(true);
+  useEffect(() => {
+    if (selectedAnswer !== null && timerProgressRef.current) {
+      timerProgressRef.current.style.animationPlayState = "paused";
+    }
+  }, [selectedAnswer]);
+
+  const handleAnswerSelect = (answerIndex) => {
+    if (selectedAnswer !== null) return;
+
+    setSelectedAnswer(answerIndex);
+
+    const isCorrect =
+      answerIndex === quiz.questions[currentQuestion].correctAnswer;
+    if (isCorrect) {
+      setScore(score + 1);
+    }
+
+    setShowResults(true);
+
+    setTimeout(() => {
+      setFadeIn(false);
+      setQuestionTransition(true);
+
       setTimeout(() => {
         setShowResults(false);
+
         if (currentQuestion < quiz.questions.length - 1) {
           setCurrentQuestion(currentQuestion + 1);
           setTimeLeft(10);
           setSelectedAnswer(null);
+
+          setTimeout(() => {
+            setFadeIn(true);
+            setAnimateQuestion(true);
+            setQuestionTransition(false);
+          }, 100);
         } else {
-          navigate(`/results/${score}`);
+          navigate(
+            `/results/${score + (isCorrect ? 1 : 0)}/${quiz.questions.length}`
+          );
         }
-      }, 2000);
-    },
-    [currentQuestion, quiz, score, navigate]
-  );
+      }, 400);
+    }, 2000);
+  };
 
-  const getAnswerClasses = (answer, index) => {
-    const base = "p-4 rounded-lg text-left transition-all";
-    if (!selectedAnswer && !showResults)
-      return `${base} bg-gray-700 hover:bg-gray-600`;
+  const getTimerClass = () => {
+    if (timeLeft <= 3) return "timer-countdown danger";
+    if (timeLeft <= 5) return "timer-countdown warning";
+    return "timer-countdown";
+  };
 
-    const isCorrect = index === quiz.questions[currentQuestion].correctAnswer;
-    const isSelected = index === selectedAnswer;
+  const getProgressBarClass = () => {
+    const baseClass = "timer-progress-bar";
+    if (resetProgress) return `${baseClass} reset`;
+    if (selectedAnswer !== null) return `${baseClass} paused`;
+    if (timeLeft <= 3) return `${baseClass} warning`;
+    return baseClass;
+  };
 
-    if (showResults) {
-      if (isCorrect) return `${base} bg-green-600 text-white`;
-      if (isSelected && !isCorrect) return `${base} bg-red-600 text-white`;
-      return `${base} bg-gray-700`;
+  const getAnswerClass = (index) => {
+    const baseClass = "answer-button";
+
+    if (!showResults && selectedAnswer === index) {
+      return `${baseClass} selected`;
     }
 
-    return isSelected
-      ? `${base} bg-blue-600 text-white`
-      : `${base} bg-gray-700`;
+    if (showResults) {
+      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      if (index === correctIndex) {
+        return `${baseClass} correct`;
+      }
+      if (selectedAnswer === index && index !== correctIndex) {
+        return `${baseClass} incorrect`;
+      }
+    }
+
+    return baseClass;
+  };
+
+  const getOptionLetter = (index) => {
+    return String.fromCharCode(65 + index);
   };
 
   if (error) {
     return (
-      <div className="text-red-500 text-center mt-8">
-        {error}
-        <button
-          className="btn btn-primary w-full"
-          onClick={() => navigate("/")}
-        >
-          Return Home
-        </button>
+      <div className="container" style={{ marginTop: "2rem" }}>
+        <div className="quiz-container">
+          <div className="error-message">
+            <h2>Error</h2>
+            <p>{error}</p>
+            <Link to="/" className="btn primary">
+              Return Home
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (!quiz) {
+  if (isLoading || !quiz) {
     return (
-      <div className="text-center mt-8">
-        <span className="mb-2">Cargando cuestionario...</span>
-        <button className="mt-4" onClick={() => navigate("/")}>
-          Return Home
-        </button>
+      <div className="container" style={{ marginTop: "2rem" }}>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading quiz...</p>
+          <Link to="/" className="home-button">
+            Return Home
+          </Link>
+        </div>
       </div>
     );
   }
 
   const currentQ = quiz.questions[currentQuestion];
+  const progressPercentage = (currentQuestion / quiz.questions.length) * 100;
+
+  const containerClasses = [
+    "quiz-container",
+    fadeIn ? "fade-in" : "",
+    questionTransition ? "question-transition" : "",
+    animateQuestion ? "active-question" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between mb-8">
-          <div className="text-xl">
-            Pregunta {currentQuestion + 1} de {quiz.questions.length}
-          </div>
-          <div className="text-xl">Tiempo: {timeLeft}s</div>
+    <div className="container" style={{ marginTop: "2rem" }}>
+      <div className={containerClasses}>
+        <div
+          className="timer-progress-container"
+          style={{ zIndex: 100, height: "6px" }}
+        >
+          <div
+            ref={timerProgressRef}
+            className={getProgressBarClass()}
+            style={{
+              animationDuration: `${timeLeft}s`,
+              background:
+                timeLeft <= 3
+                  ? "linear-gradient(to right, #f44336, #d32f2f)"
+                  : "linear-gradient(to right, #ff9800, #f44336)",
+              height: "6px",
+            }}
+          ></div>
         </div>
 
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          {currentQ.question}
-        </h2>
+        <div className="quiz-header">
+          <div className="quiz-info">
+            <div className="question-number">
+              Question {currentQuestion + 1} of {quiz.questions.length}
+            </div>
+          </div>
+          <div className="timer-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <div className={getTimerClass()}>{timeLeft}s</div>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="question-container">
+          <h2 className="question-text">{currentQ.question}</h2>
+        </div>
+
+        <div className="answer-grid">
           {currentQ.answers.map((answer, index) => (
             <button
-              key={`answer-${currentQ.id}-${index}`}
-              onClick={() => !selectedAnswer && handleAnswerSubmit(index)}
-              className={getAnswerClasses(answer, index)}
+              key={`answer-${currentQ.id || currentQuestion}-${index}`}
+              onClick={() => handleAnswerSelect(index)}
+              className={getAnswerClass(index)}
               disabled={selectedAnswer !== null}
+              data-option={getOptionLetter(index)}
             >
               {answer}
             </button>
           ))}
         </div>
 
-        <div className="mt-8 text-center text-xl">
-          Puntuación actual: {score}
+        <div className="progress-container">
+          <div
+            className="progress-bar"
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
         </div>
-        <button className="mt-4" onClick={() => navigate("/")}>
-          Return Home
-        </button>
+
+        <div className="score-display">
+          Score: <span className="score-number">{score}</span> /{" "}
+          {quiz.questions.length}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+          <Link to="/" className="home-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Return Home
+          </Link>
+        </div>
       </div>
     </div>
   );
