@@ -15,6 +15,11 @@
         --green-pulse-speed: 3s;
     }
 
+    /* Eliminar el efecto de fondo animado global */
+    body::before {
+        display: none;
+    }
+
     .results-container {
         max-width: 900px;
         margin: 0 auto;
@@ -22,9 +27,24 @@
         background: var(--surface);
         border-radius: 1rem;
         box-shadow: var(--shadow);
+        position: relative;
+        overflow: visible;
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    /* Mantener un borde sutil, pero no tan llamativo */
+    .results-container::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 1.1rem;
+        z-index: -1;
     }
 
     .results-container.fade-in {
@@ -35,6 +55,7 @@
     .results-header {
         text-align: center;
         margin-bottom: 3rem;
+        position: relative;
     }
 
     .results-emoji {
@@ -43,25 +64,105 @@
         animation: bounce 2s infinite;
     }
 
-    .results-title {
-        font-size: 2.5rem;
-        font-weight: 700;
+    /* Efecto espacial mejorado para el título "Very Good" */
+    .results-title.good {
+        font-size: 3.5rem;
+        font-weight: 800;
         margin-bottom: 1rem;
-        background: linear-gradient(to right, var(--primary), var(--secondary));
+        position: relative;
+        letter-spacing: 2px;
+        /* Usar un color de texto transparente para que se vea el background */
+        color: transparent;
+        /* Eliminar el gradiente estático */
+        background: none;
         -webkit-background-clip: text;
         background-clip: text;
-        -webkit-text-fill-color: transparent;
+        /* Posición relativa para los pseudo-elementos */
+        position: relative;
+        z-index: 2;
     }
 
+    /* Fondo espacial detrás del título - mantener */
+    .results-title.good::before {
+        content: '';
+        position: absolute;
+        inset: -20px;
+        background-image:
+            radial-gradient(2px 2px at 20px 30px, white, rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 40px 70px, white, rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 50px 160px, white, rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 90px 40px, white, rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 130px 80px, white, rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 160px 120px, white, rgba(0, 0, 0, 0));
+        background-repeat: repeat;
+        background-size: 200px 200px;
+        opacity: 0.8;
+        z-index: -1;
+        border-radius: 30px;
+        filter: blur(1px);
+        animation: spaceBg 30s linear infinite;
+    }
+
+    /* Efecto de colores en movimiento DENTRO de las letras */
+    .results-title.good::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        /* Gradiente multicolor animado */
+        background-image: linear-gradient(90deg,
+                #ff0000, #ff9a00, #d0de21, #4fdc4a, #3fdad8, #2fc9e2, #1c7fee, #5f15f2, #ba0cf8, #fb07d9, #ff0000);
+        background-size: 200% 100%;
+        background-position: 0 0;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        /* Animación de movimiento del gradiente */
+        animation: textGradientMove 4s linear infinite;
+        z-index: 1;
+    }
+
+    /* Duplicar el título para crear capas de color */
+    .results-title.good span {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Añadir atributo data-text en JavaScript */
+    @keyframes textGradientMove {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 200% 50%;
+        }
+    }
+
+    /* Crear capas de brillos para el texto */
+    .results-container .results-header::after {
+        content: "";
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 60px;
+        background: radial-gradient(ellipse at center,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 70%);
+        filter: blur(10px);
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.7;
+        animation: glowPulse 3s ease-in-out infinite alternate;
+    }
+
+    /* Mantener los gradientes originales para los otros títulos */
     .results-title.excellent {
         background: linear-gradient(to right, #f5c518, #ff9800);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .results-title.good {
-        background: linear-gradient(to right, #4caf50, #8bc34a);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -95,11 +196,14 @@
         align-items: center;
         gap: 2rem;
         margin-bottom: 3rem;
+        position: relative;
+        z-index: 2;
     }
 
+    /* ANILLO DE PUNTUACIÓN CON FUEGO Y LUCES - MANTENER ESTOS EFECTOS */
     .score-ring {
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
         display: flex;
         flex-direction: column;
@@ -107,143 +211,43 @@
         align-items: center;
         position: relative;
         transition: all 0.5s ease;
-        background: conic-gradient(transparent 0deg,
-                #00ffd0 0deg,
-                #4caf50 calc(var(--score-percentage) * 0.5deg),
-                #2ecc71 calc(var(--score-percentage) * 1.0deg),
-                #27ae60 calc(var(--score-percentage) * 1.5deg),
-                #8bc34a calc(var(--score-percentage) * 2.0deg),
-                #cddc39 calc(var(--score-percentage) * 2.5deg),
-                #ffc107 calc(var(--score-percentage) * 3.0deg),
-                #ff9800 calc(var(--score-percentage) * 3.6deg),
+        background: conic-gradient(var(--score-color) calc(var(--score-percentage) * 3.6deg),
                 rgba(255, 255, 255, 0.1) calc(var(--score-percentage) * 3.6deg));
         transform: rotate(-90deg);
-        box-shadow: 0 0 20px var(--glow-color),
-            0 0 40px var(--glow-color),
-            inset 0 0 15px var(--glow-color);
+        box-shadow: 0 0 30px var(--glow-color),
+            0 0 50px var(--glow-color),
+            inset 0 0 20px var(--glow-color);
     }
 
-    .score-ring::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(45deg,
-                transparent,
-                transparent 5px,
-                rgba(255, 255, 255, 0.05) 5px,
-                rgba(255, 255, 255, 0.05) 10px);
-        border-radius: 50%;
-        z-index: 1;
-    }
-
+    /* PARTÍCULAS BRILLANTES ALREDEDOR DEL ANILLO - MANTENER */
     .score-ring::after {
         content: '';
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        /* Eliminando el efecto de rombo/gradiente diagonal */
-        background: none;
-        z-index: 2;
-    }
-
-    .score-ring .electric-edge {
-        display: none;
-    }
-
-    .score-ring .particles {
-        display: none;
-    }
-
-    .score-ring .milestone-markers {
-        position: absolute;
-        inset: 0;
+        inset: -20px;
         border-radius: 50%;
-        transform: rotate(90deg);
-        z-index: 1;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='white'/%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='80' cy='30' r='1.5' fill='white'/%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='70' r='1.2' fill='white'/%3E%3C/svg%3E");
+        filter: blur(1px);
+        opacity: 0.8;
+        z-index: -1;
+        animation: rotateDots 10s linear infinite;
     }
 
-    .score-ring .milestone-marker {
-        position: absolute;
-        width: 3px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.6);
-        top: 0;
-        left: calc(50% - 1.5px);
-        transform-origin: center 90px;
-        opacity: 0.7;
-        box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
-    }
+    @keyframes rotateDots {
+        from {
+            transform: rotate(0deg);
+        }
 
-    .score-ring .milestone-marker:nth-child(1) {
-        transform: rotate(36deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(2) {
-        transform: rotate(72deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(3) {
-        transform: rotate(108deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(4) {
-        transform: rotate(144deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(5) {
-        transform: rotate(180deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(6) {
-        transform: rotate(216deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(7) {
-        transform: rotate(252deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(8) {
-        transform: rotate(288deg);
-    }
-
-    .score-ring .milestone-marker:nth-child(9) {
-        transform: rotate(324deg);
-    }
-
-    .score-ring.excellent {
-        --score-color: #f5c518;
-        --glow-color: rgba(245, 197, 24, 0.6);
-        box-shadow: 0 0 15px var(--glow-color),
-            inset 0 0 10px var(--glow-color);
-    }
-
-    .score-ring.good {
-        --score-color: #4caf50;
-        --glow-color: rgba(76, 175, 80, 0.6);
-        box-shadow: 0 0 15px var(--glow-color),
-            inset 0 0 10px var(--glow-color);
-    }
-
-    .score-ring.average {
-        --score-color: #2196f3;
-        --glow-color: rgba(33, 150, 243, 0.6);
-        box-shadow: 0 0 15px var(--glow-color),
-            inset 0 0 10px var(--glow-color);
-    }
-
-    .score-ring.needs-practice {
-        --score-color: #ff2222;
-        --glow-color: rgba(255, 48, 48, 0.714);
-        box-shadow: 0 0 15px var(--glow-color),
-            inset 0 0 10px var(--glow-color);
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     .score-inner-circle {
         position: absolute;
-        width: 150px;
-        height: 150px;
+        width: 160px;
+        height: 160px;
         border-radius: 50%;
         background: var(--surface);
         z-index: 1;
@@ -252,19 +256,56 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
 
-    .score-value, .score-label {
-        position: relative;
-        z-index: 2;
+    /* EFECTO DE LLAMAS DENTRO DEL CÍRCULO - MANTENER */
+    .score-inner-circle::before {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to top,
+                rgba(255, 69, 0, 0.7),
+                rgba(255, 165, 0, 0.4),
+                transparent);
+        filter: blur(15px);
+        z-index: -1;
+        animation: innerFlames 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes innerFlames {
+        0% {
+            transform: translateY(5px) scale(0.9);
+            opacity: 0.7;
+        }
+
+        100% {
+            transform: translateY(-5px) scale(1.1);
+            opacity: 0.9;
+        }
     }
 
     .score-value {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 700;
-        color: var(--text);
-        animation: fadeInUp 0.8s ease-out 0.5s forwards;
-        opacity: 0;
+        color: white;
+        text-shadow: 0 0 10px var(--glow-color),
+            0 0 20px var(--glow-color);
+        animation: pulseGlow 2s infinite alternate;
+        opacity: 1;
+    }
+
+    @keyframes pulseGlow {
+        0% {
+            text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+        }
+
+        100% {
+            text-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color), 0 0 45px var(--glow-color);
+        }
     }
 
     .score-label {
@@ -272,7 +313,7 @@
         color: var(--text-secondary);
         margin-top: 0.5rem;
         animation: fadeInUp 0.8s ease-out 0.7s forwards;
-        opacity: 0;
+        opacity: 1;
     }
 
     .score-details {
@@ -283,8 +324,11 @@
         animation: fadeInRight 0.8s ease-out 0.9s forwards;
         opacity: 0;
         transform: translateX(20px);
+        position: relative;
+        z-index: 1;
     }
 
+    /* Simplificar los items de puntuación, quitar efectos brillantes */
     .score-item {
         display: flex;
         align-items: center;
@@ -293,22 +337,44 @@
         padding: 1rem;
         background: rgba(255, 255, 255, 0.05);
         border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Eliminar efecto después en los items de puntuación */
+    .score-item::after {
+        display: none;
     }
 
     .score-number {
         font-weight: 700;
-        color: var(--primary);
+        /* Cambiar el color para mejor contraste */
+        color: white;
         font-size: 1.5rem;
+        /* Añadir sombra de texto para mejor legibilidad */
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        /* Opcional: Añadir un ligero resplandor para destacar más los números */
+        animation: numberGlow 2s infinite alternate;
     }
 
+    /* Keyframe para el resplandor pulsante en los números */
+    @keyframes numberGlow {
+        0% {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        100% {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(var(--primary-rgb, 33, 150, 243), 0.6);
+        }
+    }
+
+    /* Simplificar botones, manteniendo estilo básico */
     .results-actions {
         display: flex;
         justify-content: center;
         gap: 1rem;
         margin-top: 2rem;
         animation: fadeInUp 0.8s ease-out 1.1s forwards;
-        opacity: 0;
-        transform: translateY(20px);
+        opacity: 1;
     }
 
     .action-button {
@@ -325,14 +391,15 @@
     }
 
     .action-button.primary {
-        background: var(--primary);
+        background: linear-gradient(90deg, var(--primary), #3a6eff);
         color: white;
+        box-shadow: 0 0 15px rgba(33, 150, 243, 0.5);
     }
 
     .action-button.primary:hover {
-        background: var(--primary-dark);
+        background: linear-gradient(90deg, #3a6eff, var(--primary));
         transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+        box-shadow: 0 0 20px rgba(33, 150, 243, 0.7);
     }
 
     .action-button.secondary {
@@ -342,8 +409,9 @@
     }
 
     .action-button.secondary:hover {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.18);
         transform: translateY(-3px);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
 
     @keyframes bounce {
@@ -400,6 +468,46 @@
     @keyframes progressSpin {
         from, to {
             transform: rotate(-90deg);
+        }
+    }
+
+    @keyframes spaceGlow {
+        0%, 100% {
+            text-shadow: 0 0 10px rgba(79, 220, 255, 0.9),
+                0 0 20px rgba(120, 155, 255, 0.7);
+        }
+
+        50% {
+            text-shadow: 0 0 15px rgba(79, 220, 255, 1),
+                0 0 30px rgba(120, 155, 255, 0.9),
+                0 0 45px rgba(168, 120, 255, 0.7);
+        }
+    }
+
+    @keyframes spaceBg {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: 200px 200px;
+        }
+    }
+
+    @keyframes nebulaMove {
+        0% {
+            transform: scale(1) rotate(0deg);
+            border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+        }
+
+        50% {
+            transform: scale(1.1) rotate(3deg);
+            border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
+        }
+
+        100% {
+            transform: scale(1) rotate(0deg);
+            border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
         }
     }
 

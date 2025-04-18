@@ -202,6 +202,12 @@ export default function Quiz() {
   return (
     <div className="container" style={{ marginTop: "2rem" }}>
       <div className={containerClasses}>
+        <div className="ring-3d-pieces">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className={`ring-piece ring-piece-${i}`}></div>
+          ))}
+        </div>
+
         <div
           className="timer-progress-container"
           style={{ zIndex: 100, height: "6px" }}

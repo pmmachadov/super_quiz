@@ -12,32 +12,32 @@ const Results = () => {
   const getResultInfo = () => {
     if (percentage >= 90) {
       return {
-        title: "¡Excelente!",
-        message: "Eres un auténtico maestro en este tema.",
+        title: "Excellent!",
+        message: "You are a true master of this subject.",
         emoji: "🏆",
         className: "excellent",
         color: "#f5c518",
       };
     } else if (percentage >= 70) {
       return {
-        title: "¡Muy bien!",
-        message: "Tienes un buen conocimiento de este tema.",
+        title: "Very Good!",
+        message: "You have a good understanding of this topic.",
         emoji: "",
         className: "good",
         color: "#4caf50",
       };
     } else if (percentage >= 50) {
       return {
-        title: "Buen intento",
-        message: "Hay espacio para mejorar en este tema.",
+        title: "Good Try",
+        message: "There's room for improvement on this topic.",
         emoji: "👍",
         className: "average",
         color: "#2196f3",
       };
     } else {
       return {
-        title: "Sigue intentándolo",
-        message: "La práctica hace al maestro. ¡No te rindas!",
+        title: "Keep Trying",
+        message: "Practice makes perfect. Don't give up!",
         emoji: "💪",
         className: "needs-practice",
         color: "#ff5722",
@@ -69,7 +69,10 @@ const Results = () => {
       <div className={`results-container ${isVisible ? "fade-in" : ""}`}>
         <div className="results-header">
           <div className="results-emoji">{resultInfo.emoji}</div>
-          <h1 className={`results-title ${resultInfo.className}`}>
+          <h1
+            className={`results-title ${resultInfo.className}`}
+            data-text={resultInfo.title}
+          >
             {resultInfo.title}
           </h1>
           <p className="results-message">{resultInfo.message}</p>
@@ -82,16 +85,16 @@ const Results = () => {
           >
             <div className="score-inner-circle">
               <div className="score-value">{percentage}%</div>
-              <div className="score-label">Puntuación</div>
+              <div className="score-label">Score</div>
             </div>
           </div>
           <div className="score-details">
             <div className="score-item">
-              <span className="score-label">Respuestas correctas:</span>
+              <span className="score-label">Correct answers:</span>
               <span className="score-number">{score}</span>
             </div>
             <div className="score-item">
-              <span className="score-label">Preguntas totales:</span>
+              <span className="score-label">Total questions:</span>
               <span className="score-number">{total}</span>
             </div>
           </div>
@@ -113,7 +116,7 @@ const Results = () => {
               <polyline points="9 17 4 12 9 7"></polyline>
               <path d="M20 12H4"></path>
             </svg>
-            Volver a los Quizzes
+            Back to Quizzes
           </Link>
           <Link to="/" className="action-button secondary">
             <svg
@@ -130,7 +133,7 @@ const Results = () => {
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-            Inicio
+            Home
           </Link>
         </div>
       </div>
