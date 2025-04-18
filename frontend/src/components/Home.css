@@ -1,4 +1,5 @@
 @layer base {
+
     /* Hero Section */
     .hero-section {
         text-align: center;
@@ -30,13 +31,13 @@
         margin-bottom: var(--md-spacing-8);
     }
 
-    .hero-buttons > .btn {
+    .hero-buttons>.btn {
         min-width: 200px;
     }
 
     /* Sección de Opciones */
     .options-section {
-        padding: var(--md-spacing-8) 0;
+        padding: var(--md-spacing-8) 2rem;
         max-width: 1200px;
         margin: 0 auto;
     }
@@ -46,6 +47,7 @@
         grid-template-columns: 1fr 1fr;
         gap: var(--md-spacing-8);
         margin-top: var(--md-spacing-8);
+        padding: 0 1rem;
     }
 
     /* Card de Opciones */
@@ -158,6 +160,18 @@
         cursor: pointer;
         transition: all 0.2s ease;
         z-index: 1001;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu-toggle svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--md-on-surface);
+        transform: translate(-50%, -50%);
     }
 
     .mobile-menu-toggle:hover {
@@ -220,6 +234,41 @@
     .mobile-menu-link:hover {
         background: var(--md-surface-variant);
         color: var(--md-primary);
+    }
+
+    /* Action Buttons */
+    .btn.primary {
+        background: #65dca5;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn.primary:hover {
+        background: #c49ce9;
+        transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+        background: #c49ce9;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn.secondary:hover {
+        background: #65dca5;
+        -webkit-transform: translateY(-2px);
+        -moz-transform: translateY(-2px);
+        -ms-transform: translateY(-2px);
+        -o-transform: translateY(-2px);
+        transform: translateY(-2px);
     }
 
     /* Responsive Design */
@@ -295,7 +344,7 @@
             font-size: 0.875rem;
         }
 
-        .hero-buttons > .btn {
+        .hero-buttons>.btn {
             min-width: 160px;
             font-size: 0.875rem;
             padding: var(--md-spacing-2) var(--md-spacing-4);

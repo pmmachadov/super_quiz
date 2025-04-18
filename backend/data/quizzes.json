@@ -1,0 +1,95 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Matemáticas Básicas",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuánto es 5 x 3?",
+          "options": ["8", "15", "10", "20"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 2,
+          "question": "¿Cuál es el resultado de 12 / 4?",
+          "options": ["2", "3", "4", "6"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 3,
+          "question": "¿Cuánto es 7 + 6?",
+          "options": ["12", "13", "14", "15"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 4,
+          "question": "¿Cuál es la raíz cuadrada de 81?",
+          "options": ["7", "8", "9", "10"],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Cultura General",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuál es la capital de Francia?",
+          "options": ["Madrid", "París", "Roma", "Berlín"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 2,
+          "question": "¿En qué continente está Egipto?",
+          "options": ["Asia", "África", "Europa", "Oceanía"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 3,
+          "question": "¿Quién pintó la Mona Lisa?",
+          "options": ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
+          "correctAnswer": 2
+        },
+        {
+          "id": 4,
+          "question": "¿Cuál es el océano más grande del mundo?",
+          "options": ["Atlántico", "Índico", "Ártico", "Pacífico"],
+          "correctAnswer": 3
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Ciencia y Tecnología",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuál es el planeta más grande del sistema solar?",
+          "options": ["Tierra", "Júpiter", "Saturno", "Marte"],
+          "correctAnswer": 1
+        },
+        {
+          "id": 2,
+          "question": "¿Qué gas respiramos principalmente?",
+          "options": ["Oxígeno", "Dióxido de carbono", "Nitrógeno", "Hidrógeno"],
+          "correctAnswer": 2
+        },
+        {
+          "id": 3,
+          "question": "¿Quién inventó la bombilla eléctrica?",
+          "options": ["Edison", "Tesla", "Newton", "Einstein"],
+          "correctAnswer": 0
+        },
+        {
+          "id": 4,
+          "question": "¿Cuál es el símbolo químico del agua?",
+          "options": ["O2", "CO2", "H2O", "NaCl"],
+          "correctAnswer": 2
+        }
+      ]
+    }
+  ]
+}
+
