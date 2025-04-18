@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  validateQuiz,
+  transformFormDataToApiFormat,
+} from "../utils/quizValidator";
 import "./CreateQuiz.css";
 
 export default function CreateQuiz() {
@@ -7,40 +11,52 @@ export default function CreateQuiz() {
   const [questions, setQuestions] = useState([
     { text: "", answers: ["", "", "", ""], correctIndex: 0 },
   ]);
+  const [validationErrors, setValidationErrors] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Transform data to the format expected by the API
+    const quizData = transformFormDataToApiFormat(title, questions);
+
+    // Validate data before sending
+    const validation = validateQuiz(quizData);
+
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors);
+      return;
+    }
+
+    // Clear previous errors
+    setValidationErrors([]);
+
     try {
-      const backendQuestions = questions.map((q) => ({
-        question: q.text,
-        options: q.answers,
-        correctAnswer: q.correctIndex,
-      }));
-      console.log("[FRONT] Enviando nuevo quiz al backend:", {
-        title,
-        questions: backendQuestions,
-      });
       const response = await fetch("http://localhost:5000/api/quizzes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title,
-          questions: backendQuestions,
-        }),
+        body: JSON.stringify(quizData),
       });
+
       const respData = await response.json();
-      console.log("[FRONT] Respuesta del backend al crear quiz:", respData);
+
       if (response.ok) {
         navigate("/quizzes");
       } else {
-        throw new Error("Error creating quiz");
+        // If backend returns validation errors
+        if (respData.errors) {
+          const backendErrors = respData.errors.map(
+            (err) => err.msg || err.message
+          );
+          setValidationErrors(backendErrors);
+        } else {
+          throw new Error(respData.message || "Error creating quiz");
+        }
       }
     } catch (error) {
-      console.error("Error creating quiz:", error);
+      setValidationErrors([error.message || "Error creating quiz"]);
     }
   };
 
@@ -50,6 +66,18 @@ export default function CreateQuiz() {
       <div className="form-description">
         Add your quiz title and questions below
       </div>
+
+      {/* Display validation errors */}
+      {validationErrors.length > 0 && (
+        <div className="validation-errors">
+          <h3>Please correct the following errors:</h3>
+          <ul>
+            {validationErrors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="form-group">
@@ -144,7 +172,7 @@ export default function CreateQuiz() {
             onClick={() =>
               setQuestions([
                 ...questions,
-                { question: "", options: ["", "", "", ""], correctAnswer: 0 },
+                { text: "", answers: ["", "", "", ""], correctIndex: 0 },
               ])
             }
             className="btn-primary"

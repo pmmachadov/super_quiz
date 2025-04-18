@@ -14,16 +14,13 @@ export default function Quiz() {
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    console.log("Iniciando fetch para quiz ID:", id);
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5000/api/quizzes/${id}`
         );
-        console.log("Datos recibidos:", response.data);
         setQuiz(response.data);
       } catch (error) {
-        console.error("Error fetching quiz:", error);
         setError("Error al cargar el cuestionario");
       }
     };
@@ -98,10 +95,7 @@ export default function Quiz() {
     return (
       <div className="text-center mt-8">
         <span className="mb-2">Cargando cuestionario...</span>
-        <button
-          className="mt-4"
-          onClick={() => navigate("/")}
-        >
+        <button className="mt-4" onClick={() => navigate("/")}>
           Return Home
         </button>
       </div>
@@ -140,10 +134,7 @@ export default function Quiz() {
         <div className="mt-8 text-center text-xl">
           Puntuación actual: {score}
         </div>
-        <button
-          className="mt-4"
-          onClick={() => navigate("/")}
-        >
+        <button className="mt-4" onClick={() => navigate("/")}>
           Return Home
         </button>
       </div>

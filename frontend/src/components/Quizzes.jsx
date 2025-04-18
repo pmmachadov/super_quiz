@@ -7,10 +7,8 @@ const Quizzes = () => {
 
   useEffect(() => {
     const fetchQuizzes = async () => {
-      console.log('[FRONT] Solicitando quizzes al backend...');
       const response = await fetch("http://localhost:5000/api/quizzes");
       const data = await response.json();
-      console.log('[FRONT] Quizzes recibidos del backend:', data);
       setQuizzes(data);
     };
     fetchQuizzes();
