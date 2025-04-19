@@ -1,8 +1,8 @@
 :root {
   --primary: var(--md-primary);
   --primary-hover: var(--md-primary-container);
-  --secondary: #06b6d4;
-  --secondary-hover: #0891b2;
+  --secondary: hsl(267, 94%, 43%);
+  --secondary-hover: #4338ca;
   --background: var(--md-background);
   --surface: var(--md-surface);
   --surface-hover: var(--md-surface-variant);

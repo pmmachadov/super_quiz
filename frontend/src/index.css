@@ -59,7 +59,7 @@
     html.dark-theme, body.dark-theme {
         --primary: #4f46e5;
         --primary-hover: #4338ca;
-        --secondary: #06b6d4;
+        --secondary: #4f46e5;
         --surface: #1f2937;
         --text: #f9fafb;
         --text-secondary: #d1d5db;
