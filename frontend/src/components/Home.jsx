@@ -1,47 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const options = [
     {
       path: "/quizzes",
-      label: "Play",
-      description: "Play the best interactive quizzes",
+      label: "Play Quizzes",
+      description:
+        "Challenge yourself with our collection of interactive quizzes on various topics. Test your knowledge and compete with friends!",
       icon: "🎮",
       actionLabel: "Play Now",
     },
     {
       path: "/create-quiz",
-      label: "Create quiz",
-      description: "Create your own interactive quiz",
-      icon: "📝",
+      label: "Create Quiz",
+      description:
+        "Design your own custom quizzes with multiple choice questions, images, and timed responses. Share them with others!",
+      icon: "✏️",
       actionLabel: "Create Quiz",
     },
   ];
 
   return (
-    <div>
+    <div className={`page-container ${isVisible ? "fade-in" : ""}`}>
       <section className="hero-section">
-        <h1 className="hero-title">Welcome to Kahoot Clone</h1>
+        <h1 className="hero-title">Interactive Quiz Challenges</h1>
         <p className="hero-description">
-          Create and play interactive quizzes in real time
+          Create and play engaging quizzes with friends, classmates, or
+          colleagues. Test your knowledge, learn new facts, and have fun!
         </p>
         <div className="hero-buttons">
           <Link to="/quizzes" className="btn primary">
-            Get Started
+            <span>Start Playing</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </Link>
           <Link to="/create-quiz" className="btn secondary">
-            Create Quiz
+            <span>Create Your Quiz</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
           </Link>
         </div>
       </section>
 
       <section className="options-section">
         <div className="options-grid">
-          {options.map((option) => (
+          {options.map((option, index) => (
             <Link key={option.path} to={option.path} className="option-card">
               <div className="option-content">
                 <div className="option-header">
@@ -53,11 +87,15 @@ export default function Home() {
                   <button className="option-btn">
                     {option.actionLabel}
                     <svg
-                      className="inline"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -69,7 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Menú Móvil */}
+      {/* Mobile Menu */}
       <div className="mobile-menu">
         <button
           className="mobile-menu-toggle"
@@ -77,32 +115,48 @@ export default function Home() {
           aria-label="Open menu"
         >
           <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <rect x="4" y="6" width="16" height="2" rx="1" />
-            <rect x="4" y="12" width="16" height="2" rx="1" />
-            <rect x="4" y="18" width="16" height="2" rx="1" />
+            {isMenuOpen ? (
+              <path d="M18 6L6 18M6 6l12 12" />
+            ) : (
+              <>
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </>
+            )}
           </svg>
         </button>
 
         <div className={`mobile-menu-content ${isMenuOpen ? "active" : ""}`}>
           <div className="mobile-menu-header">
-            <h2>Kahoot Clone</h2>
+            <h2>Quiz Challenge</h2>
             <button
               className="mobile-menu-close"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M6 18L18 6M6 6l12 12" />
+                <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -120,14 +174,14 @@ export default function Home() {
               className="mobile-menu-link"
               onClick={() => setIsMenuOpen(false)}
             >
-              Play
+              Play Quizzes
             </Link>
             <Link
               to="/create-quiz"
               className="mobile-menu-link"
               onClick={() => setIsMenuOpen(false)}
             >
-              Create
+              Create Quiz
             </Link>
           </nav>
         </div>
