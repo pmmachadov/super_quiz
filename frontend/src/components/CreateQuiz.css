@@ -331,23 +331,26 @@
     }
 
     :root:not(.dark-theme) .btn-primary {
-        background-color: #333333;
+        background-color: #8e44ad;
         color: #ffffff;
-        border: 1px solid #555555;
+        border: 1px solid #8e44ad;
         font-weight: 600;
     }
 
     :root:not(.dark-theme) .btn-primary:hover {
-        background-color: #8e44ad;
+        background-color: #6d2c87;
+        border-color: #6d2c87;
     }
 
     :root:not(.dark-theme) .btn-primary.add-question {
-        background-color: #333333;
+        background-color: #2980b9;
         color: #ffffff;
+        border: 1px solid #2980b9;
     }
 
     :root:not(.dark-theme) .btn-primary.add-question:hover {
-        background-color: #06b6d4;
+        background-color: #1c5e8c;
+        border-color: #1c5e8c;
     }
 
     :root:not(.dark-theme) .form-input {
