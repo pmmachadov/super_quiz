@@ -223,6 +223,265 @@
   height: 20px;
 }
 
+/* Estilo mejorado para botones en tema claro */
+:root:not(.dark-theme) .start-quiz-btn {
+  background-color: #333333 !important;
+  /* Fondo oscuro */
+  color: #ffffff !important;
+  /* Texto blanco con alto contraste */
+  border: 1px solid #555555 !important;
+  font-weight: 600 !important;
+}
+
+:root:not(.dark-theme) .start-quiz-btn:hover {
+  background-color: #8e44ad !important;
+  /* Color primario al hacer hover */
+}
+
+:root:not(.dark-theme) .create-quiz-btn {
+  background: #333333 !important;
+  /* Fondo oscuro */
+  color: #ffffff !important;
+  /* Texto blanco con alto contraste */
+  border: 1px solid #555555 !important;
+  font-weight: 600 !important;
+}
+
+:root:not(.dark-theme) .create-quiz-btn:hover {
+  background-color: #8e44ad !important;
+  /* Color primario al hacer hover */
+}
+
+/* Light Theme Enhancements */
+:root:not(.dark-theme) .quizzes-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fondo animado para el tema claro */
+:root:not(.dark-theme) .quizzes-container::before {
+  content: '';
+  position: fixed;
+  top: -10%;
+  right: -5%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(142, 68, 173, 0.06) 0%, transparent 70%);
+  z-index: -1;
+  animation: float-light 15s ease-in-out infinite alternate;
+}
+
+:root:not(.dark-theme) .quizzes-container::after {
+  content: '';
+  position: fixed;
+  bottom: -5%;
+  left: -5%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.05) 0%, transparent 70%);
+  z-index: -1;
+  animation: float-light 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes float-light {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(30px, 30px);
+  }
+}
+
+/* Título animado */
+:root:not(.dark-theme) .page-title {
+  background: linear-gradient(90deg, #8e44ad, #4caf50);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bg-shift 8s ease infinite;
+}
+
+@keyframes bg-shift {
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
+}
+
+:root:not(.dark-theme) .page-title::after {
+  background: linear-gradient(to right, #8e44ad, #4caf50);
+  animation: pulse-width 3s ease-in-out infinite;
+}
+
+@keyframes pulse-width {
+  0%, 100% {
+    width: 60px;
+  }
+
+  50% {
+    width: 100px;
+  }
+}
+
+/* Tarjetas de Quiz */
+:root:not(.dark-theme) .quiz-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(142, 68, 173, 0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(44, 123, 229, 0.08);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform: translateY(0);
+}
+
+:root:not(.dark-theme) .quiz-card::before {
+  background: linear-gradient(90deg, #8e44ad, #4caf50);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+:root:not(.dark-theme) .quiz-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(142, 68, 173, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 10px 20px rgba(44, 123, 229, 0.15);
+}
+
+:root:not(.dark-theme) .quiz-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Estadísticas de quiz con animación */
+:root:not(.dark-theme) .quiz-stat-value {
+  color: #8e44ad;
+  transition: all 0.3s ease;
+}
+
+:root:not(.dark-theme) .quiz-card:hover .quiz-stat-value {
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(142, 68, 173, 0.3);
+}
+
+/* Botón de start quiz con efecto de onda */
+:root:not(.dark-theme) .start-quiz-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+:root:not(.dark-theme) .start-quiz-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1) translate(-50%, -50%);
+  transform-origin: center;
+}
+
+:root:not(.dark-theme) .start-quiz-btn:hover::after {
+  opacity: 0.3;
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+
+  100% {
+    transform: scale(20) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Mejoras para la sección de quiz vacía */
+:root:not(.dark-theme) .empty-state {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(142, 68, 173, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(44, 123, 229, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+:root:not(.dark-theme) .empty-state::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #8e44ad, #4caf50);
+}
+
+:root:not(.dark-theme) .empty-state-icon {
+  font-size: 4.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Sección create quiz */
+:root:not(.dark-theme) .create-quiz-section {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(142, 68, 173, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(44, 123, 229, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+:root:not(.dark-theme) .create-quiz-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 10px 20px rgba(44, 123, 229, 0.15);
+}
+
+:root:not(.dark-theme) .create-quiz-title {
+  background: linear-gradient(90deg, #8e44ad, #4caf50);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bg-shift 8s ease infinite;
+}
+
+/* Loading spinner */
+:root:not(.dark-theme) .loading-spinner {
+  border-top-color: #8e44ad;
+  animation: spin 0.8s linear infinite, pulse-color 2s ease-in-out infinite;
+}
+
+@keyframes pulse-color {
+  0%, 100% {
+    border-top-color: #8e44ad;
+  }
+
+  50% {
+    border-top-color: #4caf50;
+  }
+}
+
 /* Empty state */
 .empty-state {
   text-align: center;

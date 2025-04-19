@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import BubbleEffect from "./BubbleEffect";
 import "./Home.css";
 
 export default function Home() {
@@ -38,7 +39,7 @@ export default function Home() {
           colleagues. Test your knowledge, learn new facts, and have fun!
         </p>
         <div className="hero-buttons">
-          <Link to="/quizzes" className="btn primary">
+          <Link to="/quizzes" className="btn primary multi-bubble">
             <span>Start Playing</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +54,9 @@ export default function Home() {
             >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
+            <BubbleEffect />
           </Link>
-          <Link to="/create-quiz" className="btn secondary">
+          <Link to="/create-quiz" className="btn secondary multi-bubble">
             <span>Create Your Quiz</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +71,7 @@ export default function Home() {
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
+            <BubbleEffect />
           </Link>
         </div>
       </section>
@@ -84,7 +87,7 @@ export default function Home() {
                 </div>
                 <p className="option-description">{option.description}</p>
                 <div className="option-actions">
-                  <button className="option-btn">
+                  <button className="option-btn multi-bubble">
                     {option.actionLabel}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +102,7 @@ export default function Home() {
                     >
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
+                    <BubbleEffect />
                   </button>
                 </div>
               </div>

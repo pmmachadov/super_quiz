@@ -1,29 +1,37 @@
 @layer base {
     :root {
-        /* Material Design Dark Colors */
-        --md-primary: #2196f3;
-        --md-primary-container: #1976d2;
+        /* Tema claro (predeterminado) con mejor contraste */
+        --primary: #8e44ad;
+        --surface: #ffffff;
+        --text: #1a1a1a;
+        --text-secondary: #444444;
+        /* Mejorado el contraste */
+        --background: #f5f5f5;
+
+        /* Material Design Colors */
+        --md-primary: var(--primary);
+        --md-primary-container: #7d32a8;
         --md-on-primary: #ffffff;
-        
+
         --md-secondary: #4caf50;
         --md-secondary-container: #388e3c;
         --md-on-secondary: #ffffff;
-        
-        --md-background: #121212;
-        --md-surface: #1e1e1e;
-        --md-surface-variant: #424242;
-        
+
+        --md-background: var(--background);
+        --md-surface: var(--surface);
+        --md-surface-variant: #f0f0f0;
+
         --md-error: #f44336;
         --md-error-container: #d32f2f;
-        
+
         --md-on-primary-container: rgba(255, 255, 255, 0.87);
         --md-on-secondary-container: rgba(255, 255, 255, 0.87);
-        --md-on-background: rgba(255, 255, 255, 0.87);
-        --md-on-surface: rgba(255, 255, 255, 0.87);
-        --md-on-surface-variant: rgba(255, 255, 255, 0.87);
-        
-        --md-outline: rgba(255, 255, 255, 0.12);
-        
+        --md-on-background: var(--text);
+        --md-on-surface: var(--text);
+        --md-on-surface-variant: var(--text-secondary);
+
+        --md-outline: rgba(0, 0, 0, 0.12);
+
         /* Responsive Spacing */
         --md-spacing-1: 4px;
         --md-spacing-2: 8px;
@@ -33,26 +41,53 @@
         --md-spacing-6: 24px;
         --md-spacing-7: 28px;
         --md-spacing-8: 32px;
-        
+
         /* Typography */
         --md-font-family: 'Roboto', sans-serif;
         --md-font-weight-bold: 700;
         --md-font-weight-medium: 500;
         --md-font-weight-regular: 400;
-        
+
         /* Borders */
         --md-border-radius: 4px;
         --md-border-radius-large: 12px;
 
         /* Elevation (sombra) */
-        --md-elevation-4: 0 4px 8px rgba(0,0,0,0.15);
-        --md-elevation-6: 0 6px 16px rgba(0,0,0,0.18);
-        --md-elevation-8: 0 8px 24px rgba(0,0,0,0.20);
-        --md-elevation-12: 0 12px 32px rgba(0,0,0,0.22);
+        --md-elevation-4: 0 4px 8px rgba(0, 0, 0, 0.15);
+        --md-elevation-6: 0 6px 16px rgba(0, 0, 0, 0.18);
+        --md-elevation-8: 0 8px 24px rgba(0, 0, 0, 0.20);
+        --md-elevation-12: 0 12px 32px rgba(0, 0, 0, 0.22);
 
         /* Éxito */
         --md-success: #4caf50;
         --md-on-success: #fff;
+    }
+
+    /* Tema oscuro (original) */
+    html.dark-theme, body.dark-theme {
+        /* Colores originales del tema oscuro */
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --secondary: #06b6d4;
+        --surface: #1f2937;
+        --text: #f9fafb;
+        --text-secondary: #d1d5db;
+        --background: #111827;
+
+        /* Material Design Colors - Dark Theme */
+        --md-primary: var(--primary);
+        --md-primary-container: var(--primary-hover);
+        --md-on-primary: #ffffff;
+
+        --md-background: var(--background);
+        --md-surface: var(--surface);
+        --md-surface-variant: #374151;
+
+        --md-on-background: var(--text);
+        --md-on-surface: var(--text);
+        --md-on-surface-variant: var(--text-secondary);
+
+        --md-outline: rgba(255, 255, 255, 0.12);
     }
 
     /* Responsive Design */
@@ -107,6 +142,7 @@
         line-height: 1.5;
         background: var(--md-background);
         color: var(--md-on-surface);
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     a {
@@ -191,7 +227,7 @@
         margin: 0 auto;
     }
 
-    .btn-group.form > .btn {
+    .btn-group.form>.btn {
         min-width: 100%;
     }
 

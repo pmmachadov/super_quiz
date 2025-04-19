@@ -1,14 +1,15 @@
 /* Base Styles */
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
+  /* Variables del tema que heredan de index.css */
+  --primary: var(--md-primary);
+  --primary-hover: var(--md-primary-container);
   --secondary: #06b6d4;
   --secondary-hover: #0891b2;
-  --background: #111827;
-  --surface: #1f2937;
-  --surface-hover: #374151;
-  --text: #f9fafb;
-  --text-secondary: #d1d5db;
+  --background: var(--md-background);
+  --surface: var(--md-surface);
+  --surface-hover: var(--md-surface-variant);
+  --text: var(--md-on-surface);
+  --text-secondary: var(--md-on-surface-variant);
   --correct: #22c55e;
   --correct-hover: #16a34a;
   --incorrect: #ef4444;
@@ -23,6 +24,170 @@ body {
   margin: 0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Override */
+.dark-theme {
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Theme Override - Mejorado el sombreado */
+:root:not(.dark-theme) {
+  --shadow: 0 15px 25px -3px rgba(0, 0, 0, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(44, 123, 229, 0.06);
+  --hover-shadow: 0 20px 35px rgba(0, 0, 0, 0.18), 0 10px 15px rgba(44, 123, 229, 0.1);
+}
+
+/* Light Theme Override - Mejora de contraste */
+:root:not(.dark-theme) .nav-link {
+  color: #000000;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+:root:not(.dark-theme) .nav-link:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+:root:not(.dark-theme) .footer-link {
+  color: #333333;
+  /* Mejor contraste para el tema claro */
+}
+
+:root:not(.dark-theme) .answer-button {
+  color: #000000;
+  background: #e9e9e9;
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+:root:not(.dark-theme) .answer-button:hover {
+  background: #d4d4d4;
+  /* Gris más oscuro al hacer hover */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(44, 123, 229, 0.08);
+}
+
+:root:not(.dark-theme) .question-card {
+  background: #ffffff;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(44, 123, 229, 0.08);
+}
+
+:root:not(.dark-theme) .question-card:hover {
+  box-shadow: var(--hover-shadow);
+  border-color: rgba(44, 123, 229, 0.15);
+}
+
+/* Específicamente para el tema claro */
+:root:not(.dark-theme) .btn.primary {
+  background: var(--primary);
+  color: white;
+  /* Asegura que el texto sea blanco para máximo contraste */
+  font-weight: 600;
+  /* Texto más grueso para mayor visibilidad */
+  border: 1px solid var(--primary);
+  box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
+}
+
+:root:not(.dark-theme) .btn.primary:hover {
+  background: #2568c0;
+  /* Azul más oscuro al hacer hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 104, 192, 0.4);
+}
+
+:root:not(.dark-theme) .btn.secondary {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+:root:not(.dark-theme) .btn.secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+  /* Oscurece ligeramente al hacer hover */
+  transform: translateY(-2px);
+}
+
+/* Botones específicos en tema claro */
+:root:not(.dark-theme) .create-quiz-btn {
+  background: #2c7be5;
+  color: white;
+}
+
+:root:not(.dark-theme) .create-quiz-btn:hover {
+  background: #1c5db8;
+  /* Azul más oscuro al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .start-quiz-btn {
+  background: #2c7be5;
+  color: white;
+}
+
+:root:not(.dark-theme) .start-quiz-btn:hover {
+  background: #1c5db8;
+  /* Azul más oscuro al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .option-btn {
+  background: #e9e9e9;
+  color: #333;
+  border: 1px solid #d0d0d0;
+}
+
+:root:not(.dark-theme) .option-btn:hover {
+  background: #d4d4d4;
+  /* Gris más oscuro al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .action-button.primary {
+  background: #2c7be5;
+  color: white;
+}
+
+:root:not(.dark-theme) .action-button.primary:hover {
+  background: #1c5db8;
+  /* Azul más oscuro al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .action-button.secondary {
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+:root:not(.dark-theme) .action-button.secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+  /* Oscurece ligeramente al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .btn-primary {
+  background: #2c7be5;
+  color: white;
+}
+
+:root:not(.dark-theme) .btn-primary:hover {
+  background: #1c5db8;
+  /* Azul más oscuro al hacer hover */
+  transform: translateY(-2px);
+}
+
+:root:not(.dark-theme) .question-action-btn {
+  background: #f3f3f3;
+  color: #555;
+  border: 1px solid #d3d3d3;
+}
+
+:root:not(.dark-theme) .question-action-btn:hover {
+  background: #e0e0e0;
+  /* Gris más oscuro al hacer hover */
+  color: #333;
 }
 
 /* Layout */
@@ -125,6 +290,11 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+:root:not(.dark-theme) .quiz-container {
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(44, 123, 229, 0.1);
+}
+
 .question-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
@@ -135,9 +305,20 @@ body {
   transition: var(--transition);
 }
 
+:root:not(.dark-theme) .question-card {
+  background: #ffffff;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(44, 123, 229, 0.08);
+}
+
 .question-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+:root:not(.dark-theme) .question-card:hover {
+  box-shadow: var(--hover-shadow);
+  border-color: rgba(44, 123, 229, 0.15);
 }
 
 .answer-grid {
@@ -193,6 +374,11 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+:root:not(.dark-theme) .results-container {
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(44, 123, 229, 0.1);
+}
+
 .score-display {
   font-size: 3rem;
   color: var(--correct);
@@ -236,6 +422,256 @@ body {
   text-decoration: none;
   gap: 0.5rem;
   border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de burbujas en hover */
+.btn::before,
+.btn::after,
+.option-btn::before,
+.option-btn::after,
+.start-quiz-btn::before,
+.start-quiz-btn::after,
+.create-quiz-btn::before,
+.create-quiz-btn::after,
+.theme-toggle-btn::before,
+.theme-toggle-btn::after,
+button[type="submit"]::before,
+button[type="submit"]::after,
+button[type="button"]::before,
+button[type="button"]::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.btn::before,
+.option-btn::before,
+.start-quiz-btn::before,
+.create-quiz-btn::before,
+.theme-toggle-btn::before,
+button[type="submit"]::before,
+button[type="button"]::before {
+  width: 20px;
+  height: 20px;
+  left: 20%;
+  top: 20%;
+}
+
+.btn::after,
+.option-btn::after,
+.start-quiz-btn::after,
+.create-quiz-btn::after,
+.theme-toggle-btn::after,
+button[type="submit"]::after,
+button[type="button"]::after {
+  width: 25px;
+  height: 25px;
+  right: 25%;
+  bottom: 15%;
+}
+
+.btn:hover::before,
+.option-btn:hover::before,
+.start-quiz-btn:hover::before,
+.create-quiz-btn:hover::before,
+.theme-toggle-btn:hover::before,
+button[type="submit"]:hover::before,
+button[type="button"]:hover::before {
+  transform: scale(1.5);
+  opacity: 1;
+  animation: bubble-float 2.5s ease-in-out infinite;
+}
+
+.btn:hover::after,
+.option-btn:hover::after,
+.start-quiz-btn:hover::after,
+.create-quiz-btn:hover::after,
+.theme-toggle-btn:hover::after,
+button[type="submit"]:hover::after,
+button[type="button"]:hover::after {
+  transform: scale(2);
+  opacity: 0.8;
+  animation: bubble-float 3s ease-in-out infinite 0.2s;
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-15px) scale(1.2);
+  }
+
+  100% {
+    transform: translateY(-30px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Clase especial para añadir múltiples burbujas aleatorias */
+.multi-bubble {
+  overflow: hidden;
+  position: relative;
+}
+
+/* Burbujas redondas usando elementos pseudo en lugar de box-shadow */
+.multi-bubble::before {
+  display: none;
+  /* Desactivar el método anterior */
+}
+
+.multi-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  pointer-events: none;
+}
+
+.multi-bubble:hover .bubble {
+  opacity: 0;
+  animation: rise 2.5s ease-out forwards;
+}
+
+/* Creamos elementos para las burbujas */
+.multi-bubble .bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  /* Asegura que sean perfectamente redondas */
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Estilos para 14 burbujas posicionadas estratégicamente */
+.multi-bubble .bubble:nth-child(1) {
+  width: 10px;
+  height: 10px;
+  left: 5%;
+  animation-delay: 0s !important;
+}
+
+.multi-bubble .bubble:nth-child(2) {
+  width: 8px;
+  height: 8px;
+  left: 12%;
+  animation-delay: 0.2s !important;
+}
+
+.multi-bubble .bubble:nth-child(3) {
+  width: 12px;
+  height: 12px;
+  left: 20%;
+  animation-delay: 0.1s !important;
+}
+
+.multi-bubble .bubble:nth-child(4) {
+  width: 7px;
+  height: 7px;
+  left: 30%;
+  animation-delay: 0.3s !important;
+}
+
+.multi-bubble .bubble:nth-child(5) {
+  width: 9px;
+  height: 9px;
+  left: 40%;
+  animation-delay: 0.5s !important;
+}
+
+.multi-bubble .bubble:nth-child(6) {
+  width: 11px;
+  height: 11px;
+  left: 50%;
+  animation-delay: 0.2s !important;
+}
+
+.multi-bubble .bubble:nth-child(7) {
+  width: 6px;
+  height: 6px;
+  left: 60%;
+  animation-delay: 0.1s !important;
+}
+
+/* Nuevas burbujas (del 8 al 14) */
+.multi-bubble .bubble:nth-child(8) {
+  width: 10px;
+  height: 10px;
+  left: 68%;
+  animation-delay: 0.4s !important;
+}
+
+.multi-bubble .bubble:nth-child(9) {
+  width: 7px;
+  height: 7px;
+  left: 75%;
+  animation-delay: 0.3s !important;
+}
+
+.multi-bubble .bubble:nth-child(10) {
+  width: 11px;
+  height: 11px;
+  left: 80%;
+  animation-delay: 0.5s !important;
+}
+
+.multi-bubble .bubble:nth-child(11) {
+  width: 9px;
+  height: 9px;
+  left: 85%;
+  animation-delay: 0.2s !important;
+}
+
+.multi-bubble .bubble:nth-child(12) {
+  width: 8px;
+  height: 8px;
+  left: 90%;
+  animation-delay: 0.4s !important;
+}
+
+.multi-bubble .bubble:nth-child(13) {
+  width: 12px;
+  height: 12px;
+  left: 95%;
+  animation-delay: 0.3s !important;
+}
+
+.multi-bubble .bubble:nth-child(14) {
+  width: 6px;
+  height: 6px;
+  left: 97%;
+  animation-delay: 0.1s !important;
+}
+
+@keyframes rise {
+  0% {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    bottom: 100px;
+    opacity: 0;
+  }
 }
 
 .btn.primary {
@@ -259,6 +695,23 @@ body {
 .btn.secondary:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
+}
+
+/* Específicamente para el tema claro */
+:root:not(.dark-theme) .btn.primary {
+  background: var(--primary);
+  color: white;
+  /* Asegura que el texto sea blanco para máximo contraste */
+  font-weight: 600;
+  /* Texto más grueso para mayor visibilidad */
+  border: 1px solid var(--primary);
+  box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
+}
+
+:root:not(.dark-theme) .btn.secondary {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Design */

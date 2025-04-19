@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
 const Quizzes = () => {
@@ -54,7 +55,7 @@ const Quizzes = () => {
             Be the first one to create an awesome quiz for others to enjoy!
           </p>
           <button
-            className="create-quiz-btn"
+            className="create-quiz-btn multi-bubble"
             onClick={() => navigate("/create-quiz")}
           >
             <svg
@@ -72,6 +73,7 @@ const Quizzes = () => {
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Create Your First Quiz
+            <BubbleEffect />
           </button>
         </div>
       ) : (
@@ -97,7 +99,7 @@ const Quizzes = () => {
                 </div>
               </div>
               <button
-                className="start-quiz-btn"
+                className="start-quiz-btn multi-bubble"
                 onClick={() => navigate(`/quiz/${quiz.id}`)}
               >
                 Start Quiz
@@ -114,6 +116,7 @@ const Quizzes = () => {
                 >
                   <path d="M5 12h14M12 5l7 7-7 7"></path>
                 </svg>
+                <BubbleEffect />
               </button>
             </div>
           ))}
@@ -128,7 +131,7 @@ const Quizzes = () => {
             interactive quiz!
           </p>
           <button
-            className="create-quiz-btn"
+            className="create-quiz-btn multi-bubble"
             onClick={() => navigate("/create-quiz")}
           >
             <svg
@@ -146,6 +149,7 @@ const Quizzes = () => {
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Create New Quiz
+            <BubbleEffect />
           </button>
         </div>
       )}

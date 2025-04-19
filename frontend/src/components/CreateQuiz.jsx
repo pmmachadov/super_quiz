@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BubbleEffect from "./BubbleEffect";
 import {
   validateQuiz,
   transformFormDataToApiFormat,
@@ -132,7 +133,7 @@ export default function CreateQuiz() {
                   <button
                     type="button"
                     onClick={() => handleRemoveQuestion(index)}
-                    className="question-action-btn"
+                    className="question-action-btn multi-bubble"
                     disabled={questions.length <= 1}
                   >
                     <svg
@@ -150,6 +151,7 @@ export default function CreateQuiz() {
                       <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
                     </svg>
                     Remove
+                    <BubbleEffect />
                   </button>
                 </div>
               </div>
@@ -218,7 +220,7 @@ export default function CreateQuiz() {
           <button
             type="button"
             onClick={handleAddQuestion}
-            className="btn-primary add-question"
+            className="btn-primary add-question multi-bubble"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -235,9 +237,10 @@ export default function CreateQuiz() {
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Add Question
+            <BubbleEffect />
           </button>
 
-          <button type="submit" className="btn-primary">
+          <button type="submit" className="btn-primary multi-bubble">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -254,6 +257,7 @@ export default function CreateQuiz() {
               <polyline points="7 3 7 8 15 8"></polyline>
             </svg>
             Create Quiz
+            <BubbleEffect />
           </button>
         </div>
       </form>
