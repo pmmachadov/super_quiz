@@ -31,6 +31,19 @@
   height: 4px;
   background: linear-gradient(to right, var(--primary), var(--secondary));
   border-radius: 2px;
+  animation: pulse-width-global 6s ease-in-out infinite;
+  -webkit-animation: pulse-width-global 6s ease-in-out infinite;
+}
+
+@keyframes pulse-width-global {
+  0%, 100% {
+    width: 1%;
+  }
+
+  50% {
+    width: 100%;
+    /* Triplica el tamaño original de 60px */
+  }
 }
 
 .quizzes-grid {
@@ -144,6 +157,7 @@
   width: 100%;
 }
 
+/* Estos botones mantienen su estilo especial de hover - no usar la variable estándar --btn-hover-color */
 .start-quiz-btn:hover {
   background: var(--primary-hover);
   box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
@@ -213,6 +227,7 @@
   gap: 0.8rem;
 }
 
+/* Estos botones mantienen su estilo especial de hover - no usar la variable estándar --btn-hover-color */
 .create-quiz-btn:hover {
   box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
   transform: translateY(-3px);

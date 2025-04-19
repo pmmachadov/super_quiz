@@ -119,19 +119,35 @@
         border-color: #25c589 !important;
     }
 
-    /* Mejora del contraste para el botón "Create Your Quiz" en tema claro */
-    :root:not(.dark-theme) .hero-buttons .btn.secondary {
-        background: rgba(0, 0, 0, 0.05);
-        color: #000000;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+    /* Estilo base para todos los botones secundarios */
+    .btn.secondary {
+        background: #6a3b82 !important;
+        /* Color morado que coincide con la variable --btn-hover-color */
+        color: white !important;
+        border: 1px solid rgba(106, 59, 130, 0.5) !important;
         transition: all 0.3s ease;
     }
 
-    :root:not(.dark-theme) .hero-buttons .btn.secondary:hover {
-        background: #25c589;
+    .btn.secondary:hover {
+        background: #25c589 !important;
         /* Verde vivo para mejor contraste */
-        color: white;
-        border-color: #25c589;
+        color: white !important;
+        border-color: #25c589 !important;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(37, 197, 137, 0.3);
+    }
+
+    /* Estilos específicos para el botón hero secundario - mantienen la misma base */
+    :root:not(.dark-theme) .hero-buttons .btn.secondary {
+        background: #6b229f !important;
+        /* Color morado que coincide con la variable --btn-hover-color */
+        color: white !important;
+        border: 1px solid rgba(106, 59, 130, 0.5) !important;
+    }
+
+    :root:not(.dark-theme) .hero-buttons .btn.secondary:hover {
+        background: #6b229f !important;
+        color: white !important;
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(37, 197, 137, 0.3);
     }
@@ -256,11 +272,6 @@
         background: rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(0, 0, 0, 0.2);
         color: #000000;
-    }
-
-    :root:not(.dark-theme) .option-btn:hover {
-        background: var(--primary);
-        color: white;
     }
 
     .option-actions {
@@ -587,6 +598,8 @@
     }
 
     :root:not(.dark-theme) .option-btn:hover {
+        background: var(--primary);
+        color: white;
         transform: translateY(-5px) scale(1.05);
         background-color: #2c7be5 !important;
         border-color: #2c7be5 !important;
