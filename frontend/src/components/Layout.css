@@ -1,6 +1,5 @@
 @layer base {
 
-    /* Layout Styles */
     .app-container {
         min-height: 100vh;
         display: flex;
@@ -67,7 +66,6 @@
         text-decoration: none;
     }
 
-    /* Theme Toggle Button */
     .theme-toggle-btn {
         background: rgba(255, 255, 255, 0.1);
         border: none;
@@ -95,7 +93,6 @@
         transform: translateY(0);
     }
 
-    /* Navigation */
     .nav-links {
         display: flex;
         gap: 2rem;
@@ -120,14 +117,11 @@
         color: white;
     }
 
-    /* Main Content */
     .main-content {
         flex: 1;
         margin-top: 70px;
-        /* Adjusted for fixed header */
     }
 
-    /* Footer */
     .footer {
         background: var(--surface);
         padding: 2rem;
@@ -183,7 +177,6 @@
         margin: 0;
     }
 
-    /* Dark Theme */
     .dark-theme {
         --primary: #00ff88;
         --surface: #121212;
@@ -192,12 +185,9 @@
         --background: #000000;
     }
 
-    /* Light Theme (Default) */
     :root {
         --primary: #2c7be5;
-        /* Cambiado de magenta a azul */
         --secondary: #25c589;
-        /* Verde más vibrante */
         --surface: #ffffff;
         --text: #1a1a1a;
         --text-secondary: #555555;
@@ -205,16 +195,13 @@
         --header-gradient: linear-gradient(135deg, rgba(44, 123, 229, 0.9), rgba(37, 197, 137, 0.9));
     }
 
-    /* Light Theme Enhancements */
     :root:not(.dark-theme) {
-        /* Variables para efectos visuales del tema claro */
         --light-gradient: linear-gradient(120deg, rgba(44, 123, 229, 0.05), rgba(37, 197, 137, 0.05));
         --light-glow: 0 0 20px rgba(44, 123, 229, 0.15);
         --light-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         --card-border: 1px solid rgba(44, 123, 229, 0.15);
     }
 
-    /* Header Enhancements for Light Theme */
     :root:not(.dark-theme) .header {
         background: var(--header-gradient);
         backdrop-filter: blur(12px);
@@ -228,23 +215,17 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* Logo Animation */
     :root:not(.dark-theme) .logo {
         background: rgba(255, 255, 255, 0.75);
-        /* Aumentado de 0.5 a 0.75 para mayor contraste */
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         color: #0a4999;
-        /* Azul más oscuro para mayor contraste */
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        /* Sombra más intensa */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        /* Sombra más visible */
         transition: all 0.3s ease;
         font-weight: 800;
         letter-spacing: 0.5px;
         border: 1px solid rgba(255, 255, 255, 0.9);
-        /* Añadido borde sutil */
         position: relative;
         overflow: hidden;
         z-index: 10;
@@ -256,21 +237,16 @@
         background: rgba(255, 255, 255, 0.5);
     }
 
-    /* Logo en tema oscuro */
     .dark-theme .logo {
         background: rgba(0, 0, 0, 0.45);
-        /* Fondo ligeramente más opaco */
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         border: none;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         color: #1cff9a;
-        /* Verde más brillante para mejor contraste */
         text-shadow: 0 0 6px rgba(28, 255, 154, 0.4);
-        /* Sutil resplandor alrededor del texto */
     }
 
-    /* Navigation Link Enhancements */
     :root:not(.dark-theme) .nav-link {
         background: rgba(255, 255, 255, 0.2);
         color: #fff;
@@ -295,7 +271,6 @@
         border: none;
     }
 
-    /* Theme Toggle Button Enhancement */
     :root:not(.dark-theme) .theme-toggle-btn {
         background: rgba(255, 255, 255, 0.2);
         color: #ffffff;
@@ -309,7 +284,6 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* Footer Enhancement */
     :root:not(.dark-theme) .footer {
         background: rgba(245, 245, 245, 0.8);
         backdrop-filter: blur(10px);
@@ -341,7 +315,6 @@
         background: linear-gradient(90deg, #8e44ad, #4caf50);
     }
 
-    /* Main Content Enhancement */
     :root:not(.dark-theme) .main-content {
         position: relative;
     }
@@ -370,7 +343,6 @@
         pointer-events: none;
     }
 
-    /* Apply theme to body */
     body {
         background-color: var(--background);
         color: var(--text);
@@ -416,7 +388,6 @@
         border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         .header-content {
             padding: 0 1rem;
@@ -446,7 +417,6 @@
         }
     }
 
-    /* Animation */
     @keyframes fadeDown {
         from {
             opacity: 0;

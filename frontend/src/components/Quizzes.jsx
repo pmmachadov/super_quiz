@@ -18,7 +18,6 @@ const Quizzes = () => {
         setQuizzes(data);
         setLoading(false);
 
-        // Activar la animación después de cargar los datos
         setTimeout(() => {
           setIsVisible(true);
         }, 100);
@@ -73,9 +72,7 @@ const Quizzes = () => {
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              <span style={{ color: "#2d0a3e", fontWeight: 700 }}>
-                Create Your First Quiz
-              </span>
+              <span>Create Your First Quiz</span>
             </div>
             <div
               style={{
@@ -193,9 +190,7 @@ const Quizzes = () => {
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              <span style={{ color: "#2d0a3e", fontWeight: 700 }}>
-                Create New Quiz
-              </span>
+              <span>Create New Quiz</span>
             </div>
             <div
               style={{

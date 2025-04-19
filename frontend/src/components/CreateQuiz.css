@@ -32,6 +32,37 @@
         -webkit-text-fill-color: transparent;
     }
 
+    .dark-theme .form-title {
+        background: linear-gradient(90deg, #2c7be5, #25c589);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 8px rgba(44, 123, 229, 0.3);
+        opacity: 0.95;
+        font-weight: 700;
+    }
+
+    :root:not(.dark-theme) .form-title {
+        background: linear-gradient(90deg, #2c7be5, #25c589);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% center;
+        }
+
+        50% {
+            background-position: 100% center;
+        }
+
+        100% {
+            background-position: 0% center;
+        }
+    }
+
     .form-description {
         text-align: center;
         color: var(--text-secondary);
@@ -300,74 +331,74 @@
     }
 
     :root:not(.dark-theme) .btn-primary {
-        background-color: #333333 !important;
-        color: #ffffff !important;
-        border: 1px solid #555555 !important;
-        font-weight: 600 !important;
+        background-color: #333333;
+        color: #ffffff;
+        border: 1px solid #555555;
+        font-weight: 600;
     }
 
     :root:not(.dark-theme) .btn-primary:hover {
-        background-color: #8e44ad !important;
+        background-color: #8e44ad;
     }
 
     :root:not(.dark-theme) .btn-primary.add-question {
-        background-color: #333333 !important;
-        color: #ffffff !important;
+        background-color: #333333;
+        color: #ffffff;
     }
 
     :root:not(.dark-theme) .btn-primary.add-question:hover {
-        background-color: #06b6d4 !important;
+        background-color: #06b6d4;
     }
 
     :root:not(.dark-theme) .form-input {
-        background-color: #ffffff !important;
-        border: 1px solid #d1d5db !important;
-        color: #1f2937 !important;
+        background-color: #ffffff;
+        border: 1px solid #d1d5db;
+        color: #1f2937;
     }
 
     :root:not(.dark-theme) .form-input:focus {
-        border-color: #8e44ad !important;
-        box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2) !important;
+        border-color: #8e44ad;
+        box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
     }
 
     :root:not(.dark-theme) .form-label {
-        color: #4b5563 !important;
-        font-weight: 600 !important;
+        color: #4b5563;
+        font-weight: 600;
     }
 
     :root:not(.dark-theme) .form-container {
-        background: #ffffff !important;
-        border: 1px solid #e5e7eb !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
     :root:not(.dark-theme) .question-group {
-        background: #f9fafb !important;
-        border: 1px solid #e5e7eb !important;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
     }
 
     :root:not(.dark-theme) .option-group {
-        background: #ffffff !important;
-        border: 1px solid #e5e7eb !important;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
     }
 
     :root:not(.dark-theme) .question-number {
-        color: #8e44ad !important;
+        color: #8e44ad;
     }
 
     :root:not(.dark-theme) .question-action-btn {
-        background: rgba(239, 68, 68, 0.1) !important;
-        color: #dc2626 !important;
-        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     :root:not(.dark-theme) .option-label {
-        color: #4b5563 !important;
+        color: #4b5563;
     }
 
     :root:not(.dark-theme) .option-label::before {
-        background: rgba(142, 68, 173, 0.2) !important;
-        color: #8e44ad !important;
+        background: rgba(142, 68, 173, 0.2);
+        color: #8e44ad;
     }
 
     .validation-errors {

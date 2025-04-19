@@ -7,7 +7,6 @@
         margin-bottom: 0.5rem;
     }
 
-    /* Contenedor del quiz */
     .quiz-container {
         max-width: 900px;
         margin: 0 auto;
@@ -18,7 +17,6 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
         position: relative;
         overflow: visible;
-        /* Cambiado de overflow:hidden para asegurar que la barra sea visible */
     }
 
     .quiz-container::before {
@@ -30,7 +28,6 @@
         height: 4px;
         background: linear-gradient(to right, var(--primary), var(--secondary));
         z-index: 1;
-        /* Asegurando que el z-index sea menor que la barra de progreso */
     }
 
     .quiz-container.active-question .question-container {
@@ -123,10 +120,8 @@
         left: 0;
         width: 100%;
         height: 6px;
-        /* Aumentado para mayor visibilidad */
         overflow: hidden;
         z-index: 100;
-        /* Z-index alto para asegurar que esté por encima de otros elementos */
         border-top-left-radius: 1rem;
         border-top-right-radius: 1rem;
     }
@@ -139,7 +134,6 @@
         transition: transform 1s linear;
         animation: timerProgress 10s linear forwards;
         box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
-        /* Sombra para destacar más */
     }
 
     .timer-progress-bar.reset {
@@ -155,7 +149,6 @@
         background: linear-gradient(to right, #f44336, #d32f2f);
     }
 
-    /* Question section */
     .question-container {
         margin-bottom: 2rem;
         animation: fadeIn 0.5s ease forwards;
@@ -185,7 +178,6 @@
         font-weight: 600;
     }
 
-    /* Answers grid */
     .answer-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -283,7 +275,6 @@
         animation: incorrectAnswer 0.5s ease;
     }
 
-    /* Progress bar */
     .progress-container {
         margin-top: 2.5rem;
         background: rgba(255, 255, 255, 0.1);
@@ -314,7 +305,6 @@
         animation: progressShimmer 2s infinite;
     }
 
-    /* Score display */
     .score-display {
         margin-top: 2rem;
         text-align: center;
@@ -327,7 +317,6 @@
         font-size: 1.5rem;
     }
 
-    /* Loading state */
     .loading-container {
         display: flex;
         flex-direction: column;
@@ -462,7 +451,6 @@
         }
     }
 
-    /* Home button */
     .home-button {
         display: inline-flex;
         align-items: center;
@@ -485,7 +473,6 @@
         transform: translateY(-2px);
     }
 
-    /* Responsive Design */
     @media (max-width: 640px) {
         .quiz-container {
             padding: var(--md-spacing-4);

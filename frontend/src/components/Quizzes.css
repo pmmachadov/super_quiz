@@ -21,6 +21,23 @@
   position: relative;
 }
 
+.dark-theme .page-title {
+  background: linear-gradient(90deg, #2c7be5, #25c589);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 8px rgba(44, 123, 229, 0.3);
+  opacity: 0.95;
+  font-weight: 700;
+}
+
+:root:not(.dark-theme) .page-title {
+  background: linear-gradient(90deg, #2c7be5, #25c589);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite;
+}
+
 .page-title::after {
   content: '';
   position: absolute;
@@ -156,7 +173,6 @@
   width: 100%;
 }
 
-/* Estos botones mantienen su estilo especial de hover - no usar la variable estándar --btn-hover-color */
 .start-quiz-btn:hover {
   background: var(--primary-hover);
   box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
@@ -213,13 +229,10 @@
 .create-quiz-btn {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #f8e1ff;
-  /* Cambiado de blanco a un color lavanda claro */
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   font-weight: 700;
-  /* Aumentado de 600 a 700 para mejor legibilidad */
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  /* Añadiendo sombra sutil para mejorar contraste */
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
   border: none;
@@ -230,7 +243,6 @@
   gap: 0.8rem;
 }
 
-/* Estos botones mantienen su estilo especial de hover - no usar la variable estándar --btn-hover-color */
 .create-quiz-btn:hover {
   box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
   transform: translateY(-3px);
@@ -241,47 +253,63 @@
   height: 20px;
 }
 
-/* Estilo mejorado para botones en tema claro */
 :root:not(.dark-theme) .start-quiz-btn {
-  background-color: #8e44ad !important;
-  /* Color principal morado más oscuro para mejor contraste */
-  color: #ffffff !important;
-  /* Texto blanco con alto contraste */
-  border: 1px solid #8e44ad !important;
-  font-weight: 600 !important;
+  background-color: #8e44ad;
+  color: #ffffff;
+  border: 1px solid #8e44ad;
+  font-weight: 600;
 }
 
 :root:not(.dark-theme) .start-quiz-btn:hover {
-  background-color: #6d2c87 !important;
-  /* Color más oscuro al hacer hover */
-  border-color: #6d2c87 !important;
+  background-color: #6d2c87;
+  border-color: #6d2c87;
 }
 
-/* Cambiando el color del texto "Create New Quiz" */
 :root:not(.dark-theme) .create-quiz-btn {
-  background: #8e44ad !important;
-  color: #f8e1ff !important;
-  /* Cambiado de blanco a un color lavanda claro */
-  border: 1px solid #8e44ad !important;
-  font-weight: 700 !important;
-  /* Aumentado de 600 a 700 para mejor legibilidad */
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2) !important;
-  /* Añadiendo sombra sutil para mejorar contraste */
+  background: #0047a4;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 :root:not(.dark-theme) .create-quiz-btn:hover {
-  background-color: #6d2c87 !important;
-  /* Color más oscuro al hacer hover */
-  border-color: #6d2c87 !important;
+  background-color: #0047a4;
+  border-color: #0047a4;
 }
 
-/* Light Theme Enhancements */
+.dark-theme .start-quiz-btn {
+  background-color: #b264d1;
+  color: #ffffff;
+  border: 1px solid #b264d1;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(178, 100, 209, 0.3);
+}
+
+.dark-theme .start-quiz-btn:hover {
+  background-color: #cf8aea;
+  border-color: #cf8aea;
+  box-shadow: 0 6px 18px rgba(178, 100, 209, 0.4);
+}
+
+.dark-theme .create-quiz-btn {
+  background: #0078ac;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  border: none;
+}
+
+.dark-theme .create-quiz-btn:hover {
+  background: #00577d;
+  box-shadow: 0 8px 25px rgba(178, 100, 209, 0.5);
+  transform: translateY(-3px);
+}
+
 :root:not(.dark-theme) .quizzes-container {
   position: relative;
   z-index: 1;
 }
 
-/* Fondo animado para el tema claro */
 :root:not(.dark-theme) .quizzes-container::before {
   content: '';
   position: fixed;
@@ -316,9 +344,8 @@
   }
 }
 
-/* Título animado */
 :root:not(.dark-theme) .page-title {
-  background: linear-gradient(90deg, #8e44ad, #4caf50);
+  background: linear-gradient(90deg, #2c7be5, #25c589);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -341,12 +368,10 @@
 
 :root:not(.dark-theme) .page-title::after {
   background: linear-gradient(to right, #8e44ad, #4caf50);
-  /* Aseguramos que ambos temas usen la misma duración de 8s */
   animation: pulse-width-global 8s ease-in-out infinite;
   -webkit-animation: pulse-width-global 8s ease-in-out infinite;
 }
 
-/* Tarjetas de Quiz */
 :root:not(.dark-theme) .quiz-card {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
@@ -372,7 +397,6 @@
   transform: scaleX(1);
 }
 
-/* Estadísticas de quiz con animación */
 :root:not(.dark-theme) .quiz-stat-value {
   color: #8e44ad;
   transition: all 0.3s ease;
@@ -383,7 +407,6 @@
   text-shadow: 0 0 10px rgba(142, 68, 173, 0.3);
 }
 
-/* Botón de start quiz con efecto de onda */
 :root:not(.dark-theme) .start-quiz-btn {
   position: relative;
   overflow: hidden;
@@ -419,7 +442,6 @@
   }
 }
 
-/* Mejoras para la sección de quiz vacía */
 :root:not(.dark-theme) .empty-state {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
@@ -456,7 +478,6 @@
   }
 }
 
-/* Sección create quiz */
 :root:not(.dark-theme) .create-quiz-section {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
@@ -481,7 +502,6 @@
   animation: bg-shift 8s ease infinite;
 }
 
-/* Loading spinner */
 :root:not(.dark-theme) .loading-spinner {
   border-top-color: #8e44ad;
   animation: spin 0.8s linear infinite, pulse-color 2s ease-in-out infinite;
@@ -497,7 +517,6 @@
   }
 }
 
-/* Empty state */
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
@@ -528,7 +547,6 @@
   margin-right: auto;
 }
 
-/* Loading spinner */
 .loading-spinner {
   width: 3rem;
   height: 3rem;

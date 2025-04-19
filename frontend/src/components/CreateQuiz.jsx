@@ -18,10 +18,8 @@ export default function CreateQuiz() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Transform data to the format expected by the API
     const quizData = transformFormDataToApiFormat(title, questions);
 
-    // Validate data before sending
     const validation = validateQuiz(quizData);
 
     if (!validation.isValid) {
@@ -30,7 +28,6 @@ export default function CreateQuiz() {
       return;
     }
 
-    // Clear previous errors
     setValidationErrors([]);
 
     try {
@@ -47,7 +44,6 @@ export default function CreateQuiz() {
       if (response.ok) {
         navigate("/quizzes");
       } else {
-        // If backend returns validation errors
         if (respData.errors) {
           const backendErrors = respData.errors.map(
             (err) => err.msg || err.message
@@ -78,7 +74,6 @@ export default function CreateQuiz() {
       { text: "", answers: ["", "", "", ""], correctIndex: 0 },
     ]);
 
-    // Scroll to the new question after a short delay
     setTimeout(() => {
       window.scrollTo({
         top: document.body.scrollHeight,
@@ -89,18 +84,12 @@ export default function CreateQuiz() {
 
   return (
     <div className="form-container">
-      <div
-        className="form-title"
-        style={{ color: "#2d0a3e", WebkitTextFillColor: "#2d0a3e" }}
-      >
-        Create New Quiz
-      </div>
+      <div className="form-title">Create New Quiz</div>
       <div className="form-description">
         Design your own quiz with multiple-choice questions. Add as many
         questions as you want!
       </div>
 
-      {/* Display validation errors */}
       {validationErrors.length > 0 && (
         <div className="validation-errors">
           <h3>Please correct the following errors:</h3>

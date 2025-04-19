@@ -1,6 +1,4 @@
-/* Base Styles */
 :root {
-  /* Variables del tema que heredan de index.css */
   --primary: var(--md-primary);
   --primary-hover: var(--md-primary-container);
   --secondary: #06b6d4;
@@ -27,19 +25,16 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Theme Override */
 .dark-theme {
   --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
-/* Light Theme Override - Mejorado el sombreado */
 :root:not(.dark-theme) {
   --shadow: 0 15px 25px -3px rgba(0, 0, 0, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
   --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(44, 123, 229, 0.06);
   --hover-shadow: 0 20px 35px rgba(0, 0, 0, 0.18), 0 10px 15px rgba(44, 123, 229, 0.1);
 }
 
-/* Light Theme Override - Mejora de contraste */
 :root:not(.dark-theme) .nav-link {
   color: #000000;
   background: rgba(0, 0, 0, 0.05);
@@ -51,7 +46,6 @@ body {
 
 :root:not(.dark-theme) .footer-link {
   color: #333333;
-  /* Mejor contraste para el tema claro */
 }
 
 :root:not(.dark-theme) .answer-button {
@@ -63,7 +57,6 @@ body {
 
 :root:not(.dark-theme) .answer-button:hover {
   background: #d4d4d4;
-  /* Gris más oscuro al hacer hover */
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(44, 123, 229, 0.08);
 }
@@ -79,22 +72,26 @@ body {
   border-color: rgba(44, 123, 229, 0.15);
 }
 
-/* Específicamente para el tema claro */
 :root:not(.dark-theme) .btn.primary {
   background: var(--primary);
   color: white;
-  /* Asegura que el texto sea blanco para máximo contraste */
   font-weight: 600;
-  /* Texto más grueso para mayor visibilidad */
   border: 1px solid var(--primary);
   box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
 }
 
-:root:not(.dark-theme) .btn.primary:hover {
-  background: #2568c0;
-  /* Azul más oscuro al hacer hover */
+:root:not(.dark-theme) .btn.primary.multi-bubble {
+  background: #8e44ad;
+  color: white;
+  font-weight: 600;
+  border: 1px solid #8e44ad;
+}
+
+:root:not(.dark-theme) .btn.primary.multi-bubble:hover {
+  background: #6d2c87;
+  color: white;
+  border-color: #6d2c87;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(37, 104, 192, 0.4);
 }
 
 :root:not(.dark-theme) .btn.secondary {
@@ -103,13 +100,20 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-:root:not(.dark-theme) .btn.secondary:hover {
-  background: rgba(0, 0, 0, 0.1);
-  /* Oscurece ligeramente al hacer hover */
+:root:not(.dark-theme) .btn.secondary.multi-bubble {
+  background: #2980b9;
+  color: white;
+  font-weight: 600;
+  border: 1px solid #2980b9;
+}
+
+:root:not(.dark-theme) .btn.secondary.multi-bubble:hover {
+  background: #1c5e8c;
+  color: white;
+  border-color: #1c5e8c;
   transform: translateY(-2px);
 }
 
-/* Botones específicos en tema claro */
 :root:not(.dark-theme) .create-quiz-btn {
   background: #2c7be5;
   color: white;
@@ -117,7 +121,6 @@ body {
 
 :root:not(.dark-theme) .create-quiz-btn:hover {
   background: #1c5db8;
-  /* Azul más oscuro al hacer hover */
   transform: translateY(-2px);
 }
 
@@ -128,7 +131,6 @@ body {
 
 :root:not(.dark-theme) .start-quiz-btn:hover {
   background: #1c5db8;
-  /* Azul más oscuro al hacer hover */
   transform: translateY(-2px);
 }
 
@@ -138,9 +140,22 @@ body {
   border: 1px solid #d0d0d0;
 }
 
+:root:not(.dark-theme) .option-btn.multi-bubble {
+  background: #27ae60;
+  color: white;
+  font-weight: 500;
+  border: 1px solid #27ae60;
+}
+
+:root:not(.dark-theme) .option-btn.multi-bubble:hover {
+  background: #1d8348;
+  color: white;
+  border-color: #1d8348;
+  transform: translateY(-3px);
+}
+
 :root:not(.dark-theme) .option-btn:hover {
   background: #d4d4d4;
-  /* Gris más oscuro al hacer hover */
   transform: translateY(-2px);
 }
 
@@ -151,7 +166,6 @@ body {
 
 :root:not(.dark-theme) .action-button.primary:hover {
   background: #1c5db8;
-  /* Azul más oscuro al hacer hover */
   transform: translateY(-2px);
 }
 
@@ -163,7 +177,6 @@ body {
 
 :root:not(.dark-theme) .action-button.secondary:hover {
   background: rgba(0, 0, 0, 0.1);
-  /* Oscurece ligeramente al hacer hover */
   transform: translateY(-2px);
 }
 
@@ -174,23 +187,29 @@ body {
 
 :root:not(.dark-theme) .btn-primary:hover {
   background: #1c5db8;
-  /* Azul más oscuro al hacer hover */
   transform: translateY(-2px);
 }
 
 :root:not(.dark-theme) .question-action-btn {
-  background: #f3f3f3;
-  color: #555;
-  border: 1px solid #d3d3d3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 :root:not(.dark-theme) .question-action-btn:hover {
   background: #e0e0e0;
-  /* Gris más oscuro al hacer hover */
   color: #333;
 }
 
-/* Layout */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -217,14 +236,12 @@ body {
   margin: 0 auto;
 }
 
-/* App Container */
 .app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Navigation */
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -279,7 +296,6 @@ body {
   font-size: 1.8rem;
 }
 
-/* Quiz Page */
 .quiz-container {
   background: var(--surface);
   border-radius: 16px;
@@ -353,16 +369,15 @@ body {
 }
 
 .answer-button.correct {
-  background: var(--correct) !important;
+  background: var(--correct);
   box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
 }
 
 .answer-button.incorrect {
-  background: var(--incorrect) !important;
+  background: var(--incorrect);
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
-/* Results Screen */
 .results-container {
   text-align: center;
   padding: 4rem 2rem;
@@ -387,7 +402,6 @@ body {
   text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
 }
 
-/* Footer */
 .footer {
   background: rgba(0, 0, 0, 0.3);
   padding: 1.5rem 2rem;
@@ -408,7 +422,6 @@ body {
   align-items: center;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -426,7 +439,6 @@ body {
   overflow: hidden;
 }
 
-/* Efecto de burbujas en hover */
 .btn::before,
 .btn::after,
 .option-btn::before,
@@ -516,16 +528,13 @@ button[type="button"]:hover::after {
   }
 }
 
-/* Clase especial para añadir múltiples burbujas aleatorias */
 .multi-bubble {
   overflow: hidden;
   position: relative;
 }
 
-/* Burbujas redondas usando elementos pseudo en lugar de box-shadow */
 .multi-bubble::before {
   display: none;
-  /* Desactivar el método anterior */
 }
 
 .multi-bubble::after {
@@ -543,115 +552,111 @@ button[type="button"]:hover::after {
   animation: rise 2.5s ease-out forwards;
 }
 
-/* Creamos elementos para las burbujas */
 .multi-bubble .bubble {
   position: absolute;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 50%;
-  /* Asegura que sean perfectamente redondas */
   bottom: 0;
   opacity: 0;
   pointer-events: none;
 }
 
-/* Estilos para 14 burbujas posicionadas estratégicamente */
 .multi-bubble .bubble:nth-child(1) {
   width: 10px;
   height: 10px;
   left: 5%;
-  animation-delay: 0s !important;
+  animation-delay: 0s;
 }
 
 .multi-bubble .bubble:nth-child(2) {
   width: 8px;
   height: 8px;
   left: 12%;
-  animation-delay: 0.2s !important;
+  animation-delay: 0.2s;
 }
 
 .multi-bubble .bubble:nth-child(3) {
   width: 12px;
   height: 12px;
   left: 20%;
-  animation-delay: 0.1s !important;
+  animation-delay: 0.1s;
 }
 
 .multi-bubble .bubble:nth-child(4) {
   width: 7px;
   height: 7px;
   left: 30%;
-  animation-delay: 0.3s !important;
+  animation-delay: 0.3s;
 }
 
 .multi-bubble .bubble:nth-child(5) {
   width: 9px;
   height: 9px;
   left: 40%;
-  animation-delay: 0.5s !important;
+  animation-delay: 0.5s;
 }
 
 .multi-bubble .bubble:nth-child(6) {
   width: 11px;
   height: 11px;
   left: 50%;
-  animation-delay: 0.2s !important;
+  animation-delay: 0.2s;
 }
 
 .multi-bubble .bubble:nth-child(7) {
   width: 6px;
   height: 6px;
   left: 60%;
-  animation-delay: 0.1s !important;
+  animation-delay: 0.1s;
 }
 
-/* Nuevas burbujas (del 8 al 14) */
 .multi-bubble .bubble:nth-child(8) {
   width: 10px;
   height: 10px;
   left: 68%;
-  animation-delay: 0.4s !important;
+  animation-delay: 0.4s;
 }
 
 .multi-bubble .bubble:nth-child(9) {
   width: 7px;
   height: 7px;
   left: 75%;
-  animation-delay: 0.3s !important;
+  animation-delay: 0.3s;
 }
 
 .multi-bubble .bubble:nth-child(10) {
   width: 11px;
   height: 11px;
   left: 80%;
-  animation-delay: 0.5s !important;
+  animation-delay: 0.5s;
 }
 
 .multi-bubble .bubble:nth-child(11) {
   width: 9px;
   height: 9px;
   left: 85%;
-  animation-delay: 0.2s !important;
+  animation-delay: 0.2s;
 }
 
 .multi-bubble .bubble:nth-child(12) {
   width: 8px;
   height: 8px;
   left: 90%;
-  animation-delay: 0.4s !important;
+  animation-delay: 0.4s;
 }
 
 .multi-bubble .bubble:nth-child(13) {
   width: 12px;
   height: 12px;
   left: 95%;
-  animation-delay: 0.3s !important;
+  animation-delay: 0.3s;
 }
 
 .multi-bubble .bubble:nth-child(14) {
   width: 6px;
   height: 6px;
   left: 97%;
-  animation-delay: 0.1s !important;
+  animation-delay: 0.1s;
 }
 
 @keyframes rise {
@@ -697,13 +702,10 @@ button[type="button"]:hover::after {
   transform: translateY(-2px);
 }
 
-/* Específicamente para el tema claro */
 :root:not(.dark-theme) .btn.primary {
   background: var(--primary);
   color: white;
-  /* Asegura que el texto sea blanco para máximo contraste */
   font-weight: 600;
-  /* Texto más grueso para mayor visibilidad */
   border: 1px solid var(--primary);
   box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
 }
@@ -714,7 +716,6 @@ button[type="button"]:hover::after {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -744,7 +745,6 @@ button[type="button"]:hover::after {
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -779,7 +779,6 @@ button[type="button"]:hover::after {
   animation: pulse 2s infinite;
 }
 
-/* Accessibility Improvements */
 :focus {
   outline: 2px solid var(--secondary);
   outline-offset: 2px;

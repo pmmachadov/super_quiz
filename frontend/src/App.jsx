@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import Quizzes from "./components/Quizzes";
 import CreateQuiz from "./components/CreateQuiz";
 import Quiz from "./components/Quiz";
-import Results from "./components/Results"; // Importando el componente Results
+import Results from "./components/Results";
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
           <Route path="/quiz/:id" element={<Quiz />} />
           <Route path="/create-quiz" element={<CreateQuiz />} />
           <Route path="/results/:score/:total" element={<Results />} />{" "}
-          {/* Nueva ruta para resultados */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

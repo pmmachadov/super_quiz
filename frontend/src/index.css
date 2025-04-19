@@ -1,16 +1,12 @@
 @layer base {
     :root {
-        /* Tema claro (predeterminado) con mejor contraste */
         --primary: #8e44ad;
         --surface: #ffffff;
         --text: #1a1a1a;
         --text-secondary: #444444;
-        /* Mejorado el contraste */
         --background: #f5f5f5;
-        /* Color estándar para hover en botones */
         --btn-hover-color: #6a3b82;
 
-        /* Material Design Colors */
         --md-primary: var(--primary);
         --md-primary-container: #7d32a8;
         --md-on-primary: #ffffff;
@@ -34,7 +30,6 @@
 
         --md-outline: rgba(0, 0, 0, 0.12);
 
-        /* Responsive Spacing */
         --md-spacing-1: 4px;
         --md-spacing-2: 8px;
         --md-spacing-3: 12px;
@@ -44,30 +39,24 @@
         --md-spacing-7: 28px;
         --md-spacing-8: 32px;
 
-        /* Typography */
         --md-font-family: 'Roboto', sans-serif;
         --md-font-weight-bold: 700;
         --md-font-weight-medium: 500;
         --md-font-weight-regular: 400;
 
-        /* Borders */
         --md-border-radius: 4px;
         --md-border-radius-large: 12px;
 
-        /* Elevation (sombra) */
         --md-elevation-4: 0 4px 8px rgba(0, 0, 0, 0.15);
         --md-elevation-6: 0 6px 16px rgba(0, 0, 0, 0.18);
         --md-elevation-8: 0 8px 24px rgba(0, 0, 0, 0.20);
         --md-elevation-12: 0 12px 32px rgba(0, 0, 0, 0.22);
 
-        /* Éxito */
         --md-success: #4caf50;
         --md-on-success: #fff;
     }
 
-    /* Tema oscuro (original) */
     html.dark-theme, body.dark-theme {
-        /* Colores originales del tema oscuro */
         --primary: #4f46e5;
         --primary-hover: #4338ca;
         --secondary: #06b6d4;
@@ -75,10 +64,8 @@
         --text: #f9fafb;
         --text-secondary: #d1d5db;
         --background: #111827;
-        /* Color estándar para hover en botones - tema oscuro */
         --btn-hover-color: #3730a3;
 
-        /* Material Design Colors - Dark Theme */
         --md-primary: var(--primary);
         --md-primary-container: var(--primary-hover);
         --md-on-primary: #ffffff;
@@ -94,7 +81,6 @@
         --md-outline: rgba(255, 255, 255, 0.12);
     }
 
-    /* Responsive Design */
     @media (min-width: 640px) {
         :root {
             --md-spacing-1: 8px;
@@ -134,7 +120,6 @@
         }
     }
 
-    /* Base Styles */
     * {
         margin: 0;
         padding: 0;
@@ -159,7 +144,6 @@
         color: var(--md-primary-container);
     }
 
-    /* Container */
     .container {
         width: 100%;
         max-width: 1200px;
@@ -185,7 +169,6 @@
         }
     }
 
-    /* Botones */
     .btn {
         padding: var(--md-spacing-3) var(--md-spacing-6);
         border-radius: 24px;
@@ -237,7 +220,6 @@
         min-width: 100%;
     }
 
-    /* Utility Classes */
     .text-center {
         text-align: center;
     }

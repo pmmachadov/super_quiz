@@ -111,7 +111,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mobile Menu */}
       <div className="mobile-menu">
         <button
           className="mobile-menu-toggle"
