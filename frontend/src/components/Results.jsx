@@ -7,8 +7,26 @@ const Results = () => {
   const { score, total } = useParams();
   const [isVisible, setIsVisible] = useState(false);
   const scoreRingRef = useRef(null);
+  const [isDarkMode, setIsDarkMode] = useState(
+    window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
 
   const percentage = Math.round((parseInt(score) / parseInt(total)) * 100);
+
+  useEffect(() => {
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    const handleChange = (e) => {
+      setIsDarkMode(e.matches);
+    };
+
+    darkModeMediaQuery.addEventListener("change", handleChange);
+    return () => {
+      darkModeMediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   const getResultInfo = () => {
     if (percentage >= 90) {

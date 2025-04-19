@@ -19,6 +19,11 @@
   color: var(--text);
   font-weight: 700;
   position: relative;
+  background: linear-gradient(90deg, #2c7be5, #25c589);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bg-shift 8s ease infinite;
 }
 
 .dark-theme .page-title {
@@ -36,7 +41,7 @@
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite;
+  animation: bg-shift 8s ease infinite;
 }
 
 .page-title::after {
@@ -346,28 +351,6 @@
 
   100% {
     transform: translate(30px, 30px);
-  }
-}
-
-:root:not(.dark-theme) .page-title {
-  background: linear-gradient(90deg, #2c7be5, #25c589);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: bg-shift 8s ease infinite;
-}
-
-@keyframes bg-shift {
-  0% {
-    background-position: 0% center;
-  }
-
-  50% {
-    background-position: 100% center;
-  }
-
-  100% {
-    background-position: 0% center;
   }
 }
 
