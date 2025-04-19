@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import BubbleEffect from "./BubbleEffect";
 import "./QuizPage.css";
 
 const QuizPage = () => {
@@ -66,13 +67,14 @@ const QuizPage = () => {
             {currentQuestionData.answers.map((answer, index) => (
               <button
                 key={answer}
-                className={`answer-button ${
+                className={`answer-button multi-bubble ${
                   selectedAnswer === index ? "selected" : ""
                 }`}
                 onClick={() => handleAnswer(index)}
                 disabled={selectedAnswer !== null}
               >
                 {answer}
+                <BubbleEffect />
               </button>
             ))}
           </div>
@@ -83,8 +85,12 @@ const QuizPage = () => {
           <p>
             You scored {score} out of {quiz.questions.length}
           </p>
-          <button className="btn-primary" onClick={() => navigate("/quizzes")}>
+          <button
+            className="btn-primary multi-bubble"
+            onClick={() => navigate("/quizzes")}
+          >
             Return to Quizzes
+            <BubbleEffect />
           </button>
         </div>
       )}

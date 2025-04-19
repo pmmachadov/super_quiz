@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
 const Quizzes = () => {
@@ -17,7 +18,6 @@ const Quizzes = () => {
         setQuizzes(data);
         setLoading(false);
 
-        // Activar la animación después de cargar los datos
         setTimeout(() => {
           setIsVisible(true);
         }, 100);
@@ -54,24 +54,38 @@ const Quizzes = () => {
             Be the first one to create an awesome quiz for others to enjoy!
           </p>
           <button
-            className="create-quiz-btn"
+            className="create-quiz-btn multi-bubble"
             onClick={() => navigate("/create-quiz")}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <div style={{ position: "relative", zIndex: 2 }}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Create Your First Quiz</span>
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+              }}
             >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Create Your First Quiz
+              <BubbleEffect />
+            </div>
           </button>
         </div>
       ) : (
@@ -97,23 +111,45 @@ const Quizzes = () => {
                 </div>
               </div>
               <button
-                className="start-quiz-btn"
+                className="start-quiz-btn multi-bubble"
                 onClick={() => navigate(`/quiz/${quiz.id}`)}
               >
-                Start Quiz
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                <div
+                  style={{
+                    position: "relative",
+                    zIndex: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                  }}
                 >
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
+                  Start Quiz
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    zIndex: 1,
+                  }}
+                >
+                  <BubbleEffect />
+                </div>
               </button>
             </div>
           ))}
@@ -128,24 +164,46 @@ const Quizzes = () => {
             interactive quiz!
           </p>
           <button
-            className="create-quiz-btn"
+            className="create-quiz-btn multi-bubble"
             onClick={() => navigate("/create-quiz")}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <div
+              style={{
+                position: "relative",
+                zIndex: 2,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
             >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Create New Quiz
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Create New Quiz</span>
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+              }}
+            >
+              <BubbleEffect />
+            </div>
           </button>
         </div>
       )}

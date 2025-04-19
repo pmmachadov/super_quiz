@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
+import BubbleEffect from "./BubbleEffect";
 import "./Results.css";
 
 const Results = () => {
@@ -101,7 +102,7 @@ const Results = () => {
         </div>
 
         <div className="results-actions">
-          <Link to="/quizzes" className="action-button primary">
+          <Link to="/quizzes" className="action-button primary multi-bubble">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -117,8 +118,9 @@ const Results = () => {
               <path d="M20 12H4"></path>
             </svg>
             Back to Quizzes
+            <BubbleEffect />
           </Link>
-          <Link to="/" className="action-button secondary">
+          <Link to="/" className="action-button secondary multi-bubble">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -134,6 +136,7 @@ const Results = () => {
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
             Home
+            <BubbleEffect />
           </Link>
         </div>
       </div>

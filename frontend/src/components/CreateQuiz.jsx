@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BubbleEffect from "./BubbleEffect";
 import {
   validateQuiz,
   transformFormDataToApiFormat,
@@ -17,10 +18,8 @@ export default function CreateQuiz() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Transform data to the format expected by the API
     const quizData = transformFormDataToApiFormat(title, questions);
 
-    // Validate data before sending
     const validation = validateQuiz(quizData);
 
     if (!validation.isValid) {
@@ -29,7 +28,6 @@ export default function CreateQuiz() {
       return;
     }
 
-    // Clear previous errors
     setValidationErrors([]);
 
     try {
@@ -46,7 +44,6 @@ export default function CreateQuiz() {
       if (response.ok) {
         navigate("/quizzes");
       } else {
-        // If backend returns validation errors
         if (respData.errors) {
           const backendErrors = respData.errors.map(
             (err) => err.msg || err.message
@@ -77,7 +74,6 @@ export default function CreateQuiz() {
       { text: "", answers: ["", "", "", ""], correctIndex: 0 },
     ]);
 
-    // Scroll to the new question after a short delay
     setTimeout(() => {
       window.scrollTo({
         top: document.body.scrollHeight,
@@ -94,7 +90,6 @@ export default function CreateQuiz() {
         questions as you want!
       </div>
 
-      {/* Display validation errors */}
       {validationErrors.length > 0 && (
         <div className="validation-errors">
           <h3>Please correct the following errors:</h3>
@@ -132,7 +127,7 @@ export default function CreateQuiz() {
                   <button
                     type="button"
                     onClick={() => handleRemoveQuestion(index)}
-                    className="question-action-btn"
+                    className="question-action-btn multi-bubble"
                     disabled={questions.length <= 1}
                   >
                     <svg
@@ -150,6 +145,7 @@ export default function CreateQuiz() {
                       <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
                     </svg>
                     Remove
+                    <BubbleEffect />
                   </button>
                 </div>
               </div>
@@ -218,7 +214,7 @@ export default function CreateQuiz() {
           <button
             type="button"
             onClick={handleAddQuestion}
-            className="btn-primary add-question"
+            className="btn-primary add-question multi-bubble"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -235,9 +231,10 @@ export default function CreateQuiz() {
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Add Question
+            <BubbleEffect />
           </button>
 
-          <button type="submit" className="btn-primary">
+          <button type="submit" className="btn-primary multi-bubble">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -254,6 +251,7 @@ export default function CreateQuiz() {
               <polyline points="7 3 7 8 15 8"></polyline>
             </svg>
             Create Quiz
+            <BubbleEffect />
           </button>
         </div>
       </form>
