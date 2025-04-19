@@ -89,7 +89,12 @@ export default function CreateQuiz() {
 
   return (
     <div className="form-container">
-      <div className="form-title">Create New Quiz</div>
+      <div
+        className="form-title"
+        style={{ color: "#2d0a3e", WebkitTextFillColor: "#2d0a3e" }}
+      >
+        Create New Quiz
+      </div>
       <div className="form-description">
         Design your own quiz with multiple-choice questions. Add as many
         questions as you want!
