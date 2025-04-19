@@ -24,6 +24,7 @@
 .dark-theme .page-title {
   background: linear-gradient(90deg, #2c7be5, #25c589);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 8px rgba(44, 123, 229, 0.3);
   opacity: 0.95;
@@ -46,10 +47,14 @@
   transform: translateX(-50%);
   width: 60px;
   height: 4px;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
+  background: linear-gradient(to right, #8e44ad, #4caf50);
   border-radius: 2px;
   animation: pulse-width-global 8s ease-in-out infinite;
   -webkit-animation: pulse-width-global 8s ease-in-out infinite;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
 }
 
 @keyframes pulse-width-global {
