@@ -43,10 +43,6 @@
         left: -2px;
         right: -2px;
         bottom: -2px;
-        /* background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0.05) 50%,
-                rgba(255, 255, 255, 0.2) 100%); */
         border-radius: 1.6rem;
         z-index: -1;
         animation: borderGlow 6s ease-in-out infinite alternate;
