@@ -7,6 +7,7 @@ import Quizzes from "./components/Quizzes";
 import CreateQuiz from "./components/CreateQuiz";
 import Quiz from "./components/Quiz";
 import Results from "./components/Results";
+import AnalyticsDashboard from "./components/analytics/AnalyticsDashboard";
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/quiz/:id" element={<Quiz />} />
           <Route path="/create-quiz" element={<CreateQuiz />} />
-          <Route path="/results/:score/:total" element={<Results />} />{" "}
+          <Route path="/results/:score/:total" element={<Results />} />
+          <Route
+            path="/analytics"
+            element={<AnalyticsDashboard userId="currentUser" />}
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
