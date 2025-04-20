@@ -47,10 +47,10 @@
         background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: gradientShift 8s ease infinite;
+        animation: bg-shift 8s ease infinite;
     }
 
-    @keyframes gradientShift {
+    @keyframes bg-shift {
         0% {
             background-position: 0% center;
         }

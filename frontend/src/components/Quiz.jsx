@@ -153,10 +153,6 @@ export default function Quiz() {
     return baseClass;
   };
 
-  const getOptionLetter = (index) => {
-    return String.fromCharCode(65 + index);
-  };
-
   if (error) {
     return (
       <div className="container" style={{ marginTop: "2rem" }}>
@@ -262,7 +258,6 @@ export default function Quiz() {
               onClick={() => handleAnswerSelect(index)}
               className={getAnswerClass(index)}
               disabled={selectedAnswer !== null}
-              data-option={getOptionLetter(index)}
             >
               {answer}
             </button>

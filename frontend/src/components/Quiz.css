@@ -196,9 +196,10 @@
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
-        text-align: left;
+        text-align: center;
         display: flex;
         align-items: center;
+        justify-content: center;
         height: 100%;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
@@ -227,31 +228,6 @@
 
     .answer-button:nth-child(4) {
         animation: answerAppear 0.3s ease-out 0.4s both;
-    }
-
-    .answer-button::before {
-        content: attr(data-option);
-        position: absolute;
-        left: -15px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-        background: rgba(var(--primary-rgb), 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--primary);
-        opacity: 0.8;
-        transition: all 0.3s ease;
-    }
-
-    .answer-button:hover::before {
-        opacity: 1;
-        background: rgba(var(--primary-rgb), 0.2);
     }
 
     .answer-button.selected {

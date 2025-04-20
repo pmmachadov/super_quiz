@@ -27,7 +27,6 @@ const Layout = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Aplicar la clase dark-theme al elemento raíz y al body
     document.documentElement.classList.toggle("dark-theme", darkTheme);
     document.body.classList.toggle("dark-theme", darkTheme);
     localStorage.setItem("theme", darkTheme ? "dark" : "light");
