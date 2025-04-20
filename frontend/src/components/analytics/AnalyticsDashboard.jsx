@@ -19,16 +19,12 @@ const AnalyticsDashboard = ({ userId }) => {
     try {
       setIsLoading(true);
 
-      // Obtener datos de la API real
       const response = await fetch("/api/stats/user/" + userId);
 
-      // Si la API no está lista, usamos datos locales temporalmente
       if (!response.ok) {
-        // Obtener datos de quizzes del sistema local
         const quizzesResponse = await fetch("/api/quizzes");
         const quizzesData = await quizzesResponse.json();
 
-        // Procesar datos de quizzes para crear estadísticas
         const processedData = {
           totalGames: quizzesData.length,
           averageScore: 82.5,
@@ -37,11 +33,11 @@ const AnalyticsDashboard = ({ userId }) => {
               quiz.questions.map((q, index) => ({
                 id: `${quiz.id}-${index}`,
                 title: q.question,
-                correctPercentage: Math.floor(Math.random() * 30) + 65, // 65-95%
-                avgResponseTime: (Math.random() * 3 + 2).toFixed(1), // 2-5 segundos
+                correctPercentage: Math.floor(Math.random() * 30) + 65,
+                avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
               }))
             )
-            .slice(0, 10), // Limitar a 10 preguntas para la demostración
+            .slice(0, 10),
           gamesHistory: quizzesData
             .map((quiz, index) => {
               const correctAnswers =
@@ -50,14 +46,14 @@ const AnalyticsDashboard = ({ userId }) => {
                 id: `game-${index}`,
                 date: new Date(Date.now() - index * 86400000)
                   .toISOString()
-                  .split("T")[0], // Fechas de los últimos días
+                  .split("T")[0],
                 title: quiz.title,
                 score: correctAnswers * 100 + Math.floor(Math.random() * 100),
                 totalQuestions: quiz.questions.length,
                 correctAnswers: correctAnswers,
               };
             })
-            .slice(0, 8), // Limitar a 8 juegos para la demostración
+            .slice(0, 8),
         };
 
         setUserStats(processedData);
@@ -68,7 +64,6 @@ const AnalyticsDashboard = ({ userId }) => {
     } catch (error) {
       console.error("Error fetching user statistics:", error);
 
-      // Respaldo en caso de error total
       const fallbackData = {
         totalGames: 5,
         averageScore: 75.0,
@@ -124,23 +119,18 @@ const AnalyticsDashboard = ({ userId }) => {
       return;
     }
 
-    // Reinicio confirmado dos veces
     try {
       setIsLoading(true);
 
-      // Llamada a la API para reiniciar datos
       const response = await fetch(`/api/stats/user/${userId}/reset`, {
         method: "POST",
       });
 
       if (response.ok) {
-        // Recargamos los datos después del reinicio
         fetchUserStats();
         alert("Statistics data has been reset successfully!");
       } else {
-        // Si la API falla, simulamos el reinicio para demo
         localStorage.removeItem("userStats_" + userId);
-        // Recargamos con datos "limpios"
         fetchUserStats();
         alert("Statistics data has been reset successfully! (Simulated)");
       }
@@ -148,7 +138,6 @@ const AnalyticsDashboard = ({ userId }) => {
       console.error("Error resetting data:", error);
       alert("Error resetting data. Please try again.");
     } finally {
-      // Reset the confirmation state
       setShowResetConfirm(false);
       setResetStep(0);
     }

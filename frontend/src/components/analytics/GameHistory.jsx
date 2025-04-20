@@ -1,7 +1,6 @@
 import "./Analytics.css";
 
 const GameHistory = ({ games }) => {
-  // Función para formatear fechas de forma amigable
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("es-ES", { day: "numeric", month: "short" });

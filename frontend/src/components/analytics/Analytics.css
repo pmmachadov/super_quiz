@@ -77,7 +77,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Question Performance Component */
 .question-performance h2 {
     margin-top: 0;
     color: var(--color-text, #333);
@@ -87,7 +86,6 @@
     margin-bottom: 20px;
 }
 
-/* Mejora para select en tema oscuro */
 .select-wrapper {
     position: relative;
     display: inline-block;
@@ -237,7 +235,6 @@
     padding-left: 20px;
 }
 
-/* Game History Component */
 .game-history h2 {
     margin-top: 0;
     color: var(--color-text, #333);
@@ -356,7 +353,6 @@
     color: var(--color-primary, #2563eb);
 }
 
-/* Export Results Component */
 .export-results h2 {
     margin-top: 0;
     color: var(--color-text, #333);
@@ -378,7 +374,6 @@
     gap: 10px;
 }
 
-/* Mejora para botones de formato en tema oscuro */
 .format-btn {
     padding: 10px 20px;
     border: 1px solid var(--color-border, #ddd);
@@ -420,7 +415,6 @@
     margin: 0;
 }
 
-/* Mejora para PDF y Excel en tema oscuro */
 .pdf-icon, .excel-icon {
     display: inline-block;
     padding: 8px 15px;
@@ -477,7 +471,6 @@
     padding-left: 20px;
 }
 
-/* Estilos para el botón de reinicio y sus confirmaciones */
 .reset-card {
     display: flex;
     flex-direction: column;
@@ -558,7 +551,6 @@
     background-color: var(--color-hover, #f9fafb);
 }
 
-/* Variables mejoradas para Dark theme */
 .dark-theme {
     --color-bg: #121212;
     --color-bg-alt: #1e293b;
@@ -568,13 +560,11 @@
     --color-border: #333;
     --color-hover: #252525;
 
-    /* Colores para resaltar mejorados para dark mode */
     --color-primary: #3b82f6;
     --color-primary-dark: #2563eb;
     --color-danger: #ef4444;
 }
 
-/* Ajustes específicos para light/dark mode */
 :root {
     --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -584,7 +574,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
 
     .analytics-summary,
