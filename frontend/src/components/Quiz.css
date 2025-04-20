@@ -1,10 +1,127 @@
 @layer base {
-    .mt-4 {
-        margin-top: 1rem;
+
+    @keyframes answerAppear {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes correctAnswer {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    @keyframes countdown {
+        0% {
+            transform: scale(1);
+        }
+
+        20% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes incorrectAnswer {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
+    }
+
+    @keyframes progressShimmer {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
+        }
+    }
+
+    @keyframes questionSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes timerProgress {
+        from {
+            transform: scaleX(1);
+        }
+
+        to {
+            transform: scaleX(0);
+        }
     }
 
     .mb-2 {
         margin-bottom: 0.5rem;
+    }
+
+    .mt-4 {
+        margin-top: 1rem;
     }
 
     .quiz-container {
@@ -309,122 +426,6 @@
         border-top-color: var(--primary);
         animation: spin 1s linear infinite;
         margin-bottom: 1.5rem;
-    }
-
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes shake {
-        0%, 100% {
-            transform: translateX(0);
-        }
-
-        20%, 60% {
-            transform: translateX(-5px);
-        }
-
-        40%, 80% {
-            transform: translateX(5px);
-        }
-    }
-
-    @keyframes questionSlideIn {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes answerAppear {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5);
-        }
-
-        70% {
-            box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
-        }
-    }
-
-    @keyframes correctAnswer {
-        0%, 100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.05);
-        }
-    }
-
-    @keyframes incorrectAnswer {
-        0%, 100% {
-            transform: translateX(0);
-        }
-
-        20%, 60% {
-            transform: translateX(-5px);
-        }
-
-        40%, 80% {
-            transform: translateX(5px);
-        }
-    }
-
-    @keyframes countdown {
-        0% {
-            transform: scale(1);
-        }
-
-        20% {
-            transform: scale(1.2);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    @keyframes progressShimmer {
-        0% {
-            transform: translateX(-100%);
-        }
-
-        100% {
-            transform: translateX(100%);
-        }
-    }
-
-    @keyframes timerProgress {
-        from {
-            transform: scaleX(1);
-        }
-
-        to {
-            transform: scaleX(0);
-        }
     }
 
     .home-button {
