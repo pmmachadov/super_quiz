@@ -11,6 +11,7 @@ const Header = ({ darkTheme, toggleTheme }) => {
     { path: "/", label: "Home" },
     { path: "/quizzes", label: "Quizzes" },
     { path: "/create-quiz", label: "Create Quiz" },
+    { path: "/analytics", label: "Analytics" },
   ];
 
   useEffect(() => {
