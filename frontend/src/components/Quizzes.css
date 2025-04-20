@@ -266,13 +266,7 @@
 :root:not(.dark-theme) .start-quiz-btn {
   background-color: #8e44ad;
   color: #ffffff;
-  border: 1px solid #8e44ad;
   font-weight: 600;
-}
-
-:root:not(.dark-theme) .start-quiz-btn:hover {
-  background-color: #6d2c87;
-  border-color: #6d2c87;
 }
 
 :root:not(.dark-theme) .create-quiz-btn {
@@ -283,23 +277,19 @@
 }
 
 :root:not(.dark-theme) .create-quiz-btn:hover {
-  background-color: #0047a4;
-  border-color: #0047a4;
+  background-color: #5a00a4;
+  border-color: #5a00a4;
 }
 
 .dark-theme .start-quiz-btn {
-  background-color: #b264d1;
+  background-color: #8e44ad;
   color: #ffffff;
-  border: 1px solid #b264d1;
+  border: 1px solid #8e44ad;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(178, 100, 209, 0.3);
+  box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
 }
 
-.dark-theme .start-quiz-btn:hover {
-  background-color: #cf8aea;
-  border-color: #cf8aea;
-  box-shadow: 0 6px 18px rgba(178, 100, 209, 0.4);
-}
+
 
 .dark-theme .create-quiz-btn {
   background: #0078ac;

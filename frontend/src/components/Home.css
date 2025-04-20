@@ -548,19 +548,22 @@
         background: rgba(44, 123, 229, 0.1);
         box-shadow: 0 5px 15px rgba(44, 123, 229, 0.1);
         transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
     }
 
     :root:not(.dark-theme) .option-card:hover .option-icon {
-        transform: rotate(5deg) scale(1.1);
         background: rgba(44, 123, 229, 0.15);
         box-shadow: 0 8px 25px rgba(44, 123, 229, 0.2);
     }
 
-    :root:not(.dark-theme) .option-btn {
+    /* :root:not(.dark-theme) .option-btn {
         position: relative;
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    } */
 
     :root:not(.dark-theme) .option-btn::after {
         content: '';

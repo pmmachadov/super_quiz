@@ -99,7 +99,6 @@
 
     .form-input:focus {
         outline: none;
-        border-color: var(--primary);
         box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
     }
 
@@ -334,7 +333,6 @@
     :root:not(.dark-theme) .btn-primary {
         background-color: #8e44ad;
         color: #ffffff;
-        border: 1px solid #8e44ad;
         font-weight: 600;
     }
 
@@ -361,7 +359,6 @@
     }
 
     :root:not(.dark-theme) .form-input:focus {
-        border-color: #8e44ad;
         box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
     }
 
