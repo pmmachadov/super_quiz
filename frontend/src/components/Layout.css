@@ -1,9 +1,57 @@
 @layer base {
 
+    @keyframes fadeDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    :root {
+        --primary: #2c7be5;
+        --secondary: #25c589;
+        --surface: #ffffff;
+        --text: #1a1a1a;
+        --text-secondary: #555555;
+        --background: #f5f5f5;
+        --header-gradient: linear-gradient(135deg, rgba(44, 123, 229, 0.9), rgba(37, 197, 137, 0.9));
+    }
+
+    :root:not(.dark-theme) {
+        --light-gradient: linear-gradient(120deg, rgba(44, 123, 229, 0.05), rgba(37, 197, 137, 0.05));
+        --light-glow: 0 0 20px rgba(44, 123, 229, 0.15);
+        --light-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        --card-border: 1px solid rgba(44, 123, 229, 0.15);
+    }
+
+    .dark-theme {
+        --primary: #00ff88;
+        --surface: #121212;
+        --text: #ffffff;
+        --text-secondary: #b0b0b0;
+        --background: #000000;
+    }
+
+    body {
+        background-color: var(--background);
+        color: var(--text);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
     .app-container {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+        margin-top: 70px;
     }
 
     .header {
@@ -66,6 +114,30 @@
         text-decoration: none;
     }
 
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-link {
+        color: var(--text);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+        background: var(--primary);
+        color: white;
+    }
+
     .theme-toggle-btn {
         background: rgba(255, 255, 255, 0.1);
         border: none;
@@ -91,35 +163,6 @@
 
     .theme-toggle-btn:active {
         transform: translateY(0);
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 2rem;
-    }
-
-    .nav-link {
-        color: var(--text);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-link:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
-
-    .nav-link.active {
-        background: var(--primary);
-        color: white;
-    }
-
-    .main-content {
-        flex: 1;
-        margin-top: 70px;
     }
 
     .footer {
@@ -177,31 +220,6 @@
         margin: 0;
     }
 
-    .dark-theme {
-        --primary: #00ff88;
-        --surface: #121212;
-        --text: #ffffff;
-        --text-secondary: #b0b0b0;
-        --background: #000000;
-    }
-
-    :root {
-        --primary: #2c7be5;
-        --secondary: #25c589;
-        --surface: #ffffff;
-        --text: #1a1a1a;
-        --text-secondary: #555555;
-        --background: #f5f5f5;
-        --header-gradient: linear-gradient(135deg, rgba(44, 123, 229, 0.9), rgba(37, 197, 137, 0.9));
-    }
-
-    :root:not(.dark-theme) {
-        --light-gradient: linear-gradient(120deg, rgba(44, 123, 229, 0.05), rgba(37, 197, 137, 0.05));
-        --light-glow: 0 0 20px rgba(44, 123, 229, 0.15);
-        --light-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        --card-border: 1px solid rgba(44, 123, 229, 0.15);
-    }
-
     :root:not(.dark-theme) .header {
         background: var(--header-gradient);
         backdrop-filter: blur(12px);
@@ -235,16 +253,6 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(44, 123, 229, 0.2);
         background: rgba(255, 255, 255, 0.5);
-    }
-
-    .dark-theme .logo {
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-        color: #1cff9a;
-        text-shadow: 0 0 6px rgba(28, 255, 154, 0.4);
     }
 
     :root:not(.dark-theme) .nav-link {
@@ -343,10 +351,14 @@
         pointer-events: none;
     }
 
-    body {
-        background-color: var(--background);
-        color: var(--text);
-        transition: background-color 0.3s ease, color 0.3s ease;
+    .dark-theme .logo {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        color: #1cff9a;
+        text-shadow: 0 0 6px rgba(28, 255, 154, 0.4);
     }
 
     .dark-theme .header {
@@ -414,18 +426,6 @@
 
         .footer-links {
             justify-content: center;
-        }
-    }
-
-    @keyframes fadeDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
         }
     }
 }
