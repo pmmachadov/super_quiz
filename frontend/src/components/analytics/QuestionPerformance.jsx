@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import "./Analytics.css";
 
 const QuestionPerformance = ({ questions }) => {
@@ -93,6 +94,18 @@ const QuestionPerformance = ({ questions }) => {
       )}
     </div>
   );
+};
+
+QuestionPerformance.propTypes = {
+  questions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      title: PropTypes.string.isRequired,
+      correctPercentage: PropTypes.number.isRequired,
+      avgResponseTime: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    })
+  ).isRequired,
 };
 
 export default QuestionPerformance;

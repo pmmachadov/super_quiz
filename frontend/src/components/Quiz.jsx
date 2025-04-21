@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./Quiz.css";
@@ -25,7 +25,7 @@ export default function Quiz() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/quizzes/${id}`
+          `http://localhost:5173/api/quizzes/${id}`
         );
         const quizData = response.data;
 
@@ -63,7 +63,7 @@ export default function Quiz() {
       handleAnswerSelect(null);
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, selectedAnswer, isLoading, quiz]);
+  }, [timeLeft, selectedAnswer, isLoading, quiz, handleAnswerSelect]);
 
   useEffect(() => {
     if (!isLoading && quiz) {
@@ -80,44 +80,54 @@ export default function Quiz() {
     }
   }, [selectedAnswer]);
 
-  const handleAnswerSelect = (answerIndex) => {
-    if (selectedAnswer !== null) return;
+  const handleQuestionTransition = React.useCallback(() => {
+    setShowResults(false);
 
-    setSelectedAnswer(answerIndex);
-
-    const isCorrect =
-      answerIndex === quiz.questions[currentQuestion].correctAnswer;
-    if (isCorrect) {
-      setScore(score + 1);
-    }
-
-    setShowResults(true);
-
-    setTimeout(() => {
-      setFadeIn(false);
-      setQuestionTransition(true);
+    if (currentQuestion < quiz?.questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setTimeLeft(10);
+      setSelectedAnswer(null);
 
       setTimeout(() => {
-        setShowResults(false);
+        setFadeIn(true);
+        setAnimateQuestion(true);
+        setQuestionTransition(false);
+      }, 100);
+    } else if (quiz) {
+      const finalScore =
+        score +
+        (selectedAnswer === quiz.questions[currentQuestion].correctAnswer
+          ? 1
+          : 0);
+      navigate(`/results/${finalScore}/${quiz.questions.length}`);
+    }
+  }, [currentQuestion, navigate, quiz, score, selectedAnswer]);
 
-        if (currentQuestion < quiz.questions.length - 1) {
-          setCurrentQuestion(currentQuestion + 1);
-          setTimeLeft(10);
-          setSelectedAnswer(null);
+  const handleAnswerSelect = React.useCallback(
+    (answerIndex) => {
+      if (selectedAnswer !== null || !quiz) return;
 
-          setTimeout(() => {
-            setFadeIn(true);
-            setAnimateQuestion(true);
-            setQuestionTransition(false);
-          }, 100);
-        } else {
-          navigate(
-            `/results/${score + (isCorrect ? 1 : 0)}/${quiz.questions.length}`
-          );
-        }
-      }, 400);
-    }, 2000);
-  };
+      setSelectedAnswer(answerIndex);
+
+      const isCorrect =
+        answerIndex === quiz.questions[currentQuestion].correctAnswer;
+      if (isCorrect) {
+        setScore(score + 1);
+      }
+
+      setShowResults(true);
+
+      setTimeout(() => {
+        setFadeIn(false);
+        setQuestionTransition(true);
+
+        setTimeout(() => {
+          handleQuestionTransition();
+        }, 400);
+      }, 2000);
+    },
+    [currentQuestion, handleQuestionTransition, quiz, score, selectedAnswer]
+  );
 
   const getTimerClass = () => {
     if (timeLeft <= 3) return "timer-countdown danger";
@@ -199,9 +209,29 @@ export default function Quiz() {
     <div className="container" style={{ marginTop: "2rem" }}>
       <div className={containerClasses}>
         <div className="ring-3d-pieces">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className={`ring-piece ring-piece-${i}`}></div>
-          ))}
+          <div key="ring-piece-top" className="ring-piece ring-piece-0"></div>
+          <div
+            key="ring-piece-top-right"
+            className="ring-piece ring-piece-1"
+          ></div>
+          <div key="ring-piece-right" className="ring-piece ring-piece-2"></div>
+          <div
+            key="ring-piece-bottom-right"
+            className="ring-piece ring-piece-3"
+          ></div>
+          <div
+            key="ring-piece-bottom"
+            className="ring-piece ring-piece-4"
+          ></div>
+          <div
+            key="ring-piece-bottom-left"
+            className="ring-piece ring-piece-5"
+          ></div>
+          <div key="ring-piece-left" className="ring-piece ring-piece-6"></div>
+          <div
+            key="ring-piece-top-left"
+            className="ring-piece ring-piece-7"
+          ></div>
         </div>
 
         <div

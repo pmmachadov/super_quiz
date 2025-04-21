@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./Analytics.css";
 
 const GameHistory = ({ games }) => {
@@ -52,7 +53,7 @@ const GameHistory = ({ games }) => {
       <div className="history-summary">
         <h3>Performance Trends</h3>
         <div className="trend-chart">
-          {games.map((game, index) => {
+          {games.map((game) => {
             const height = (game.score / 1000) * 100;
             return (
               <div key={game.id} className="trend-bar-container">
@@ -93,6 +94,19 @@ const GameHistory = ({ games }) => {
       </div>
     </div>
   );
+};
+
+GameHistory.propTypes = {
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      date: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      score: PropTypes.number.isRequired,
+      totalQuestions: PropTypes.number.isRequired,
+      correctAnswers: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default GameHistory;

@@ -10,7 +10,7 @@ import "./CreateQuiz.css";
 export default function CreateQuiz() {
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([
-    { text: "", answers: ["", "", "", ""], correctIndex: 0 },
+    { id: "q-1", text: "", answers: ["", "", "", ""], correctIndex: 0 },
   ]);
   const [validationErrors, setValidationErrors] = useState([]);
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function CreateQuiz() {
     setValidationErrors([]);
 
     try {
-      const response = await fetch("http://localhost:5000/api/quizzes", {
+      const response = await fetch("http://localhost:5173/api/quizzes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,15 +44,12 @@ export default function CreateQuiz() {
       if (response.ok) {
         navigate("/quizzes");
       } else {
-        if (respData.errors) {
-          const backendErrors = respData.errors.map(
-            (err) => err.msg || err.message
-          );
-          setValidationErrors(backendErrors);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          throw new Error(respData.message || "Error creating quiz");
-        }
+        const errorMessage = respData.errors
+          ? respData.errors.map((err) => err.msg || err.message)
+          : [respData.message || "Error creating quiz"];
+
+        setValidationErrors(errorMessage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } catch (error) {
       setValidationErrors([error.message || "Error creating quiz"]);
@@ -71,7 +68,12 @@ export default function CreateQuiz() {
   const handleAddQuestion = () => {
     setQuestions([
       ...questions,
-      { text: "", answers: ["", "", "", ""], correctIndex: 0 },
+      {
+        id: `q-${Date.now()}`,
+        text: "",
+        answers: ["", "", "", ""],
+        correctIndex: 0,
+      },
     ]);
 
     setTimeout(() => {
@@ -94,8 +96,10 @@ export default function CreateQuiz() {
         <div className="validation-errors">
           <h3>Please correct the following errors:</h3>
           <ul>
-            {validationErrors.map((error, index) => (
-              <li key={index}>{error}</li>
+            {validationErrors.map((error, i) => (
+              <li key={`validation-error-${i}-${error.substring(0, 10)}`}>
+                {error}
+              </li>
             ))}
           </ul>
         </div>
@@ -103,9 +107,12 @@ export default function CreateQuiz() {
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label className="form-label">Quiz Title</label>
+          <label className="form-label" htmlFor="quiz-title">
+            Quiz Title
+          </label>
           <input
             type="text"
+            id="quiz-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="form-input"
@@ -120,7 +127,7 @@ export default function CreateQuiz() {
           </div>
 
           {questions.map((question, index) => (
-            <div key={index} className="question-group">
+            <div key={question.id} className="question-group">
               <div className="question-header">
                 <h3 className="question-number">Question {index + 1}</h3>
                 <div className="question-actions">
@@ -151,9 +158,15 @@ export default function CreateQuiz() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Question Text</label>
+                <label
+                  className="form-label"
+                  htmlFor={`question-${question.id}`}
+                >
+                  Question Text
+                </label>
                 <input
                   type="text"
+                  id={`question-${question.id}`}
                   placeholder="Write your question here"
                   value={question.text}
                   onChange={(e) => {
@@ -168,15 +181,20 @@ export default function CreateQuiz() {
 
               <div className="options-grid">
                 {question.answers.map((answer, ansIndex) => (
-                  <div key={ansIndex} className="option-group">
-                    <div
+                  <div
+                    key={`${question.id}-ans-${ansIndex}`}
+                    className="option-group"
+                  >
+                    <label
                       className="option-label"
                       data-option={`${String.fromCharCode(65 + ansIndex)}`}
+                      htmlFor={`answer-${question.id}-${ansIndex}`}
                     >
                       Answer {ansIndex + 1}
-                    </div>
+                    </label>
                     <input
                       type="text"
+                      id={`answer-${question.id}-${ansIndex}`}
                       placeholder={`Enter answer ${ansIndex + 1}`}
                       value={answer}
                       onChange={(e) => {
@@ -190,7 +208,7 @@ export default function CreateQuiz() {
                     <div className="correct-answer">
                       <input
                         type="radio"
-                        id={`correct-${index}-${ansIndex}`}
+                        id={`correct-${question.id}-${ansIndex}`}
                         name={`correctAnswer-${index}`}
                         checked={question.correctIndex === ansIndex}
                         onChange={() => {
@@ -199,7 +217,7 @@ export default function CreateQuiz() {
                           setQuestions(newQuestions);
                         }}
                       />
-                      <label htmlFor={`correct-${index}-${ansIndex}`}>
+                      <label htmlFor={`correct-${question.id}-${ansIndex}`}>
                         Correct Answer
                       </label>
                     </div>
@@ -246,7 +264,7 @@ export default function CreateQuiz() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1-2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
               <polyline points="17 21 17 13 7 13 7 21"></polyline>
               <polyline points="7 3 7 8 15 8"></polyline>
             </svg>

@@ -6,10 +6,113 @@
 
 .analytics-loading {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 300px;
     font-size: 18px;
+    gap: 20px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(37, 99, 235, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--color-primary, #2563eb);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.load-fallback-btn,
+.retry-button,
+.fallback-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.load-fallback-btn {
+    background-color: var(--color-bg-alt, #f0f9ff);
+    color: var(--color-primary, #2563eb);
+    border: 1px solid var(--color-primary, #2563eb);
+}
+
+.load-fallback-btn:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+.retry-button {
+    background-color: var(--color-primary, #2563eb);
+    color: white;
+    border: none;
+    margin-right: 10px;
+}
+
+.retry-button:hover {
+    background-color: var(--color-primary-dark, #1d4ed8);
+}
+
+.retry-button-small {
+    background-color: var(--color-primary, #2563eb);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s;
+}
+
+.retry-button-small:hover {
+    background-color: var(--color-primary-dark, #1d4ed8);
+}
+
+.fallback-button {
+    background-color: var(--color-bg, #f5f5f5);
+    color: var(--color-text, #333);
+    border: 1px solid var(--color-border, #ddd);
+}
+
+.fallback-button:hover {
+    background-color: var(--color-hover, #f9fafb);
+}
+
+.analytics-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.analytics-error p {
+    margin-bottom: 20px;
+}
+
+.analytics-warning {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .analytics-summary {
@@ -549,6 +652,11 @@
 
 .reset-cancel-button:hover {
     background-color: var(--color-hover, #f9fafb);
+}
+
+.button-container {
+    display: inline-block;
+    margin-left: 10px;
 }
 
 .dark-theme {

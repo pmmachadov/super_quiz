@@ -13,7 +13,7 @@ const Quizzes = () => {
     const fetchQuizzes = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:5000/api/quizzes");
+        const response = await fetch("http://localhost:5173/api/quizzes");
         const data = await response.json();
         setQuizzes(data);
         setLoading(false);
