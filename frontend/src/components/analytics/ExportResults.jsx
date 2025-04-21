@@ -6,7 +6,6 @@ const ExportResults = ({ data }) => {
   const [format, setFormat] = useState("csv");
   const printFrameRef = useRef(null);
 
-  // Usar useMemo para generar previsualizaciones solo cuando cambien los datos o el formato
   const previewContent = useMemo(() => {
     if (format === "csv") {
       const previewCSV = `Question,Correct Percentage,Average Response Time
@@ -26,7 +25,6 @@ const ExportResults = ({ data }) => {
     let filename = `quiz-results-${new Date().toISOString().slice(0, 10)}`;
     let mimeType = "";
 
-    // Usar setTimeout para mejorar la respuesta de la UI mientras se genera el archivo
     setTimeout(() => {
       if (format === "csv") {
         content = generateCSV(data);
@@ -186,7 +184,6 @@ const ExportResults = ({ data }) => {
       .toISOString()
       .slice(0, 10)}.xls`;
 
-    // Reemplazando la función obsoleta unescape() con un método moderno
     const base64 = btoa(
       encodeURIComponent(xlsContent).replace(/%([0-9A-F]{2})/g, (match, p1) =>
         String.fromCharCode("0x" + p1)
@@ -299,7 +296,6 @@ const ExportResults = ({ data }) => {
   };
 
   const generateCSV = (data) => {
-    // Optimización: evitar operaciones innecesarias si no hay datos
     if (!data.questionsData.length || !data.gamesHistory.length) {
       return "No data available";
     }

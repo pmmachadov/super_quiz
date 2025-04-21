@@ -8,12 +8,10 @@ const GameHistory = ({ games }) => {
     return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
 
-  // Log de depuración para verificar los datos recibidos
   useEffect(() => {
     console.log("GameHistory recibió games:", games);
   }, [games]);
 
-  // Si no hay juegos, mostrar un mensaje informativo
   if (!games || games.length === 0) {
     return (
       <div className="game-history">

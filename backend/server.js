@@ -15,8 +15,6 @@ const port = 5173;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Cargar los quizzes una sola vez al iniciar el servidor
-// en lugar de cargarlos en cada petición
 let QUIZZES = [];
 try {
   const quizzesData = JSON.parse(
@@ -31,19 +29,14 @@ try {
   QUIZZES = [];
 }
 
-// Almacenamiento en memoria para estadísticas de usuario (en una app real estaría en una base de datos)
 const userStats = new Map();
 
-// Cache-Control para mejorar el rendimiento del cliente
 app.use((req, res, next) => {
-  // Agregar encabezados para mejorar el rendimiento
   res.set("Cache-Control", "public, max-age=300"); // 5 minutos
   next();
 });
 
-// Optimización: responder directamente con los quizzes precargados
 app.get("/api/quizzes", (req, res) => {
-  // Añadir encabezados para optimizar la entrega
   res.setHeader("Content-Type", "application/json");
   res.json(QUIZZES);
 });
@@ -77,9 +70,8 @@ app.post(
       );
       res.status(201).json(newQuiz);
     } catch (error) {
-      // Proper error handling - log the error and send appropriate response
       console.error("Error saving quiz to file:", error);
-      QUIZZES.pop(); // Remove the quiz that failed to save
+      QUIZZES.pop();
       res.status(500).json({
         message: "Failed to save quiz",
         error: error.message,
@@ -88,11 +80,9 @@ app.post(
   }
 );
 
-// New endpoint: Get user statistics
 app.get("/api/stats/user/:userId", (req, res) => {
   const userId = req.params.userId;
 
-  // If we don't have stats for this user yet, generate some mock data
   if (!userStats.has(userId)) {
     const mockStats = generateMockStats(QUIZZES);
     userStats.set(userId, mockStats);
@@ -101,11 +91,9 @@ app.get("/api/stats/user/:userId", (req, res) => {
   res.json(userStats.get(userId));
 });
 
-// New endpoint: Reset user statistics
 app.post("/api/stats/user/:userId/reset", (req, res) => {
   const userId = req.params.userId;
 
-  // Create fresh statistics (or in a real app, delete from database)
   const freshStats = generateMockStats(QUIZZES);
   userStats.set(userId, freshStats);
 
@@ -115,9 +103,7 @@ app.post("/api/stats/user/:userId/reset", (req, res) => {
   });
 });
 
-// Helper function to generate mock stats
 function generateMockStats(quizzes) {
-  // Create mock question performance data
   const questionsData = quizzes
     .flatMap((quiz) =>
       quiz.questions.map((q, index) => ({
@@ -129,7 +115,6 @@ function generateMockStats(quizzes) {
     )
     .slice(0, 10);
 
-  // Create mock game history
   const gamesHistory = quizzes
     .map((quiz, index) => {
       const correctAnswers =

@@ -6,7 +6,6 @@ const QuestionPerformance = lazy(() => import("./QuestionPerformance"));
 const GameHistory = lazy(() => import("./GameHistory"));
 const ExportResults = lazy(() => import("./ExportResults"));
 
-// Import statement for the fallback data
 import fallbackAnalyticsData from "../../data/fallbackAnalytics.json";
 
 const LoadingComponent = () => (
@@ -66,7 +65,6 @@ const AnalyticsDashboard = ({ userId }) => {
   const [error, setError] = useState(null);
   const [usingFallbackData, setUsingFallbackData] = useState(false);
 
-  // Aumentar el timeout a 5 segundos y cargar los datos del JSON inmediatamente cuando falla
   const loadFallbackData = useCallback(() => {
     setUserStats(fallbackAnalyticsData);
     setUsingFallbackData(true);
@@ -77,7 +75,6 @@ const AnalyticsDashboard = ({ userId }) => {
   const fetchQuizzes = useCallback(async () => {
     try {
       const controller = new AbortController();
-      // Aumentamos el timeout a 5 segundos para dar más tiempo a la petición
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
       const quizzesResponse = await fetch("/api/quizzes", {
@@ -144,13 +141,11 @@ const AnalyticsDashboard = ({ userId }) => {
       return true;
     } catch (error) {
       console.error("Error fetching quizzes:", error.message);
-      // Cargar datos fallback inmediatamente si hay un error
       loadFallbackData();
       return false;
     }
   }, [loadFallbackData]);
 
-  // Simplificar fetchUserStats para cargar datos fallback si fetchQuizzes falla
   const fetchUserStats = useCallback(async () => {
     if (usingFallbackData) return;
 
@@ -162,7 +157,6 @@ const AnalyticsDashboard = ({ userId }) => {
         return;
       }
 
-      // Si no hay quizzes, cargar los datos fallback directamente
       loadFallbackData();
     } catch (error) {
       loadFallbackData();
@@ -172,7 +166,6 @@ const AnalyticsDashboard = ({ userId }) => {
     }
   }, [userId, usingFallbackData, loadFallbackData, fetchQuizzes]);
 
-  // Simplificar el useEffect para cargar datos fallback más rápidamente
   useEffect(() => {
     let mounted = true;
 
@@ -181,7 +174,6 @@ const AnalyticsDashboard = ({ userId }) => {
         const hasQuizzes = await fetchQuizzes();
 
         if (!hasQuizzes && mounted) {
-          // Cargar datos fallback directamente si no hay quizzes
           loadFallbackData();
         }
       } catch (err) {

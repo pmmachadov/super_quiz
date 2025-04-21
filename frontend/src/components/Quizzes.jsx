@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
-// Importar los quizzes de respaldo
 import fallbackQuizzesData from "../data/fallbackQuizzes.json";
 
 let cachedQuizzes = null;
