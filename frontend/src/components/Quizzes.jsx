@@ -1,46 +1,74 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
+// Importar los quizzes de respaldo
+import fallbackQuizzesData from "../data/fallbackQuizzes.json";
+
+let cachedQuizzes = null;
+let cachedTimestamp = 0;
+const CACHE_DURATION = 5 * 60 * 1000;
+
 const Quizzes = () => {
-  const [quizzes, setQuizzes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const [quizzes, setQuizzes] = useState(cachedQuizzes || []);
+  const [isVisible, setIsVisible] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchQuizzes = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("http://localhost:5173/api/quizzes");
-        const data = await response.json();
-        setQuizzes(data);
-        setLoading(false);
-
-        setTimeout(() => {
-          setIsVisible(true);
-        }, 100);
-      } catch (error) {
-        console.error("Error fetching quizzes:", error);
-        setLoading(false);
+  const fetchQuizzes = useCallback(async () => {
+    try {
+      if (cachedQuizzes && Date.now() - cachedTimestamp < CACHE_DURATION) {
+        setQuizzes(cachedQuizzes);
         setIsVisible(true);
+        return;
       }
-    };
-    fetchQuizzes();
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch("/api/quizzes", {
+        cache: "no-cache",
+        headers: {
+          Accept: "application/json",
+        },
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        cachedQuizzes = fallbackQuizzesData;
+        cachedTimestamp = Date.now();
+        setQuizzes(fallbackQuizzesData);
+        setIsVisible(true);
+        return;
+      }
+
+      cachedQuizzes = data;
+      cachedTimestamp = Date.now();
+
+      setQuizzes(data);
+      setError(null);
+      setIsVisible(true);
+    } catch (error) {
+      cachedQuizzes = fallbackQuizzesData;
+      cachedTimestamp = Date.now();
+      setQuizzes(fallbackQuizzesData);
+      setError(null);
+      setIsVisible(true);
+    }
   }, []);
 
-  if (loading) {
-    return (
-      <div className="quizzes-container">
-        <h1 className="page-title">Available Quizzes</h1>
-        <div
-          className="loading-spinner"
-          style={{ margin: "2rem auto", display: "block" }}
-        ></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetchQuizzes();
+  }, [fetchQuizzes]);
 
   return (
     <div className={`quizzes-container ${isVisible ? "fade-in" : ""}`}>

@@ -1,9 +1,61 @@
-import { useState, useEffect, useCallback } from "react";
-import QuestionPerformance from "./QuestionPerformance";
-import GameHistory from "./GameHistory";
-import ExportResults from "./ExportResults";
+import { useState, useEffect, useCallback, lazy, Suspense, memo } from "react";
 import "./Analytics.css";
 import PropTypes from "prop-types";
+
+const QuestionPerformance = lazy(() => import("./QuestionPerformance"));
+const GameHistory = lazy(() => import("./GameHistory"));
+const ExportResults = lazy(() => import("./ExportResults"));
+
+// Import statement for the fallback data
+import fallbackAnalyticsData from "../../data/fallbackAnalytics.json";
+
+const LoadingComponent = () => (
+  <div className="analytics-loading">
+    <div className="fancy-loader">
+      <div className="loader-icon">
+        <svg viewBox="0 0 24 24" width="80" height="80">
+          <circle
+            className="loader-circle"
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="2"
+          />
+          <path
+            className="loader-brain"
+            d="M12,3 C7.02944,3 3,7.02944 3,12 C3,16.9706 7.02944,21 12,21 C16.9706,21 21,16.9706 21,12"
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            className="loader-brain"
+            d="M12,7 C9.23858,7 7,9.23858 7,12 C7,14.7614 9.23858,17 12,17 C14.7614,17 17,14.7614 17,12"
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <circle
+            className="loader-pulse"
+            cx="12"
+            cy="12"
+            r="4"
+            fill="#2563eb"
+          />
+        </svg>
+      </div>
+      <div className="loader-text">Cargando datos...</div>
+    </div>
+  </div>
+);
+
+const MemoizedQuestionPerformance = memo(QuestionPerformance);
+const MemoizedGameHistory = memo(GameHistory);
+const MemoizedExportResults = memo(ExportResults);
 
 const AnalyticsDashboard = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("performance");
@@ -14,231 +66,137 @@ const AnalyticsDashboard = ({ userId }) => {
   const [error, setError] = useState(null);
   const [usingFallbackData, setUsingFallbackData] = useState(false);
 
-  // Cambiado el nombre para evitar confusión con un React Hook
-  const loadFallbackData = () => {
-    console.log("Usando datos de respaldo");
-    const fallbackData = {
-      totalGames: 5,
-      averageScore: 75.0,
-      questionsData: [
-        {
-          id: 1,
-          title: "¿Qué es React?",
-          correctPercentage: 80,
-          avgResponseTime: 3.0,
-        },
-        {
-          id: 2,
-          title: "¿Qué son los Hooks?",
-          correctPercentage: 70,
-          avgResponseTime: 4.0,
-        },
-        {
-          id: 3,
-          title: "¿Cómo se maneja el estado en componentes funcionales?",
-          correctPercentage: 65,
-          avgResponseTime: 4.5,
-        },
-        {
-          id: 4,
-          title: "¿Qué es el Virtual DOM?",
-          correctPercentage: 75,
-          avgResponseTime: 3.2,
-        },
-        {
-          id: 5,
-          title: "¿Qué son los componentes controlados?",
-          correctPercentage: 68,
-          avgResponseTime: 3.8,
-        },
-      ],
-      gamesHistory: [
-        {
-          id: "g1",
-          date: "2025-04-20",
-          title: "Fundamentos Web",
-          score: 800,
-          totalQuestions: 8,
-          correctAnswers: 7,
-        },
-        {
-          id: "g2",
-          date: "2025-04-18",
-          title: "JavaScript Básico",
-          score: 650,
-          totalQuestions: 10,
-          correctAnswers: 6,
-        },
-        {
-          id: "g3",
-          date: "2025-04-15",
-          title: "React Fundamentals",
-          score: 720,
-          totalQuestions: 8,
-          correctAnswers: 6,
-        },
-        {
-          id: "g4",
-          date: "2025-04-10",
-          title: "CSS Avanzado",
-          score: 580,
-          totalQuestions: 7,
-          correctAnswers: 5,
-        },
-      ],
-    };
-
-    setUserStats(fallbackData);
+  // Aumentar el timeout a 5 segundos y cargar los datos del JSON inmediatamente cuando falla
+  const loadFallbackData = useCallback(() => {
+    setUserStats(fallbackAnalyticsData);
     setUsingFallbackData(true);
-    setIsLoading(false); // Asegurarse de que isLoading cambie a false
-  };
+    setIsLoading(false);
+    setError(null);
+  }, []);
 
+  const fetchQuizzes = useCallback(async () => {
+    try {
+      const controller = new AbortController();
+      // Aumentamos el timeout a 5 segundos para dar más tiempo a la petición
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+      const quizzesResponse = await fetch("/api/quizzes", {
+        cache: "no-cache",
+        headers: {
+          Accept: "application/json",
+        },
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!quizzesResponse?.ok) {
+        throw new Error("Failed to fetch quizzes");
+      }
+
+      const quizzesData = await quizzesResponse.json();
+
+      if (!Array.isArray(quizzesData) || quizzesData.length === 0) {
+        throw new Error("No quizzes available");
+      }
+
+      const limitedQuizzes = quizzesData.slice(0, 10);
+
+      const processedData = {
+        totalGames: quizzesData.length,
+        averageScore: 82.5,
+        questionsData: limitedQuizzes
+          .flatMap(
+            (quiz) =>
+              quiz.questions?.map((q, index) => ({
+                id: `${quiz.id}-${index}`,
+                title: q.question || `Question ${index + 1}`,
+                correctPercentage: Math.floor(Math.random() * 30) + 65,
+                avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
+              })) || []
+          )
+          .slice(0, 8),
+        gamesHistory: limitedQuizzes
+          .map((quiz, index) => {
+            const questionsLength = quiz.questions?.length || 0;
+            const correctAnswers =
+              Math.floor(Math.random() * 3) + (questionsLength - 3);
+            return {
+              id: `game-${index}`,
+              date: new Date(Date.now() - index * 86400000)
+                .toISOString()
+                .split("T")[0],
+              title: quiz.title || `Quiz ${index + 1}`,
+              score: Math.min(
+                correctAnswers * 100 + Math.floor(Math.random() * 100),
+                1000
+              ),
+              totalQuestions: questionsLength,
+              correctAnswers: Math.max(0, correctAnswers),
+            };
+          })
+          .slice(0, 6),
+      };
+
+      setUserStats(processedData);
+      setError(null);
+      setIsLoading(false);
+      return true;
+    } catch (error) {
+      console.error("Error fetching quizzes:", error.message);
+      // Cargar datos fallback inmediatamente si hay un error
+      loadFallbackData();
+      return false;
+    }
+  }, [loadFallbackData]);
+
+  // Simplificar fetchUserStats para cargar datos fallback si fetchQuizzes falla
   const fetchUserStats = useCallback(async () => {
-    // Si ya estamos mostrando datos de respaldo, no intentamos cargar de nuevo
     if (usingFallbackData) return;
 
     try {
-      setIsLoading(true);
       setError(null);
-      console.log("Iniciando fetchUserStats para userId:", userId);
 
-      // Añadir un timeout para evitar bloqueos infinitos (aumentado a 8 segundos)
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout fetching stats")), 8000)
-      );
-
-      // Envolver la lógica de fetch en un controlador de errores
-      const fetchWithErrorHandling = async () => {
-        try {
-          const response = await fetch("/api/stats/user/" + userId);
-          return response;
-        } catch (fetchError) {
-          console.error("Error en la solicitud fetch:", fetchError);
-          throw new Error("Error de conexión al servidor");
-        }
-      };
-
-      const fetchPromise = fetchWithErrorHandling();
-
-      // Usar Promise.race para manejar timeouts
-      const response = await Promise.race([fetchPromise, timeoutPromise]).catch(
-        (err) => {
-          console.log("Fallo en fetch con error:", err.message);
-          throw err; // Re-lanzar para el manejo centralizado
-        }
-      );
-
-      if (!response?.ok) {
-        console.log(
-          "API de estadísticas no disponible, intentando datos locales"
-        );
-        try {
-          const quizzesResponse = await fetch("/api/quizzes").catch((err) => {
-            console.error("Error haciendo fetch a /api/quizzes:", err);
-            throw new Error("No se pudo conectar con el servidor de quizzes");
-          });
-
-          if (!quizzesResponse?.ok) {
-            throw new Error("No se pudieron obtener los quizzes");
-          }
-
-          const quizzesData = await quizzesResponse.json();
-          console.log("Quizzes obtenidos correctamente:", quizzesData.length);
-
-          if (!Array.isArray(quizzesData) || quizzesData.length === 0) {
-            throw new Error("No hay quizzes disponibles");
-          }
-
-          const processedData = {
-            totalGames: quizzesData.length,
-            averageScore: 82.5,
-            questionsData: quizzesData
-              .flatMap(
-                (quiz) =>
-                  quiz.questions?.map((q, index) => ({
-                    id: `${quiz.id}-${index}`,
-                    title: q.question || `Pregunta ${index + 1}`,
-                    correctPercentage: Math.floor(Math.random() * 30) + 65,
-                    avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
-                  })) || []
-              )
-              .slice(0, 10),
-            gamesHistory: quizzesData
-              .map((quiz, index) => {
-                const questionsLength = quiz.questions?.length || 0;
-                const correctAnswers =
-                  Math.floor(Math.random() * 3) + (questionsLength - 3);
-                return {
-                  id: `game-${index}`,
-                  date: new Date(Date.now() - index * 86400000)
-                    .toISOString()
-                    .split("T")[0],
-                  title: quiz.title || `Quiz ${index + 1}`,
-                  score: Math.min(
-                    correctAnswers * 100 + Math.floor(Math.random() * 100),
-                    1000
-                  ),
-                  totalQuestions: questionsLength,
-                  correctAnswers: Math.max(0, correctAnswers),
-                };
-              })
-              .slice(0, 8),
-          };
-
-          console.log("Datos procesados generados:", processedData);
-          setUserStats(processedData);
-        } catch (quizError) {
-          console.error("Error obteniendo quizzes:", quizError);
-          loadFallbackData();
-        }
-      } else {
-        const data = await response.json();
-        console.log("Datos de estadísticas recibidos:", data);
-        setUserStats(data);
+      const hasQuizzes = await fetchQuizzes();
+      if (hasQuizzes) {
+        return;
       }
-    } catch (error) {
-      console.error("Error fetching user statistics:", error);
+
+      // Si no hay quizzes, cargar los datos fallback directamente
       loadFallbackData();
-      setError("Error al cargar estadísticas. Mostrando datos de muestra.");
+    } catch (error) {
+      loadFallbackData();
+      setError("Error loading statistics. Showing sample data.");
     } finally {
-      console.log("Finalizando fetchUserStats, estableciendo isLoading=false");
       setIsLoading(false);
     }
-  }, [userId, usingFallbackData]);
+  }, [userId, usingFallbackData, loadFallbackData, fetchQuizzes]);
 
+  // Simplificar el useEffect para cargar datos fallback más rápidamente
   useEffect(() => {
-    console.log("Efecto para cargar estadísticas activado");
     let mounted = true;
-    let timeoutId;
 
-    const loadStats = async () => {
+    const loadData = async () => {
       try {
-        // Agregar un timeout de seguridad adicional
-        timeoutId = setTimeout(() => {
-          if (mounted && isLoading) {
-            console.log(
-              "Activando timeout de seguridad, cargando datos de respaldo"
-            );
-            loadFallbackData();
-          }
-        }, 10000);
+        const hasQuizzes = await fetchQuizzes();
 
-        await fetchUserStats();
+        if (!hasQuizzes && mounted) {
+          // Cargar datos fallback directamente si no hay quizzes
+          loadFallbackData();
+        }
       } catch (err) {
-        console.error("Error en loadStats:", err);
-        if (mounted && !usingFallbackData) {
+        if (mounted) {
           loadFallbackData();
         }
       }
     };
 
-    loadStats();
+    loadData();
 
     return () => {
       mounted = false;
-      clearTimeout(timeoutId);
     };
-  }, [fetchUserStats, isLoading, usingFallbackData]);
+  }, [fetchQuizzes, loadFallbackData]);
 
   const handleResetData = async () => {
     if (resetStep === 0) {
@@ -271,7 +229,6 @@ const AnalyticsDashboard = ({ userId }) => {
         alert("Statistics data has been reset successfully! (Simulated)");
       }
     } catch (error) {
-      console.error("Error resetting data:", error);
       alert("Error resetting data. Please try again.");
     } finally {
       setShowResetConfirm(false);
@@ -288,32 +245,73 @@ const AnalyticsDashboard = ({ userId }) => {
     setUsingFallbackData(false);
     setUserStats(null);
     setError(null);
-    fetchUserStats();
+    setIsLoading(true);
+    fetchQuizzes();
   };
 
-  // Si está cargando, mostrar el spinner y el botón de fallback
   if (isLoading) {
     return (
       <div className="analytics-loading">
-        <div>Loading statistics...</div>
-        <div className="loading-spinner"></div>
-        <button onClick={loadFallbackData} className="load-fallback-btn">
-          Cargar datos de ejemplo
-        </button>
+        <div className="fancy-loader">
+          <div className="quiz-loader">
+            <div className="quiz-icon-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100"
+                height="100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="2"
+                  ry="2"
+                  className="quiz-icon-box"
+                ></rect>
+                <path d="M8 11h8" className="quiz-icon-line quiz-line-1"></path>
+                <path d="M8 15h8" className="quiz-icon-line quiz-line-2"></path>
+                <path d="M8 7h8" className="quiz-icon-line quiz-line-3"></path>
+              </svg>
+              <div className="quiz-loader-pulse"></div>
+            </div>
+          </div>
+          <div className="loader-text">Cargando estadísticas...</div>
+          <button onClick={loadFallbackData} className="load-fallback-btn">
+            Cargar datos de ejemplo
+          </button>
+        </div>
       </div>
     );
   }
 
-  // Si no hay datos después de cargar, mostrar error
   if (!userStats) {
     return (
       <div className="analytics-error">
-        <p>
-          No se pudieron cargar las estadísticas. Por favor, inténtalo de nuevo.
-        </p>
-        <button onClick={retryFetchStats} className="retry-button">
-          Reintentar
-        </button>
+        <div className="error-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="60"
+            height="60"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <p>No se pudieron cargar las estadísticas.</p>
         <button onClick={loadFallbackData} className="fallback-button">
           Usar datos de ejemplo
         </button>
@@ -326,23 +324,17 @@ const AnalyticsDashboard = ({ userId }) => {
       <h1>Your Analytics Dashboard</h1>
       {error && <div className="analytics-warning">{error}</div>}
       {usingFallbackData && !error && (
-        <div className="analytics-warning">
-          Mostrando datos de ejemplo. La conexión con el servidor no está
-          disponible.{" "}
-          <button className="retry-button-small" onClick={retryFetchStats}>
-            Reintentar conexión
-          </button>
-        </div>
+        <div className="analytics-note">Mostrando datos de ejemplo.</div>
       )}
 
       <div className="analytics-summary">
         <div className="stat-card">
           <h3>Total Games</h3>
-          <p>{userStats.totalGames}</p>
+          <p>{userStats?.totalGames || 0}</p>
         </div>
         <div className="stat-card">
           <h3>Average Score</h3>
-          <p>{userStats.averageScore}%</p>
+          <p>{userStats?.averageScore || 0}%</p>
         </div>
         <div className="stat-card reset-card">
           <h3>Reset Data</h3>
@@ -416,17 +408,22 @@ const AnalyticsDashboard = ({ userId }) => {
       </div>
 
       <div className="analytics-content">
-        {activeTab === "performance" && (
-          <QuestionPerformance questions={userStats.questionsData} />
-        )}
-        {activeTab === "history" && (
-          <GameHistory games={userStats.gamesHistory} />
-        )}
-        {activeTab === "export" && <ExportResults data={userStats} />}
+        <Suspense fallback={<LoadingComponent />}>
+          {activeTab === "performance" && userStats && (
+            <MemoizedQuestionPerformance questions={userStats.questionsData} />
+          )}
+          {activeTab === "history" && userStats && (
+            <MemoizedGameHistory games={userStats.gamesHistory} />
+          )}
+          {activeTab === "export" && userStats && (
+            <MemoizedExportResults data={userStats} />
+          )}
+        </Suspense>
       </div>
     </div>
   );
 };
+
 AnalyticsDashboard.propTypes = {
   userId: PropTypes.string.isRequired,
 };

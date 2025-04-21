@@ -15,20 +15,43 @@ const port = 5173;
 app.use(cors());
 app.use(bodyParser.json());
 
-const quizzesData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "data", "quizzes.json"))
-);
-const QUIZZES = quizzesData.quizzes;
+// Cargar los quizzes una sola vez al iniciar el servidor
+// en lugar de cargarlos en cada petición
+let QUIZZES = [];
+try {
+  const quizzesData = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "quizzes.json"))
+  );
+  QUIZZES = quizzesData.quizzes;
+  console.log(
+    `Servidor cargó ${QUIZZES.length} quizzes exitosamente al iniciar`
+  );
+} catch (error) {
+  console.error("Error al cargar quizzes.json:", error);
+  QUIZZES = [];
+}
 
-// In-memory storage for user statistics (in a real app, this would be in a database)
+// Almacenamiento en memoria para estadísticas de usuario (en una app real estaría en una base de datos)
 const userStats = new Map();
 
+// Cache-Control para mejorar el rendimiento del cliente
+app.use((req, res, next) => {
+  // Agregar encabezados para mejorar el rendimiento
+  res.set("Cache-Control", "public, max-age=300"); // 5 minutos
+  next();
+});
+
+// Optimización: responder directamente con los quizzes precargados
 app.get("/api/quizzes", (req, res) => {
+  // Añadir encabezados para optimizar la entrega
+  res.setHeader("Content-Type", "application/json");
   res.json(QUIZZES);
 });
 
 app.get("/api/quizzes/:id", (req, res) => {
-  const quiz = QUIZZES.find((q) => q.id === parseInt(req.params.id));
+  const id = parseInt(req.params.id);
+  const quiz = QUIZZES.find((q) => q.id === id);
+
   if (quiz) {
     res.json(quiz);
   } else {
@@ -47,7 +70,7 @@ app.post(
     QUIZZES.push(newQuiz);
 
     try {
-      quizzesData.quizzes = QUIZZES;
+      const quizzesData = { quizzes: QUIZZES };
       fs.writeFileSync(
         path.join(__dirname, "data", "quizzes.json"),
         JSON.stringify(quizzesData, null, 2)

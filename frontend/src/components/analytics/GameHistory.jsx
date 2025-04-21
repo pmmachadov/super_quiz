@@ -1,11 +1,30 @@
 import PropTypes from "prop-types";
 import "./Analytics.css";
+import { useEffect } from "react";
 
 const GameHistory = ({ games }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+    return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
+
+  // Log de depuración para verificar los datos recibidos
+  useEffect(() => {
+    console.log("GameHistory recibió games:", games);
+  }, [games]);
+
+  // Si no hay juegos, mostrar un mensaje informativo
+  if (!games || games.length === 0) {
+    return (
+      <div className="game-history">
+        <h2>Game History</h2>
+        <div className="no-games-message">
+          <p>No quizzes available to show.</p>
+          <p>Play some quizzes to see historic data here.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="game-history">

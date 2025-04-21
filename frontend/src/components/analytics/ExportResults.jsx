@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import PropTypes from "prop-types";
 import "./Analytics.css";
 
@@ -6,26 +6,44 @@ const ExportResults = ({ data }) => {
   const [format, setFormat] = useState("csv");
   const printFrameRef = useRef(null);
 
+  // Usar useMemo para generar previsualizaciones solo cuando cambien los datos o el formato
+  const previewContent = useMemo(() => {
+    if (format === "csv") {
+      const previewCSV = `Question,Correct Percentage,Average Response Time
+"${data.questionsData[0]?.title || ""}",${
+        data.questionsData[0]?.correctPercentage || 0
+      },${data.questionsData[0]?.avgResponseTime || 0}
+...`;
+      return previewCSV;
+    } else if (format === "json") {
+      return JSON.stringify(data, null, 2).slice(0, 200) + "...";
+    }
+    return "";
+  }, [data, format]);
+
   const handleExport = () => {
     let content = "";
     let filename = `quiz-results-${new Date().toISOString().slice(0, 10)}`;
     let mimeType = "";
 
-    if (format === "csv") {
-      content = generateCSV(data);
-      filename += ".csv";
-      mimeType = "text/csv";
-      downloadFile(content, filename, mimeType);
-    } else if (format === "json") {
-      content = JSON.stringify(data, null, 2);
-      filename += ".json";
-      mimeType = "application/json";
-      downloadFile(content, filename, mimeType);
-    } else if (format === "pdf") {
-      exportToPDF(data);
-    } else if (format === "excel") {
-      exportToExcel(data);
-    }
+    // Usar setTimeout para mejorar la respuesta de la UI mientras se genera el archivo
+    setTimeout(() => {
+      if (format === "csv") {
+        content = generateCSV(data);
+        filename += ".csv";
+        mimeType = "text/csv";
+        downloadFile(content, filename, mimeType);
+      } else if (format === "json") {
+        content = JSON.stringify(data, null, 2);
+        filename += ".json";
+        mimeType = "application/json";
+        downloadFile(content, filename, mimeType);
+      } else if (format === "pdf") {
+        exportToPDF(data);
+      } else if (format === "excel") {
+        exportToExcel(data);
+      }
+    }, 0);
   };
 
   const downloadFile = (content, filename, mimeType) => {
@@ -281,6 +299,11 @@ const ExportResults = ({ data }) => {
   };
 
   const generateCSV = (data) => {
+    // Optimización: evitar operaciones innecesarias si no hay datos
+    if (!data.questionsData.length || !data.gamesHistory.length) {
+      return "No data available";
+    }
+
     const headers = ["Question", "Correct Percentage", "Average Response Time"];
     const questionsRows = data.questionsData.map(
       (q) =>
@@ -360,23 +383,19 @@ const ExportResults = ({ data }) => {
           <div className="preview-container">
             {format === "csv" && (
               <pre className="preview-content csv-preview">
-                Question,Correct Percentage,Average Response Time "
-                {data.questionsData[0].title}",
-                {data.questionsData[0].correctPercentage},
-                {data.questionsData[0].avgResponseTime}
-                ...
+                {previewContent}
               </pre>
             )}
             {format === "json" && (
               <pre className="preview-content json-preview">
-                {JSON.stringify(data, null, 2).slice(0, 200) + "..."}
+                {previewContent}
               </pre>
             )}
             {format === "pdf" && (
               <div className="preview-content pdf-preview">
                 <div className="pdf-icon">PDF</div>
                 <p>
-                  Documento PDF con tablas formateadas para imprimir o guardar.
+                  PDF document with formatted tables for printing or saving.
                 </p>
               </div>
             )}
@@ -384,8 +403,7 @@ const ExportResults = ({ data }) => {
               <div className="preview-content excel-preview">
                 <div className="excel-icon">XLS</div>
                 <p>
-                  Archivo Excel con múltiples hojas de trabajo para cada sección
-                  de datos.
+                  Excel file with multiple worksheets for each data section.
                 </p>
               </div>
             )}

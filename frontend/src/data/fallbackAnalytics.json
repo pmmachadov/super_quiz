@@ -1,0 +1,70 @@
+{
+  "totalGames": 5,
+  "averageScore": 75.0,
+  "questionsData": [
+    {
+      "id": 1,
+      "title": "What is React?",
+      "correctPercentage": 80,
+      "avgResponseTime": 3.0
+    },
+    {
+      "id": 2,
+      "title": "What are Hooks?",
+      "correctPercentage": 70,
+      "avgResponseTime": 4.0
+    },
+    {
+      "id": 3,
+      "title": "How to manage state in functional components?",
+      "correctPercentage": 65,
+      "avgResponseTime": 4.5
+    },
+    {
+      "id": 4,
+      "title": "What is the Virtual DOM?",
+      "correctPercentage": 75,
+      "avgResponseTime": 3.2
+    },
+    {
+      "id": 5,
+      "title": "What are controlled components?",
+      "correctPercentage": 68,
+      "avgResponseTime": 3.8
+    }
+  ],
+  "gamesHistory": [
+    {
+      "id": "g1",
+      "date": "2025-04-20",
+      "title": "Web Fundamentals",
+      "score": 800,
+      "totalQuestions": 8,
+      "correctAnswers": 7
+    },
+    {
+      "id": "g2",
+      "date": "2025-04-18",
+      "title": "Basic JavaScript",
+      "score": 650,
+      "totalQuestions": 10,
+      "correctAnswers": 6
+    },
+    {
+      "id": "g3",
+      "date": "2025-04-15",
+      "title": "React Fundamentals",
+      "score": 720,
+      "totalQuestions": 8,
+      "correctAnswers": 6
+    },
+    {
+      "id": "g4",
+      "date": "2025-04-10",
+      "title": "Advanced CSS",
+      "score": 580,
+      "totalQuestions": 7,
+      "correctAnswers": 5
+    }
+  ]
+}

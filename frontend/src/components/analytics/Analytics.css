@@ -14,6 +14,184 @@
     gap: 20px;
 }
 
+.fancy-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.loader-icon svg {
+    animation: rotate 2s linear infinite;
+}
+
+.loader-circle {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 60;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+.loader-brain {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 20;
+    animation: dash 2s ease-in-out infinite alternate;
+}
+
+.loader-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loader-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.quiz-loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.quiz-icon-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2563eb;
+}
+
+.quiz-icon-box {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 0;
+    fill: none;
+    animation: draw-box 2s ease-in-out infinite;
+}
+
+.quiz-icon-line {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    animation: draw-line 2s ease-in-out infinite;
+}
+
+.quiz-line-1 {
+    animation-delay: 0.2s;
+}
+
+.quiz-line-2 {
+    animation-delay: 0.4s;
+}
+
+.quiz-line-3 {
+    animation-delay: 0.6s;
+}
+
+.quiz-loader-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0) 70%);
+    border-radius: 50%;
+    animation: pulse-grow 2s ease-in-out infinite;
+}
+
+.error-icon {
+    margin-bottom: 20px;
+    color: #ef4444;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 80;
+    }
+
+    50% {
+        stroke-dashoffset: 30;
+    }
+
+    100% {
+        stroke-dashoffset: 80;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+}
+
+@keyframes pulse-grow {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(0.7);
+        opacity: 0.3;
+    }
+}
+
+@keyframes draw-box {
+    0% {
+        stroke-dashoffset: 60;
+    }
+
+    50% {
+        stroke-dashoffset: 20;
+    }
+
+    100% {
+        stroke-dashoffset: 60;
+    }
+}
+
+@keyframes draw-line {
+    0% {
+        stroke-dashoffset: 20;
+    }
+
+    50% {
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dashoffset: 20;
+    }
+}
+
 .loading-spinner {
     width: 50px;
     height: 50px;
@@ -256,6 +434,8 @@
     color: white;
     font-weight: bold;
     transition: width 0.5s ease;
+    will-change: width, height;
+    transform: translateZ(0);
 }
 
 .performance-chart {
@@ -267,9 +447,10 @@
 .chart-bars {
     display: flex;
     height: 300px;
-    gap: 20px;
+    gap: 15px;
     align-items: flex-end;
     margin-bottom: 20px;
+    contain: layout;
 }
 
 .chart-bar {
@@ -281,6 +462,8 @@
     transition: height 0.5s ease;
     display: flex;
     justify-content: center;
+    will-change: width, height;
+    transform: translateZ(0);
 }
 
 .chart-bar.incorrect {
@@ -292,6 +475,14 @@
     bottom: -25px;
     font-size: 14px;
     text-align: center;
+}
+
+.chart-bar-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    position: relative;
 }
 
 .chart-legend {
@@ -351,6 +542,8 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    display: table;
+    will-change: transform;
 }
 
 .history-table th,
@@ -360,14 +553,54 @@
     border-bottom: 1px solid var(--color-border, #ddd);
 }
 
-.history-table th {
+.no-games-message {
+    padding: 30px;
+    text-align: center;
     background-color: var(--color-bg-alt, #f0f9ff);
-    font-weight: bold;
+    border-radius: 8px;
+    margin: 20px 0;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.no-games-message p {
+    margin: 10px 0;
+    font-size: 16px;
     color: var(--color-text, #333);
 }
 
-.history-table tr:hover {
-    background-color: var(--color-hover, #f9fafb);
+.no-games-message p:first-child {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.no-data-message {
+    padding: 30px;
+    text-align: center;
+    background-color: var(--color-bg-alt, #f0f9ff);
+    border-radius: 8px;
+    margin: 20px 0;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.no-data-message p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: var(--color-text, #333);
+}
+
+.no-data-message p:first-child {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .mini-progress-bar {
@@ -383,6 +616,8 @@
 .mini-progress-fill {
     height: 100%;
     background-color: var(--color-primary, #2563eb);
+    will-change: width, height;
+    transform: translateZ(0);
 }
 
 .mini-progress-bar span {
@@ -421,6 +656,8 @@
     background-color: var(--color-primary, #2563eb);
     border-radius: 5px 5px 0 0;
     transition: height 0.5s ease;
+    will-change: width, height;
+    transform: translateZ(0);
 }
 
 .trend-label {
@@ -518,7 +755,8 @@
     margin: 0;
 }
 
-.pdf-icon, .excel-icon {
+.pdf-icon,
+.excel-icon {
     display: inline-block;
     padding: 8px 15px;
     margin-bottom: 10px;
@@ -535,7 +773,8 @@
     background-color: #1d6f42;
 }
 
-.pdf-preview p, .excel-preview p {
+.pdf-preview p,
+.excel-preview p {
     color: var(--color-text, #333);
 }
 
@@ -673,13 +912,18 @@
     --color-danger: #ef4444;
 }
 
-:root {
-    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
 .dark-theme .stat-card,
 .dark-theme .analytics-content {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .no-data-message,
+.dark-theme .no-games-message {
+    background-color: var(--color-bg-alt, #1e293b);
+}
+
+:root {
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 768px) {
@@ -691,7 +935,8 @@
     }
 
     .chart-bars {
-        height: 200px;
+        height: 180px;
+        gap: 10px;
     }
 
     .trend-chart {
@@ -706,5 +951,12 @@
     .format-buttons button {
         flex: 1;
         min-width: calc(50% - 5px);
+    }
+
+    .performance-bar,
+    .mini-progress-fill,
+    .chart-bar,
+    .trend-bar {
+        transition: none;
     }
 }
