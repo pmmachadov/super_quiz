@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import BubbleEffect from "./BubbleEffect";
+import ScorePercentage from "./ScorePercentage";
 import "./Results.css";
 
 const Results = () => {
   const { score, total } = useParams();
   const [isVisible, setIsVisible] = useState(false);
-  const scoreRingRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
   );
-
-  const percentage = Math.round((parseInt(score) / parseInt(total)) * 100);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia(
@@ -28,96 +26,16 @@ const Results = () => {
     };
   }, []);
 
-  const getResultInfo = () => {
-    if (percentage >= 90) {
-      return {
-        title: "Excellent!",
-        message: "You are a true master of this subject.",
-        emoji: "🏆",
-        className: "excellent",
-        color: "#f5c518",
-      };
-    } else if (percentage >= 70) {
-      return {
-        title: "Very Good!",
-        message: "You have a good understanding of this topic.",
-        emoji: "",
-        className: "good",
-        color: "#4caf50",
-      };
-    } else if (percentage >= 50) {
-      return {
-        title: "Good Try",
-        message: "There's room for improvement on this topic.",
-        emoji: "👍",
-        className: "average",
-        color: "#2196f3",
-      };
-    } else {
-      return {
-        title: "Keep Trying",
-        message: "Practice makes perfect. Don't give up!",
-        emoji: "💪",
-        className: "needs-practice",
-        color: "#ff5722",
-      };
-    }
-  };
-
-  const resultInfo = getResultInfo();
-
   useEffect(() => {
     setTimeout(() => {
       setIsVisible(true);
     }, 300);
-
-    if (scoreRingRef.current) {
-      document.documentElement.style.setProperty(
-        "--score-percentage",
-        percentage
-      );
-      document.documentElement.style.setProperty(
-        "--score-color",
-        resultInfo.color
-      );
-    }
-  }, [percentage, resultInfo.color]);
+  }, []);
 
   return (
     <div className="container" style={{ marginTop: "2rem" }}>
       <div className={`results-container ${isVisible ? "fade-in" : ""}`}>
-        <div className="results-header">
-          <div className="results-emoji">{resultInfo.emoji}</div>
-          <h1
-            className={`results-title ${resultInfo.className}`}
-            data-text={resultInfo.title}
-          >
-            {resultInfo.title}
-          </h1>
-          <p className="results-message">{resultInfo.message}</p>
-        </div>
-
-        <div className="score-container">
-          <div
-            ref={scoreRingRef}
-            className={`score-ring ${resultInfo.className}`}
-          >
-            <div className="score-inner-circle">
-              <div className="score-value">{percentage}%</div>
-              <div className="score-label">Score</div>
-            </div>
-          </div>
-          <div className="score-details">
-            <div className="score-item">
-              <span className="score-label">Correct answers:</span>
-              <span className="score-number">{score}</span>
-            </div>
-            <div className="score-item">
-              <span className="score-label">Total questions:</span>
-              <span className="score-number">{total}</span>
-            </div>
-          </div>
-        </div>
+        <ScorePercentage score={score} total={total} />
 
         <div className="results-actions">
           <Link to="/quizzes" className="action-button primary multi-bubble">

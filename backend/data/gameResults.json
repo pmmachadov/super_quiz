@@ -133,5 +133,32 @@
         "responseTime": 1
       }
     ]
+  },
+  {
+    "id": "game-1745434300102-601",
+    "date": "2025-04-23",
+    "timestamp": 1745434300102,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
   }
 ]
