@@ -2,10 +2,23 @@ import React, { useEffect, useRef } from "react";
 
 const ScorePercentage = ({ score, total }) => {
   const scoreRingRef = useRef(null);
-  const percentage = Math.round((parseInt(score) / parseInt(total)) * 100);
+  
+  // Convertir a números y validar de forma simple
+  const scoreNum = parseInt(score, 10) || 0;
+  const totalNum = parseInt(total, 10) || 1;
+  
+  // Calcular el porcentaje de forma directa
+  const exactPercentage = (scoreNum / totalNum) * 100;
+  const roundedPercentage = Math.round(exactPercentage);
+  
+  // Registrar valores para depuración de forma simplificada
+  useEffect(() => {
+    console.log(`Puntuación: ${scoreNum}/${totalNum} = ${exactPercentage.toFixed(2)}% (${roundedPercentage}%)`);
+  }, [scoreNum, totalNum, exactPercentage, roundedPercentage]);
 
+  // Determinar el mensaje según el porcentaje
   const getResultInfo = () => {
-    if (percentage >= 90) {
+    if (roundedPercentage >= 90) {
       return {
         title: "Excellent!",
         message: "You are a true master of this subject.",
@@ -13,7 +26,7 @@ const ScorePercentage = ({ score, total }) => {
         className: "excellent",
         color: "#f5c518",
       };
-    } else if (percentage >= 70) {
+    } else if (roundedPercentage >= 70) {
       return {
         title: "Very Good!",
         message: "You have a good understanding of this topic.",
@@ -21,7 +34,7 @@ const ScorePercentage = ({ score, total }) => {
         className: "good",
         color: "#4caf50",
       };
-    } else if (percentage >= 50) {
+    } else if (roundedPercentage >= 50) {
       return {
         title: "Good Try",
         message: "There's room for improvement on this topic.",
@@ -42,18 +55,19 @@ const ScorePercentage = ({ score, total }) => {
 
   const resultInfo = getResultInfo();
 
+  // Aplicar los estilos basados en el porcentaje
   useEffect(() => {
     if (scoreRingRef.current) {
       document.documentElement.style.setProperty(
         "--score-percentage",
-        percentage
+        roundedPercentage
       );
       document.documentElement.style.setProperty(
         "--score-color",
         resultInfo.color
       );
     }
-  }, [percentage, resultInfo.color]);
+  }, [roundedPercentage, resultInfo.color]);
 
   return (
     <>
@@ -74,18 +88,18 @@ const ScorePercentage = ({ score, total }) => {
           className={`score-ring ${resultInfo.className}`}
         >
           <div className="score-inner-circle">
-            <div className="score-value">{percentage}%</div>
+            <div className="score-value">{roundedPercentage}%</div>
             <div className="score-label">Score</div>
           </div>
         </div>
         <div className="score-details">
           <div className="score-item">
             <span className="score-label">Correct answers:</span>
-            <span className="score-number">{score}</span>
+            <span className="score-number">{scoreNum}</span>
           </div>
           <div className="score-item">
             <span className="score-label">Total questions:</span>
-            <span className="score-number">{total}</span>
+            <span className="score-number">{totalNum}</span>
           </div>
         </div>
       </div>

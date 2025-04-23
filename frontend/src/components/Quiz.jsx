@@ -26,6 +26,10 @@ export default function Quiz() {
   const [questionResults, setQuestionResults] = useState([]);
   const timerProgressRef = useRef(null);
 
+  // Añadir un ref para mantener un seguimiento más confiable de las respuestas
+  const correctAnswersRef = useRef(0);
+  const allResultsRef = useRef([]);
+
   useEffect(() => {
     const fetchQuiz = async () => {
       // Si el quiz ya está en caché, usarlo inmediatamente
@@ -133,7 +137,7 @@ export default function Quiz() {
         score: finalScore,
         totalQuestions: totalQuestions,
         correctAnswers: finalScore,
-        questionResults: questionResults,
+        questionResults: allResultsRef.current, // Usar el ref en lugar del estado
       };
 
       // Send the data to the backend using ruta relativa para el proxy
@@ -155,6 +159,7 @@ export default function Quiz() {
     setShowResults(false);
 
     if (currentQuestion < quiz?.questions.length - 1) {
+      // Avanzar a la siguiente pregunta
       setCurrentQuestion(currentQuestion + 1);
       setTimeLeft(10);
       setSelectedAnswer(null);
@@ -165,26 +170,30 @@ export default function Quiz() {
         setQuestionTransition(false);
       }, 100);
     } else if (quiz) {
-      const finalScore =
-        score +
-        (selectedAnswer === quiz.questions[currentQuestion].correctAnswer
-          ? 1
-          : 0);
-
-      // Save the game results before navigating
+      // Final del quiz - Usar los refs para un cálculo más confiable
+      
+      // Detalles para depuración
+      console.log(`Resultados guardados: ${allResultsRef.current.length} de ${quiz.questions.length}`);
+      console.log(`Respuestas correctas (ref): ${correctAnswersRef.current}`);
+      console.log(`Detalle de respuestas:`, allResultsRef.current.map(r => ({
+        pregunta: r.questionId.split('-')[1],
+        correcta: r.isCorrect
+      })));
+      
+      // Usar el valor del ref para la puntuación final
+      const finalScore = correctAnswersRef.current;
+      
+      console.log(`Puntuación final: ${finalScore} de ${quiz.questions.length}`);
+      
+      // Guardar resultados y navegar a la página de resultados
       saveGameResults(finalScore, quiz.questions.length);
-
-      // Navigate to results page
       navigate(`/results/${finalScore}/${quiz.questions.length}`);
     }
   }, [
     currentQuestion,
     navigate,
     quiz,
-    score,
-    selectedAnswer,
     id,
-    questionResults,
   ]);
 
   const handleAnswerSelect = React.useCallback(
@@ -193,23 +202,39 @@ export default function Quiz() {
 
       setSelectedAnswer(answerIndex);
 
-      const isCorrect =
-        answerIndex === quiz.questions[currentQuestion].correctAnswer;
-      if (isCorrect) {
-        setScore(score + 1);
-      }
-
-      // Record the question result
+      // Determinar si la respuesta es correcta
+      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      const isCorrect = answerIndex === correctIndex;
+      
+      // Registrar la respuesta en el objeto resultado
       const questionResult = {
-        questionId: `${quiz.id}-${currentQuestion}`,
+        questionId: `${quiz.id || 'quiz'}-${currentQuestion}`,
         questionText: quiz.questions[currentQuestion].question,
         selectedAnswer: answerIndex,
-        correctAnswer: quiz.questions[currentQuestion].correctAnswer,
+        correctAnswer: correctIndex,
         isCorrect: isCorrect,
         responseTime: 10 - timeLeft,
       };
-
-      setQuestionResults((prev) => [...prev, questionResult]);
+      
+      // Actualizar ambos: el estado y el ref
+      setQuestionResults(prevResults => {
+        console.log(`Guardando resultado para pregunta ${currentQuestion + 1}, correcta: ${isCorrect}`);
+        return [...prevResults, questionResult];
+      });
+      
+      // Actualizar refs para mantener un seguimiento más confiable
+      allResultsRef.current.push(questionResult);
+      if (isCorrect) {
+        correctAnswersRef.current += 1;
+        console.log(`✅ Respuesta CORRECTA en pregunta ${currentQuestion + 1} (Total: ${correctAnswersRef.current})`);
+      } else {
+        console.log(`❌ Respuesta INCORRECTA en pregunta ${currentQuestion + 1}`);
+      }
+      
+      // Actualizar score (solo para mostrar durante el juego)
+      if (isCorrect) {
+        setScore(prevScore => prevScore + 1);
+      }
 
       setShowResults(true);
 
@@ -226,7 +251,6 @@ export default function Quiz() {
       currentQuestion,
       handleQuestionTransition,
       quiz,
-      score,
       selectedAnswer,
       timeLeft,
     ]
@@ -255,11 +279,18 @@ export default function Quiz() {
 
     if (showResults) {
       const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      
+      // Marcar visualmente las respuestas correctas e incorrectas de manera más clara
       if (index === correctIndex) {
         return `${baseClass} correct`;
       }
       if (selectedAnswer === index && index !== correctIndex) {
         return `${baseClass} incorrect`;
+      }
+      
+      // Añadir un indicador visual de la selección del usuario
+      if (selectedAnswer === index) {
+        return `${baseClass} user-selected correct-selected`;
       }
     }
 

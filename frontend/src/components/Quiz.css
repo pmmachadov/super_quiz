@@ -367,6 +367,31 @@
         box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
         animation: incorrectAnswer 0.5s ease;
     }
+    
+    /* Nuevo estilo para las respuestas seleccionadas por el usuario */
+    .answer-button.user-selected {
+        position: relative;
+        outline: 3px solid #ffd700; /* Borde dorado para la respuesta seleccionada */
+    }
+    
+    .answer-button.user-selected::before {
+        content: "Tu respuesta";
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: #ffd700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+    
+    .answer-button.correct-selected {
+        outline: 3px solid #00ff00; /* Borde verde para respuesta correcta seleccionada */
+    }
 
     .progress-container {
         margin-top: 2.5rem;
