@@ -295,7 +295,6 @@
     color: var(--color-primary, #2563eb);
 }
 
-/* Mejoras para las tarjetas de estadísticas */
 .stats-cards {
     display: flex;
     gap: 20px;
@@ -352,7 +351,6 @@
     margin-top: auto;
 }
 
-/* Estilos responsivos para las tarjetas */
 @media (max-width: 768px) {
     .stats-cards {
         flex-direction: column;
@@ -367,7 +365,6 @@
     }
 }
 
-/* Estilos para el tema oscuro */
 .dark-theme .stats-card {
     background: linear-gradient(135deg, #1e1e1e 0%, #1e293b 100%);
     border: 1px solid rgba(59, 130, 246, 0.2);

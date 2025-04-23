@@ -3,12 +3,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
-// Caché global persistente entre renders
 const globalQuizzesCache = {
   data: null,
-  timestamp: 0
+  timestamp: 0,
 };
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutos en lugar de 5
+const CACHE_DURATION = 10 * 60 * 1000;
 
 const Quizzes = () => {
   const [quizzes, setQuizzes] = useState(globalQuizzesCache.data || []);
@@ -18,8 +17,10 @@ const Quizzes = () => {
   const navigate = useNavigate();
 
   const fetchQuizzes = useCallback(async () => {
-    // Si hay datos en caché que son recientes, usarlos inmediatamente
-    if (globalQuizzesCache.data && (Date.now() - globalQuizzesCache.timestamp < CACHE_DURATION)) {
+    if (
+      globalQuizzesCache.data &&
+      Date.now() - globalQuizzesCache.timestamp < CACHE_DURATION
+    ) {
       setQuizzes(globalQuizzesCache.data);
       setIsLoading(false);
       setError(null);
@@ -30,14 +31,13 @@ const Quizzes = () => {
       setIsLoading(true);
       setError(null);
 
-      // Eliminando el AbortController que causa el error
       const response = await fetch("/api/quizzes", {
         method: "GET",
-        cache: "no-cache", // Cambiando a no-cache para asegurar datos frescos
+        cache: "no-cache",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-        }
+        },
       });
 
       if (!response.ok) {
@@ -46,43 +46,40 @@ const Quizzes = () => {
 
       const data = await response.json();
 
-      // Procesar y guardar en caché global
-      const processedData = Array.isArray(data) ? data : 
-                          (data && data.quizzes && Array.isArray(data.quizzes)) ? data.quizzes : [];
-      
-      // Actualizar caché global
+      const processedData = Array.isArray(data)
+        ? data
+        : data && data.quizzes && Array.isArray(data.quizzes)
+        ? data.quizzes
+        : [];
+
       globalQuizzesCache.data = processedData;
       globalQuizzesCache.timestamp = Date.now();
-      
-      // Actualizar estado
+
       setQuizzes(processedData);
       setIsLoading(false);
       setError(null);
     } catch (error) {
       console.error("Error fetching quizzes:", error);
-      
-      // Si hay datos en caché, usarlos aunque sean antiguos en caso de error
+
       if (globalQuizzesCache.data) {
-        console.log("Using cached data as fallback after error");
         setQuizzes(globalQuizzesCache.data);
-        setError("Usando datos en caché (los datos podrían no estar actualizados)");
+        setError(
+          "Usando datos en caché (los datos podrían no estar actualizados)"
+        );
       } else {
         setError(`Error cargando quizzes: ${error.message}`);
         setQuizzes([]);
       }
-      
+
       setIsLoading(false);
     }
   }, []);
 
-  // Efecto que se ejecuta solo una vez al montar el componente
   useEffect(() => {
-    // Si hay datos en caché, mostrarlos inmediatamente y luego actualizar en segundo plano
     if (globalQuizzesCache.data) {
       setQuizzes(globalQuizzesCache.data);
       setIsLoading(false);
-      
-      // Actualizar en segundo plano si los datos son antiguos (más de 5 minutos)
+
       if (Date.now() - globalQuizzesCache.timestamp > 5 * 60 * 1000) {
         fetchQuizzes();
       }

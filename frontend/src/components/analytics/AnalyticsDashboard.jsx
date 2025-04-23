@@ -67,7 +67,6 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setError(null);
 
-      // Solo usar el endpoint oficial de analytics
       const response = await fetch("http://localhost:5173/api/analytics", {
         cache: "no-cache",
       });
@@ -79,7 +78,6 @@ const AnalyticsDashboard = ({ userId }) => {
         return true;
       }
 
-      // Si el endpoint falla, mostrar un error claro
       setError(
         "Could not load analytics data. Please ensure the server is running."
       );

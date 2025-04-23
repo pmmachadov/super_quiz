@@ -1,5 +1,40 @@
 [
   {
+    "id": "game-1745436519667-428",
+    "date": "2025-04-23",
+    "timestamp": 1745436519667,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
     "id": "game-1745435666410-581",
     "date": "2025-04-23",
     "timestamp": 1745435666410,
@@ -502,9 +537,44 @@
     ]
   },
   {
-    "id": "game-1745436519667-428",
+    "id": "game-1745436832323-200",
     "date": "2025-04-23",
-    "timestamp": 1745436519667,
+    "timestamp": 1745436832323,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745437591579-36",
+    "date": "2025-04-23",
+    "timestamp": 1745437591579,
     "quizId": 1,
     "score": 3,
     "totalQuestions": 3,
@@ -532,7 +602,7 @@
         "selectedAnswer": 0,
         "correctAnswer": 0,
         "isCorrect": true,
-        "responseTime": 0
+        "responseTime": 3
       }
     ]
   }

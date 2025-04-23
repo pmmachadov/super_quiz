@@ -8,9 +8,7 @@ const GameHistory = ({ games }) => {
     return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
 
-  useEffect(() => {
-    console.log("GameHistory recibió games:", games);
-  }, [games]);
+  useEffect(() => {}, [games]);
 
   if (!games || games.length === 0) {
     return (

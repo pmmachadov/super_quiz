@@ -367,13 +367,12 @@
         box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
         animation: incorrectAnswer 0.5s ease;
     }
-    
-    /* Nuevo estilo para las respuestas seleccionadas por el usuario */
+
     .answer-button.user-selected {
         position: relative;
-        outline: 3px solid #ffd700; /* Borde dorado para la respuesta seleccionada */
+        outline: 3px solid #ffd700;
     }
-    
+
     .answer-button.user-selected::before {
         content: "Tu respuesta";
         position: absolute;
@@ -388,9 +387,9 @@
         font-weight: bold;
         white-space: nowrap;
     }
-    
+
     .answer-button.correct-selected {
-        outline: 3px solid #00ff00; /* Borde verde para respuesta correcta seleccionada */
+        outline: 3px solid #00ff00;
     }
 
     .progress-container {

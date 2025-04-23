@@ -17,7 +17,6 @@ const QuestionPerformance = ({
     setLocalError(null);
 
     try {
-      // Try to fetch analytics data first (more efficient)
       const response = await fetch("http://localhost:5173/api/analytics", {
         cache: "no-cache",
         headers: {
@@ -37,7 +36,6 @@ const QuestionPerformance = ({
         }
       }
 
-      // If analytics don't have question data, try quizzes endpoint
       await fetchQuizzes();
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -99,7 +97,6 @@ const QuestionPerformance = ({
     }
 
     try {
-      // Try to fetch analytics directly for better question performance data
       try {
         fetch("http://localhost:5173/api/analytics", { cache: "no-cache" })
           .then((res) => res.json())
@@ -109,14 +106,9 @@ const QuestionPerformance = ({
               setLocalLoading(false);
             }
           })
-          .catch(() => {
-            /* Silent fail */
-          });
-      } catch (e) {
-        // Ignore errors here as we have fallback processing
-      }
+          .catch(() => {});
+      } catch (e) {}
 
-      // Map the quiz questions as a fallback
       const allQuestions = quizzes
         .flatMap((quiz) => {
           if (!quiz.questions) {
@@ -198,7 +190,6 @@ const QuestionPerformance = ({
     return tips;
   }, [questions]);
 
-  // Use passed questions prop or locally fetched questions
   const displayQuestions = questions?.length > 0 ? questions : localQuestions;
   const displayError = error || localError;
   const displayLoading = isLoading || localLoading;

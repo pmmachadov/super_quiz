@@ -2,14 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "./Quiz.css";
 
-// Caché global para quizzes individuales
 const quizzesCache = new Map();
 
 export default function Quiz() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [quiz, setQuiz] = useState(() => {
-    // Intentar cargar desde caché al inicializar el estado
     return quizzesCache.get(id) || null;
   });
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -26,19 +24,16 @@ export default function Quiz() {
   const [questionResults, setQuestionResults] = useState([]);
   const timerProgressRef = useRef(null);
 
-  // Añadir un ref para mantener un seguimiento más confiable de las respuestas
   const correctAnswersRef = useRef(0);
   const allResultsRef = useRef([]);
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      // Si el quiz ya está en caché, usarlo inmediatamente
       if (quizzesCache.has(id)) {
         const cachedQuiz = quizzesCache.get(id);
         setQuiz(cachedQuiz);
         setIsLoading(false);
         
-        // Animar entrada
         setTimeout(() => {
           setFadeIn(true);
           setAnimateQuestion(true);
@@ -51,18 +46,16 @@ export default function Quiz() {
         setIsLoading(true);
         setError(null);
 
-        // Convertir ID a numérico si es posible
         const numericId = parseInt(id.replace(/\D/g, ""));
         const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
 
-        // Eliminar AbortController y usar rutas relativas
         const response = await fetch(apiEndpoint, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          cache: 'no-cache' // Cambiado a no-cache para evitar problemas
+          cache: 'no-cache'
         });
 
         if (!response.ok) {
@@ -72,7 +65,6 @@ export default function Quiz() {
         const quizData = await response.json();
 
         if (quizData.questions && quizData.questions.length > 0) {
-          // Normalizar la estructura de datos
           quizData.questions = quizData.questions.map((q) => ({
             ...q,
             answers: q.options || q.answers || [],
@@ -80,13 +72,11 @@ export default function Quiz() {
           }));
         }
 
-        // Guardar en caché para futuras visitas
         quizzesCache.set(id, quizData);
         
         setQuiz(quizData);
         setError(null);
 
-        // Animar con un pequeño retraso para asegurar fluidez
         setTimeout(() => {
           setFadeIn(true);
           setAnimateQuestion(true);
@@ -131,7 +121,6 @@ export default function Quiz() {
 
   const saveGameResults = async (finalScore, totalQuestions) => {
     try {
-      // Prepare game result data
       const gameResult = {
         quizId: parseInt(id),
         score: finalScore,
@@ -140,7 +129,6 @@ export default function Quiz() {
         questionResults: allResultsRef.current, // Usar el ref en lugar del estado
       };
 
-      // Send the data to the backend using ruta relativa para el proxy
       await fetch("/api/game-results", {
         method: 'POST',
         headers: {
@@ -149,7 +137,6 @@ export default function Quiz() {
         },
         body: JSON.stringify(gameResult)
       });
-      console.log("Game results saved successfully");
     } catch (error) {
       console.error("Error saving game results:", error);
     }
@@ -159,7 +146,6 @@ export default function Quiz() {
     setShowResults(false);
 
     if (currentQuestion < quiz?.questions.length - 1) {
-      // Avanzar a la siguiente pregunta
       setCurrentQuestion(currentQuestion + 1);
       setTimeLeft(10);
       setSelectedAnswer(null);
@@ -169,32 +155,19 @@ export default function Quiz() {
         setAnimateQuestion(true);
         setQuestionTransition(false);
       }, 100);
-    } else if (quiz) {
-      // Final del quiz - Usar los refs para un cálculo más confiable
-      
-      // Detalles para depuración
-      console.log(`Resultados guardados: ${allResultsRef.current.length} de ${quiz.questions.length}`);
-      console.log(`Respuestas correctas (ref): ${correctAnswersRef.current}`);
-      console.log(`Detalle de respuestas:`, allResultsRef.current.map(r => ({
-        pregunta: r.questionId.split('-')[1],
-        correcta: r.isCorrect
-      })));
-      
-      // Usar el valor del ref para la puntuación final
-      const finalScore = correctAnswersRef.current;
-      
-      console.log(`Puntuación final: ${finalScore} de ${quiz.questions.length}`);
-      
-      // Guardar resultados y navegar a la página de resultados
-      saveGameResults(finalScore, quiz.questions.length);
-      navigate(`/results/${finalScore}/${quiz.questions.length}`);
     }
-  }, [
-    currentQuestion,
-    navigate,
-    quiz,
-    id,
-  ]);
+     
+        const finalScore = correctAnswersRef.current;
+             
+        saveGameResults(finalScore, quiz.questions.length);
+        navigate(`/results/${finalScore}/${quiz.questions.length}`);
+      }
+    }, [
+      currentQuestion,
+      navigate,
+      quiz,
+      id,
+    ]);
 
   const handleAnswerSelect = React.useCallback(
     (answerIndex) => {
@@ -202,11 +175,9 @@ export default function Quiz() {
 
       setSelectedAnswer(answerIndex);
 
-      // Determinar si la respuesta es correcta
       const correctIndex = quiz.questions[currentQuestion].correctAnswer;
       const isCorrect = answerIndex === correctIndex;
       
-      // Registrar la respuesta en el objeto resultado
       const questionResult = {
         questionId: `${quiz.id || 'quiz'}-${currentQuestion}`,
         questionText: quiz.questions[currentQuestion].question,
@@ -216,22 +187,16 @@ export default function Quiz() {
         responseTime: 10 - timeLeft,
       };
       
-      // Actualizar ambos: el estado y el ref
       setQuestionResults(prevResults => {
-        console.log(`Guardando resultado para pregunta ${currentQuestion + 1}, correcta: ${isCorrect}`);
         return [...prevResults, questionResult];
       });
       
-      // Actualizar refs para mantener un seguimiento más confiable
       allResultsRef.current.push(questionResult);
       if (isCorrect) {
         correctAnswersRef.current += 1;
-        console.log(`✅ Respuesta CORRECTA en pregunta ${currentQuestion + 1} (Total: ${correctAnswersRef.current})`);
       } else {
-        console.log(`❌ Respuesta INCORRECTA en pregunta ${currentQuestion + 1}`);
       }
       
-      // Actualizar score (solo para mostrar durante el juego)
       if (isCorrect) {
         setScore(prevScore => prevScore + 1);
       }
@@ -280,7 +245,6 @@ export default function Quiz() {
     if (showResults) {
       const correctIndex = quiz.questions[currentQuestion].correctAnswer;
       
-      // Marcar visualmente las respuestas correctas e incorrectas de manera más clara
       if (index === correctIndex) {
         return `${baseClass} correct`;
       }
@@ -288,7 +252,6 @@ export default function Quiz() {
         return `${baseClass} incorrect`;
       }
       
-      // Añadir un indicador visual de la selección del usuario
       if (selectedAnswer === index) {
         return `${baseClass} user-selected correct-selected`;
       }

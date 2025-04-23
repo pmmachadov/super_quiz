@@ -3,20 +3,15 @@ import React, { useEffect, useRef } from "react";
 const ScorePercentage = ({ score, total }) => {
   const scoreRingRef = useRef(null);
   
-  // Convertir a números y validar de forma simple
   const scoreNum = parseInt(score, 10) || 0;
   const totalNum = parseInt(total, 10) || 1;
   
-  // Calcular el porcentaje de forma directa
   const exactPercentage = (scoreNum / totalNum) * 100;
   const roundedPercentage = Math.round(exactPercentage);
   
-  // Registrar valores para depuración de forma simplificada
   useEffect(() => {
-    console.log(`Puntuación: ${scoreNum}/${totalNum} = ${exactPercentage.toFixed(2)}% (${roundedPercentage}%)`);
   }, [scoreNum, totalNum, exactPercentage, roundedPercentage]);
 
-  // Determinar el mensaje según el porcentaje
   const getResultInfo = () => {
     if (roundedPercentage >= 90) {
       return {
@@ -55,7 +50,6 @@ const ScorePercentage = ({ score, total }) => {
 
   const resultInfo = getResultInfo();
 
-  // Aplicar los estilos basados en el porcentaje
   useEffect(() => {
     if (scoreRingRef.current) {
       document.documentElement.style.setProperty(

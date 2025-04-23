@@ -3,14 +3,12 @@ const analyticsData = [];
 
 export const fetchQuizzes = async () => {
   try {
-    // Usar una URL absoluta para evitar problemas de rutas relativas
     const response = await fetch("http://localhost:5173/api/quizzes", {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      // Aumentar el timeout removiendo el AbortController
       cache: "no-cache",
       mode: "cors",
     });
@@ -21,17 +19,14 @@ export const fetchQuizzes = async () => {
 
     const data = await response.json();
 
-    // Limpiar el array actual
     quizzesData.length = 0;
 
-    // Agregar los nuevos elementos
     if (Array.isArray(data)) {
       quizzesData.push(...data);
     } else if (data.quizzes && Array.isArray(data.quizzes)) {
       quizzesData.push(...data.quizzes);
     }
 
-    console.log("Quizzes cargados:", quizzesData.length);
     return [...quizzesData];
   } catch (error) {
     console.error("Error fetching quizzes:", error);
@@ -51,7 +46,6 @@ export const fetchAnalytics = async () => {
     }
     const data = await response.json();
 
-    // Limpiar y actualizar el array de analytics
     analyticsData.length = 0;
     if (Array.isArray(data)) {
       analyticsData.push(...data);
@@ -64,7 +58,6 @@ export const fetchAnalytics = async () => {
   }
 };
 
-// Exportar getters para obtener copias de los datos
 export const getQuizzes = () => [...quizzesData];
 export const getAnalytics = () => [...analyticsData];
 
