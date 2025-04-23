@@ -1,0 +1,539 @@
+[
+  {
+    "id": "game-1745435666410-581",
+    "date": "2025-04-23",
+    "timestamp": 1745435666410,
+    "quizId": 1,
+    "score": 1,
+    "totalQuestions": 3,
+    "correctAnswers": 1,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 3,
+        "correctAnswer": 2,
+        "isCorrect": false,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 3,
+        "correctAnswer": 0,
+        "isCorrect": false,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745435644173-43",
+    "date": "2025-04-23",
+    "timestamp": 1745435644173,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745435444991-98",
+    "date": "2025-04-23",
+    "timestamp": 1745435444991,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745435316632-671",
+    "date": "2025-04-23",
+    "timestamp": 1745435316632,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745435232983-914",
+    "date": "2025-04-23",
+    "timestamp": 1745435232983,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745435106650-414",
+    "date": "2025-04-23",
+    "timestamp": 1745435106650,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745435086374-697",
+    "date": "2025-04-23",
+    "timestamp": 1745435086374,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 3
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745434995457-871",
+    "date": "2025-04-23",
+    "timestamp": 1745434995457,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745434860997-878",
+    "date": "2025-04-23",
+    "timestamp": 1745434860997,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 2
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745434715794-311",
+    "date": "2025-04-23",
+    "timestamp": 1745434715795,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745434668679-293",
+    "date": "2025-04-23",
+    "timestamp": 1745434668679,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745434540259-184",
+    "date": "2025-04-23",
+    "timestamp": 1745434540259,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745434300102-601",
+    "date": "2025-04-23",
+    "timestamp": 1745434300102,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745433701364-669",
+    "date": "2025-04-23",
+    "timestamp": 1745433701364,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 3
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745356604913-916",
+    "date": "2025-04-22",
+    "timestamp": 1745356604913,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      }
+    ]
+  },
+  {
+    "id": "game-1745356244809-806",
+    "date": "2025-04-22",
+    "timestamp": 1745356244809,
+    "quizId": 1,
+    "score": 2,
+    "totalQuestions": 3,
+    "correctAnswers": 2,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 3
+      }
+    ]
+  },
+  {
+    "id": "game-1745356198073-967",
+    "date": "2025-04-22",
+    "timestamp": 1745356198073,
+    "quizId": 1,
+    "score": 1,
+    "totalQuestions": 3,
+    "correctAnswers": 1,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 2
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": null,
+        "correctAnswer": 2,
+        "isCorrect": false,
+        "responseTime": 10
+      }
+    ]
+  },
+  {
+    "id": "game-1745356156843-460",
+    "date": "2025-04-22",
+    "timestamp": 1745356156843,
+    "quizId": 2,
+    "score": 1,
+    "totalQuestions": 3,
+    "correctAnswers": 1,
+    "questionResults": [
+      {
+        "questionId": "2-0",
+        "questionText": "¿Qué es una Promise en JavaScript?",
+        "selectedAnswer": 1,
+        "correctAnswer": 1,
+        "isCorrect": true,
+        "responseTime": 3
+      },
+      {
+        "questionId": "2-1",
+        "questionText": "¿Qué método convierte un objeto JSON a una cadena?",
+        "selectedAnswer": 2,
+        "correctAnswer": 1,
+        "isCorrect": false,
+        "responseTime": 3
+      }
+    ]
+  },
+  {
+    "id": "game-1745436519667-428",
+    "date": "2025-04-23",
+    "timestamp": 1745436519667,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  }
+]

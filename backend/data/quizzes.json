@@ -2,94 +2,75 @@
   "quizzes": [
     {
       "id": 1,
-      "title": "Matemáticas Básicas",
+      "title": "Programación Básica",
       "questions": [
         {
-          "id": 1,
-          "question": "¿Cuánto es 5 x 3?",
-          "options": ["8", "15", "10", "20"],
-          "correctAnswer": 1
+          "question": "¿Qué significa HTML?",
+          "options": [
+            "Hyper Text Markup Language",
+            "High Tech Modern Language",
+            "Hyper Technical Machine Learning",
+            "Home Tool Markup Language"
+          ],
+          "correctAnswer": 0
         },
         {
-          "id": 2,
-          "question": "¿Cuál es el resultado de 12 / 4?",
-          "options": ["2", "3", "4", "6"],
-          "correctAnswer": 1
-        },
-        {
-          "id": 3,
-          "question": "¿Cuánto es 7 + 6?",
-          "options": ["12", "13", "14", "15"],
-          "correctAnswer": 1
-        },
-        {
-          "id": 4,
-          "question": "¿Cuál es la raíz cuadrada de 81?",
-          "options": ["7", "8", "9", "10"],
+          "question": "¿Cuál de estos NO es un lenguaje de programación?",
+          "options": [
+            "JavaScript",
+            "Python",
+            "HTML",
+            "Java"
+          ],
           "correctAnswer": 2
+        },
+        {
+          "question": "¿Qué hace la función console.log() en JavaScript?",
+          "options": [
+            "Registra información en la consola",
+            "Crea un registro de errores",
+            "Imprime una página web",
+            "Muestra una alerta al usuario"
+          ],
+          "correctAnswer": 0
         }
       ]
     },
     {
       "id": 2,
-      "title": "Cultura General",
+      "title": "JavaScript Avanzado",
       "questions": [
         {
-          "id": 1,
-          "question": "¿Cuál es la capital de Francia?",
-          "options": ["Madrid", "París", "Roma", "Berlín"],
+          "question": "¿Qué es una Promise en JavaScript?",
+          "options": [
+            "Un tipo de variable",
+            "Un objeto que representa un valor que puede estar disponible ahora, en el futuro, o nunca",
+            "Una función incorporada",
+            "Un tipo de bucle"
+          ],
           "correctAnswer": 1
         },
         {
-          "id": 2,
-          "question": "¿En qué continente está Egipto?",
-          "options": ["Asia", "África", "Europa", "Oceanía"],
+          "question": "¿Qué método convierte un objeto JSON a una cadena?",
+          "options": [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.toString()",
+            "JSON.convert()"
+          ],
           "correctAnswer": 1
         },
         {
-          "id": 3,
-          "question": "¿Quién pintó la Mona Lisa?",
-          "options": ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
-          "correctAnswer": 2
-        },
-        {
-          "id": 4,
-          "question": "¿Cuál es el océano más grande del mundo?",
-          "options": ["Atlántico", "Índico", "Ártico", "Pacífico"],
-          "correctAnswer": 3
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Ciencia y Tecnología",
-      "questions": [
-        {
-          "id": 1,
-          "question": "¿Cuál es el planeta más grande del sistema solar?",
-          "options": ["Tierra", "Júpiter", "Saturno", "Marte"],
+          "question": "¿Qué es el hoisting en JavaScript?",
+          "options": [
+            "Una técnica de optimización",
+            "El proceso de mover declaraciones al principio de su ámbito",
+            "Un error común en JavaScript",
+            "Un método para elevar elementos en la página"
+          ],
           "correctAnswer": 1
-        },
-        {
-          "id": 2,
-          "question": "¿Qué gas respiramos principalmente?",
-          "options": ["Oxígeno", "Dióxido de carbono", "Nitrógeno", "Hidrógeno"],
-          "correctAnswer": 2
-        },
-        {
-          "id": 3,
-          "question": "¿Quién inventó la bombilla eléctrica?",
-          "options": ["Edison", "Tesla", "Newton", "Einstein"],
-          "correctAnswer": 0
-        },
-        {
-          "id": 4,
-          "question": "¿Cuál es el símbolo químico del agua?",
-          "options": ["O2", "CO2", "H2O", "NaCl"],
-          "correctAnswer": 2
         }
       ]
     }
   ]
 }
-

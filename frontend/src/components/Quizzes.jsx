@@ -1,43 +1,104 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
+// Caché global persistente entre renders
+const globalQuizzesCache = {
+  data: null,
+  timestamp: 0
+};
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutos en lugar de 5
+
 const Quizzes = () => {
-  const [quizzes, setQuizzes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const [quizzes, setQuizzes] = useState(globalQuizzesCache.data || []);
+  const [isVisible, setIsVisible] = useState(true);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(!globalQuizzesCache.data);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchQuizzes = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("http://localhost:5000/api/quizzes");
-        const data = await response.json();
-        setQuizzes(data);
-        setLoading(false);
+  const fetchQuizzes = useCallback(async () => {
+    // Si hay datos en caché que son recientes, usarlos inmediatamente
+    if (globalQuizzesCache.data && (Date.now() - globalQuizzesCache.timestamp < CACHE_DURATION)) {
+      setQuizzes(globalQuizzesCache.data);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
 
-        setTimeout(() => {
-          setIsVisible(true);
-        }, 100);
-      } catch (error) {
-        console.error("Error fetching quizzes:", error);
-        setLoading(false);
-        setIsVisible(true);
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Eliminando el AbortController que causa el error
+      const response = await fetch("/api/quizzes", {
+        method: "GET",
+        cache: "no-cache", // Cambiando a no-cache para asegurar datos frescos
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
-    };
-    fetchQuizzes();
+
+      const data = await response.json();
+
+      // Procesar y guardar en caché global
+      const processedData = Array.isArray(data) ? data : 
+                          (data && data.quizzes && Array.isArray(data.quizzes)) ? data.quizzes : [];
+      
+      // Actualizar caché global
+      globalQuizzesCache.data = processedData;
+      globalQuizzesCache.timestamp = Date.now();
+      
+      // Actualizar estado
+      setQuizzes(processedData);
+      setIsLoading(false);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+      
+      // Si hay datos en caché, usarlos aunque sean antiguos en caso de error
+      if (globalQuizzesCache.data) {
+        console.log("Using cached data as fallback after error");
+        setQuizzes(globalQuizzesCache.data);
+        setError("Usando datos en caché (los datos podrían no estar actualizados)");
+      } else {
+        setError(`Error cargando quizzes: ${error.message}`);
+        setQuizzes([]);
+      }
+      
+      setIsLoading(false);
+    }
   }, []);
 
-  if (loading) {
+  // Efecto que se ejecuta solo una vez al montar el componente
+  useEffect(() => {
+    // Si hay datos en caché, mostrarlos inmediatamente y luego actualizar en segundo plano
+    if (globalQuizzesCache.data) {
+      setQuizzes(globalQuizzesCache.data);
+      setIsLoading(false);
+      
+      // Actualizar en segundo plano si los datos son antiguos (más de 5 minutos)
+      if (Date.now() - globalQuizzesCache.timestamp > 5 * 60 * 1000) {
+        fetchQuizzes();
+      }
+    } else {
+      fetchQuizzes();
+    }
+  }, [fetchQuizzes]);
+
+  if (isLoading) {
     return (
-      <div className="quizzes-container">
+      <div className="quizzes-container fade-in">
         <h1 className="page-title">Available Quizzes</h1>
-        <div
-          className="loading-spinner"
-          style={{ margin: "2rem auto", display: "block" }}
-        ></div>
+        <div className="quizzes-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading quizzes...</p>
+        </div>
       </div>
     );
   }
@@ -46,7 +107,16 @@ const Quizzes = () => {
     <div className={`quizzes-container ${isVisible ? "fade-in" : ""}`}>
       <h1 className="page-title">Available Quizzes</h1>
 
-      {quizzes.length === 0 ? (
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+          <button className="retry-button" onClick={fetchQuizzes}>
+            Retry
+          </button>
+        </div>
+      )}
+
+      {!error && quizzes.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">📚</div>
           <h2 className="empty-state-title">No quizzes available yet</h2>
@@ -89,74 +159,76 @@ const Quizzes = () => {
           </button>
         </div>
       ) : (
-        <div className="quizzes-grid">
-          {quizzes.map((quiz) => (
-            <div key={quiz.id} className="quiz-card">
-              <div>
-                <h2 className="quiz-title">{quiz.title}</h2>
-                <p className="quiz-description">
-                  {quiz.questions.length} questions
-                </p>
-                <div className="quiz-stats">
-                  <div className="quiz-stat">
-                    <span className="quiz-stat-value">
-                      {quiz.questions.length}
-                    </span>
-                    <span className="quiz-stat-label">Questions</span>
-                  </div>
-                  <div className="quiz-stat">
-                    <span className="quiz-stat-value">👑</span>
-                    <span className="quiz-stat-label">Challenge</span>
+        !error && (
+          <div className="quizzes-grid">
+            {quizzes.map((quiz) => (
+              <div key={quiz.id} className="quiz-card">
+                <div>
+                  <h2 className="quiz-title">{quiz.title}</h2>
+                  <p className="quiz-description">
+                    {quiz.questions.length} questions
+                  </p>
+                  <div className="quiz-stats">
+                    <div className="quiz-stat">
+                      <span className="quiz-stat-value">
+                        {quiz.questions.length}
+                      </span>
+                      <span className="quiz-stat-label">Questions</span>
+                    </div>
+                    <div className="quiz-stat">
+                      <span className="quiz-stat-value">👑</span>
+                      <span className="quiz-stat-label">Challenge</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <button
-                className="start-quiz-btn multi-bubble"
-                onClick={() => navigate(`/quiz/${quiz.id}`)}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    zIndex: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                  }}
+                <button
+                  className="start-quiz-btn multi-bubble"
+                  onClick={() => navigate(`/quiz/${quiz.id}`)}
                 >
-                  Start Quiz
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <div
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
                   >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </div>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    zIndex: 1,
-                  }}
-                >
-                  <BubbleEffect />
-                </div>
-              </button>
-            </div>
-          ))}
-        </div>
+                    Start Quiz
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      zIndex: 1,
+                    }}
+                  >
+                    <BubbleEffect />
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        )
       )}
 
-      {quizzes.length > 0 && (
+      {!error && quizzes.length > 0 && (
         <div className="create-quiz-section">
           <h2 className="create-quiz-title">Create Your Own Quiz</h2>
           <p className="create-quiz-description">

@@ -1,10 +1,28 @@
+import PropTypes from "prop-types";
 import "./Analytics.css";
+import { useEffect } from "react";
 
 const GameHistory = ({ games }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+    return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
+
+  useEffect(() => {
+    console.log("GameHistory recibió games:", games);
+  }, [games]);
+
+  if (!games || games.length === 0) {
+    return (
+      <div className="game-history">
+        <h2>Game History</h2>
+        <div className="no-games-message">
+          <p>No quizzes available to show.</p>
+          <p>Play some quizzes to see historic data here.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="game-history">
@@ -52,7 +70,7 @@ const GameHistory = ({ games }) => {
       <div className="history-summary">
         <h3>Performance Trends</h3>
         <div className="trend-chart">
-          {games.map((game, index) => {
+          {games.map((game) => {
             const height = (game.score / 1000) * 100;
             return (
               <div key={game.id} className="trend-bar-container">
@@ -93,6 +111,19 @@ const GameHistory = ({ games }) => {
       </div>
     </div>
   );
+};
+
+GameHistory.propTypes = {
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      date: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      score: PropTypes.number.isRequired,
+      totalQuestions: PropTypes.number.isRequired,
+      correctAnswers: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default GameHistory;

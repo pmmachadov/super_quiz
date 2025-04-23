@@ -1,8 +1,57 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import QuestionPerformance from "./QuestionPerformance";
 import GameHistory from "./GameHistory";
 import ExportResults from "./ExportResults";
 import "./Analytics.css";
+
+const StatsCard = ({ title, value, icon }) => (
+  <div className="stats-card">
+    <div className="stats-card-header">
+      <div className="stats-card-title">{title}</div>
+      <div className="stats-card-icon">{icon}</div>
+    </div>
+    <div className="stats-card-value">{value}</div>
+  </div>
+);
+
+const NoDataState = ({ message, retryFn }) => (
+  <div className="analytics-no-data">
+    <div className="no-data-icon">📊</div>
+    <h3>No Analytics Data Available</h3>
+    <p>{message}</p>
+    <button onClick={retryFn} className="retry-button">
+      Retry
+    </button>
+  </div>
+);
+
+const LoadingState = () => (
+  <div className="analytics-loading-container">
+    <div className="analytics-loading">
+      <div className="quiz-loader-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 2v4M12 18v4M4 12H2M22 12h-2M19.07 4.93l-2.82 2.82M19.07 19.07l-2.82-2.82M4.93 19.07l2.82-2.82M4.93 4.93l2.82 2.82"></path>
+        </svg>
+        <div className="quiz-loader-pulse"></div>
+      </div>
+    </div>
+    <div className="loader-text">Loading statistics...</div>
+  </div>
+);
+
+const MemoizedQuestionPerformance = memo(QuestionPerformance);
+const MemoizedGameHistory = memo(GameHistory);
+const MemoizedExportResults = memo(ExportResults);
 
 const AnalyticsDashboard = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("performance");
@@ -10,102 +59,54 @@ const AnalyticsDashboard = ({ userId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [resetStep, setResetStep] = useState(0);
+  const [error, setError] = useState(null);
+  const [resetError, setResetError] = useState(null);
 
-  useEffect(() => {
-    fetchUserStats();
-  }, [userId]);
-
-  const fetchUserStats = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null);
 
-      const response = await fetch("/api/stats/user/" + userId);
+      // Solo usar el endpoint oficial de analytics
+      const response = await fetch("http://localhost:5173/api/analytics", {
+        cache: "no-cache",
+      });
 
-      if (!response.ok) {
-        const quizzesResponse = await fetch("/api/quizzes");
-        const quizzesData = await quizzesResponse.json();
-
-        const processedData = {
-          totalGames: quizzesData.length,
-          averageScore: 82.5,
-          questionsData: quizzesData
-            .flatMap((quiz) =>
-              quiz.questions.map((q, index) => ({
-                id: `${quiz.id}-${index}`,
-                title: q.question,
-                correctPercentage: Math.floor(Math.random() * 30) + 65,
-                avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
-              }))
-            )
-            .slice(0, 10),
-          gamesHistory: quizzesData
-            .map((quiz, index) => {
-              const correctAnswers =
-                Math.floor(Math.random() * 3) + (quiz.questions.length - 3);
-              return {
-                id: `game-${index}`,
-                date: new Date(Date.now() - index * 86400000)
-                  .toISOString()
-                  .split("T")[0],
-                title: quiz.title,
-                score: correctAnswers * 100 + Math.floor(Math.random() * 100),
-                totalQuestions: quiz.questions.length,
-                correctAnswers: correctAnswers,
-              };
-            })
-            .slice(0, 8),
-        };
-
-        setUserStats(processedData);
-      } else {
+      if (response.ok) {
         const data = await response.json();
         setUserStats(data);
+        setIsLoading(false);
+        return true;
       }
-    } catch (error) {
-      console.error("Error fetching user statistics:", error);
 
-      const fallbackData = {
-        totalGames: 5,
-        averageScore: 75.0,
-        questionsData: [
-          {
-            id: 1,
-            title: "¿Qué es React?",
-            correctPercentage: 80,
-            avgResponseTime: 3.0,
-          },
-          {
-            id: 2,
-            title: "¿Qué son los Hooks?",
-            correctPercentage: 70,
-            avgResponseTime: 4.0,
-          },
-        ],
-        gamesHistory: [
-          {
-            id: "g1",
-            date: "2025-04-20",
-            title: "Fundamentos Web",
-            score: 800,
-            totalQuestions: 8,
-            correctAnswers: 7,
-          },
-          {
-            id: "g2",
-            date: "2025-04-18",
-            title: "JavaScript Básico",
-            score: 650,
-            totalQuestions: 10,
-            correctAnswers: 6,
-          },
-        ],
-      };
-
-      setUserStats(fallbackData);
-    } finally {
+      // Si el endpoint falla, mostrar un error claro
+      setError(
+        "Could not load analytics data. Please ensure the server is running."
+      );
       setIsLoading(false);
+      return false;
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+      setError("Failed to fetch analytics data. Please try again later.");
+      setIsLoading(false);
+      return false;
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadData = async () => {
+      if (!mounted) return;
+      await fetchAnalytics();
+    };
+
+    loadData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [fetchAnalytics]);
 
   const handleResetData = async () => {
     if (resetStep === 0) {
@@ -114,137 +115,159 @@ const AnalyticsDashboard = ({ userId }) => {
       return;
     }
 
-    if (resetStep === 1) {
-      setResetStep(2);
-      return;
-    }
-
     try {
       setIsLoading(true);
+      setResetError(null);
 
-      const response = await fetch(`/api/stats/user/${userId}/reset`, {
-        method: "POST",
-      });
+      const response = await fetch(
+        "http://localhost:5173/api/game-results/reset",
+        {
+          method: "POST",
+        }
+      );
 
       if (response.ok) {
-        fetchUserStats();
-        alert("Statistics data has been reset successfully!");
+        setUserStats(null);
+        setShowResetConfirm(false);
+        setResetStep(0);
+        await fetchAnalytics();
       } else {
-        localStorage.removeItem("userStats_" + userId);
-        fetchUserStats();
-        alert("Statistics data has been reset successfully! (Simulated)");
+        setResetError("Failed to reset data");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error resetting data:", error);
-      alert("Error resetting data. Please try again.");
-    } finally {
-      setShowResetConfirm(false);
-      setResetStep(0);
+      setResetError("Error resetting data");
+      setIsLoading(false);
     }
   };
 
-  const cancelReset = () => {
+  const handleCancelReset = () => {
     setShowResetConfirm(false);
     setResetStep(0);
   };
 
-  if (isLoading) {
-    return <div className="analytics-loading">Loading statistics...</div>;
+  const renderTabContent = () => {
+    if (!userStats) {
+      return (
+        <NoDataState
+          message="No game data has been recorded yet. Play some quizzes to see analytics!"
+          retryFn={fetchAnalytics}
+        />
+      );
+    }
+
+    switch (activeTab) {
+      case "performance":
+        return (
+          <MemoizedQuestionPerformance
+            questions={userStats.questionsData}
+            isLoading={isLoading}
+            error={error}
+          />
+        );
+      case "history":
+        return (
+          <MemoizedGameHistory
+            games={userStats.gamesHistory}
+            isLoading={isLoading}
+            error={error}
+          />
+        );
+      case "export":
+        return <MemoizedExportResults data={userStats} />;
+      default:
+        return <div>Select a tab to view analytics</div>;
+    }
+  };
+
+  if (isLoading && !userStats) {
+    return <LoadingState />;
   }
 
   return (
     <div className="analytics-dashboard">
-      <h1>Your Analytics Dashboard</h1>
+      <h1 className="analytics-title">Analytics Dashboard</h1>
 
-      <div className="analytics-summary">
-        <div className="stat-card">
-          <h3>Total Games</h3>
-          <p>{userStats.totalGames}</p>
+      {error && <div className="analytics-error-message">{error}</div>}
+
+      {userStats && (
+        <div className="stats-cards">
+          <StatsCard
+            title="Games Played"
+            value={userStats.totalGames}
+            icon="🎮"
+          />
+          <StatsCard
+            title="Avg. Score"
+            value={`${userStats.averageScore}%`}
+            icon="📊"
+          />
+          <StatsCard
+            title="Questions"
+            value={userStats.questionsData?.length || 0}
+            icon="❓"
+          />
         </div>
-        <div className="stat-card">
-          <h3>Average Score</h3>
-          <p>{userStats.averageScore}%</p>
+      )}
+
+      <div className="analytics-tabs-container">
+        <div className="analytics-tabs">
+          <button
+            className={`tab-button ${
+              activeTab === "performance" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("performance")}
+          >
+            Performance
+          </button>
+          <button
+            className={`tab-button ${activeTab === "history" ? "active" : ""}`}
+            onClick={() => setActiveTab("history")}
+          >
+            History
+          </button>
+          <button
+            className={`tab-button ${activeTab === "export" ? "active" : ""}`}
+            onClick={() => setActiveTab("export")}
+          >
+            Export
+          </button>
         </div>
-        <div className="stat-card reset-card">
-          <h3>Reset Data</h3>
+
+        <div className="reset-data-section">
           {!showResetConfirm ? (
-            <button className="reset-button" onClick={handleResetData}>
-              Reset All Statistics
+            <button
+              className="reset-data-button"
+              onClick={handleResetData}
+              aria-label="Reset Data"
+            >
+              Reset Data
             </button>
           ) : (
-            <div className="reset-confirm">
-              {resetStep === 1 ? (
-                <>
-                  <p>Are you sure you want to reset all statistics data?</p>
-                  <div className="reset-buttons">
-                    <button
-                      className="reset-confirm-button"
-                      onClick={handleResetData}
-                    >
-                      Yes, I'm sure
-                    </button>
-                    <button
-                      className="reset-cancel-button"
-                      onClick={cancelReset}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <p>This action is irreversible! Confirm reset?</p>
-                  <div className="reset-buttons">
-                    <button
-                      className="reset-confirm-button warning"
-                      onClick={handleResetData}
-                    >
-                      Confirm Reset
-                    </button>
-                    <button
-                      className="reset-cancel-button"
-                      onClick={cancelReset}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </>
-              )}
+            <div className="reset-confirm-container">
+              <button
+                className="reset-confirm-button"
+                onClick={handleResetData}
+                aria-label="Confirm Reset"
+              >
+                Confirm Reset
+              </button>
+              <button
+                className="reset-cancel-button"
+                onClick={handleCancelReset}
+                aria-label="Cancel Reset"
+              >
+                Cancel
+              </button>
             </div>
           )}
         </div>
       </div>
 
-      <div className="analytics-tabs">
-        <button
-          className={activeTab === "performance" ? "active" : ""}
-          onClick={() => setActiveTab("performance")}
-        >
-          Question Performance
-        </button>
-        <button
-          className={activeTab === "history" ? "active" : ""}
-          onClick={() => setActiveTab("history")}
-        >
-          Game History
-        </button>
-        <button
-          className={activeTab === "export" ? "active" : ""}
-          onClick={() => setActiveTab("export")}
-        >
-          Export Results
-        </button>
-      </div>
+      {resetError && <div className="reset-error-message">{resetError}</div>}
 
-      <div className="analytics-content">
-        {activeTab === "performance" && (
-          <QuestionPerformance questions={userStats.questionsData} />
-        )}
-        {activeTab === "history" && (
-          <GameHistory games={userStats.gamesHistory} />
-        )}
-        {activeTab === "export" && <ExportResults data={userStats} />}
-      </div>
+      <div className="tab-content">{renderTabContent()}</div>
     </div>
   );
 };
