@@ -67,7 +67,7 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setError(null);
 
-      // Try the new API endpoint first
+      // Solo usar el endpoint oficial de analytics
       const response = await fetch("http://localhost:5173/api/analytics", {
         cache: "no-cache",
       });
@@ -79,29 +79,7 @@ const AnalyticsDashboard = ({ userId }) => {
         return true;
       }
 
-      // Try legacy endpoint as fallback
-      try {
-        const legacyResponse = await fetch(
-          "http://localhost:5173/api/game-results/analytics",
-          {
-            cache: "no-cache",
-          }
-        );
-
-        if (legacyResponse.ok) {
-          const legacyData = await legacyResponse.json();
-          if (legacyData && typeof legacyData === "object") {
-            setUserStats(legacyData);
-            setError(null);
-            setIsLoading(false);
-            return true;
-          }
-        }
-      } catch (legacyError) {
-        console.error("Error fetching from legacy endpoint:", legacyError);
-      }
-
-      // If all API attempts fail
+      // Si el endpoint falla, mostrar un error claro
       setError(
         "Could not load analytics data. Please ensure the server is running."
       );
