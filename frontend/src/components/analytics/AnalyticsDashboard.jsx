@@ -60,6 +60,7 @@ const AnalyticsDashboard = ({ userId }) => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [resetStep, setResetStep] = useState(0);
   const [error, setError] = useState(null);
+  const [resetError, setResetError] = useState(null);
 
   const fetchAnalytics = useCallback(async () => {
     try {
@@ -138,6 +139,8 @@ const AnalyticsDashboard = ({ userId }) => {
 
     try {
       setIsLoading(true);
+      setResetError(null);
+
       const response = await fetch(
         "http://localhost:5173/api/game-results/reset",
         {
@@ -151,12 +154,12 @@ const AnalyticsDashboard = ({ userId }) => {
         setResetStep(0);
         await fetchAnalytics();
       } else {
-        setError("Failed to reset data");
+        setResetError("Failed to reset data");
         setIsLoading(false);
       }
     } catch (error) {
       console.error("Error resetting data:", error);
-      setError("Error resetting data");
+      setResetError("Error resetting data");
       setIsLoading(false);
     }
   };
@@ -230,50 +233,61 @@ const AnalyticsDashboard = ({ userId }) => {
         </div>
       )}
 
-      <div className="analytics-tabs">
-        <button
-          className={`tab-button ${
-            activeTab === "performance" ? "active" : ""
-          }`}
-          onClick={() => setActiveTab("performance")}
-        >
-          Performance
-        </button>
-        <button
-          className={`tab-button ${activeTab === "history" ? "active" : ""}`}
-          onClick={() => setActiveTab("history")}
-        >
-          History
-        </button>
-        <button
-          className={`tab-button ${activeTab === "export" ? "active" : ""}`}
-          onClick={() => setActiveTab("export")}
-        >
-          Export
-        </button>
-
-        <button
-          className="reset-data-button"
-          onClick={handleResetData}
-          aria-label="Reset Data"
-        >
-          {!showResetConfirm ? (
-            <span>Reset Data</span>
-          ) : (
-            <span>Confirm Reset</span>
-          )}
-        </button>
-
-        {showResetConfirm && (
+      <div className="analytics-tabs-container">
+        <div className="analytics-tabs">
           <button
-            className="cancel-reset-button"
-            onClick={handleCancelReset}
-            aria-label="Cancel Reset"
+            className={`tab-button ${
+              activeTab === "performance" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("performance")}
           >
-            Cancel
+            Performance
           </button>
-        )}
+          <button
+            className={`tab-button ${activeTab === "history" ? "active" : ""}`}
+            onClick={() => setActiveTab("history")}
+          >
+            History
+          </button>
+          <button
+            className={`tab-button ${activeTab === "export" ? "active" : ""}`}
+            onClick={() => setActiveTab("export")}
+          >
+            Export
+          </button>
+        </div>
+
+        <div className="reset-data-section">
+          {!showResetConfirm ? (
+            <button
+              className="reset-data-button"
+              onClick={handleResetData}
+              aria-label="Reset Data"
+            >
+              Reset Data
+            </button>
+          ) : (
+            <div className="reset-confirm-container">
+              <button
+                className="reset-confirm-button"
+                onClick={handleResetData}
+                aria-label="Confirm Reset"
+              >
+                Confirm Reset
+              </button>
+              <button
+                className="reset-cancel-button"
+                onClick={handleCancelReset}
+                aria-label="Cancel Reset"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
       </div>
+
+      {resetError && <div className="reset-error-message">{resetError}</div>}
 
       <div className="tab-content">{renderTabContent()}</div>
     </div>
