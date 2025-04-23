@@ -1,0 +1,64 @@
+{
+  "totalGames": 4,
+  "averageScore": 50,
+  "questionsData": [
+    {
+      "id": "2-0",
+      "title": "¿Qué es una Promise en JavaScript?",
+      "correctPercentage": 100,
+      "avgResponseTime": 3
+    },
+    {
+      "id": "2-1",
+      "title": "¿Qué método convierte un objeto JSON a una cadena?",
+      "correctPercentage": 0,
+      "avgResponseTime": 3
+    },
+    {
+      "id": "1-0",
+      "title": "¿Qué significa HTML?",
+      "correctPercentage": 100,
+      "avgResponseTime": 1.3
+    },
+    {
+      "id": "1-1",
+      "title": "¿Cuál de estos NO es un lenguaje de programación?",
+      "correctPercentage": 67,
+      "avgResponseTime": 4.7
+    }
+  ],
+  "gamesHistory": [
+    {
+      "id": "game-1745356604913-916",
+      "date": "2025-04-22",
+      "title": "Programación Básica",
+      "score": 2,
+      "totalQuestions": 3,
+      "correctAnswers": 2
+    },
+    {
+      "id": "game-1745356244809-806",
+      "date": "2025-04-22",
+      "title": "Programación Básica",
+      "score": 2,
+      "totalQuestions": 3,
+      "correctAnswers": 2
+    },
+    {
+      "id": "game-1745356198073-967",
+      "date": "2025-04-22",
+      "title": "Programación Básica",
+      "score": 1,
+      "totalQuestions": 3,
+      "correctAnswers": 1
+    },
+    {
+      "id": "game-1745356156843-460",
+      "date": "2025-04-22",
+      "title": "JavaScript Avanzado",
+      "score": 1,
+      "totalQuestions": 3,
+      "correctAnswers": 1
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Programación Básica",
+      "questions": [
+        {
+          "question": "¿Qué significa HTML?",
+          "options": [
+            "Hyper Text Markup Language",
+            "High Tech Modern Language",
+            "Hyper Technical Machine Learning",
+            "Home Tool Markup Language"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "¿Cuál de estos NO es un lenguaje de programación?",
+          "options": [
+            "JavaScript",
+            "Python",
+            "HTML",
+            "Java"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "¿Qué hace la función console.log() en JavaScript?",
+          "options": [
+            "Registra información en la consola",
+            "Crea un registro de errores",
+            "Imprime una página web",
+            "Muestra una alerta al usuario"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "JavaScript Avanzado",
+      "questions": [
+        {
+          "question": "¿Qué es una Promise en JavaScript?",
+          "options": [
+            "Un tipo de variable",
+            "Un objeto que representa un valor que puede estar disponible ahora, en el futuro, o nunca",
+            "Una función incorporada",
+            "Un tipo de bucle"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "¿Qué método convierte un objeto JSON a una cadena?",
+          "options": [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.toString()",
+            "JSON.convert()"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "¿Qué es el hoisting en JavaScript?",
+          "options": [
+            "Una técnica de optimización",
+            "El proceso de mover declaraciones al principio de su ámbito",
+            "Un error común en JavaScript",
+            "Un método para elevar elementos en la página"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ]
+}

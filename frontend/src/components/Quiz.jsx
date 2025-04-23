@@ -1,57 +1,102 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import "./Quiz.css";
+
+// Caché global para quizzes individuales
+const quizzesCache = new Map();
 
 export default function Quiz() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [quiz, setQuiz] = useState(null);
+  const [quiz, setQuiz] = useState(() => {
+    // Intentar cargar desde caché al inicializar el estado
+    return quizzesCache.get(id) || null;
+  });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!quizzesCache.has(id));
   const [fadeIn, setFadeIn] = useState(false);
   const [animateQuestion, setAnimateQuestion] = useState(false);
   const [questionTransition, setQuestionTransition] = useState(false);
   const [resetProgress, setResetProgress] = useState(false);
+  const [questionResults, setQuestionResults] = useState([]);
   const timerProgressRef = useRef(null);
 
   useEffect(() => {
     const fetchQuiz = async () => {
+      // Si el quiz ya está en caché, usarlo inmediatamente
+      if (quizzesCache.has(id)) {
+        const cachedQuiz = quizzesCache.get(id);
+        setQuiz(cachedQuiz);
+        setIsLoading(false);
+        
+        // Animar entrada
+        setTimeout(() => {
+          setFadeIn(true);
+          setAnimateQuestion(true);
+        }, 50);
+        
+        return;
+      }
+
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `http://localhost:5173/api/quizzes/${id}`
-        );
-        const quizData = response.data;
+        setError(null);
 
-        if (quizData.questions && quizData.questions.length > 0) {
-          if (quizData.questions[0].options && !quizData.questions[0].answers) {
-            quizData.questions = quizData.questions.map((q) => ({
-              ...q,
-              answers: q.options || [],
-              correctAnswer:
-                q.correctAnswer !== undefined ? q.correctAnswer : 0,
-            }));
-          }
+        // Convertir ID a numérico si es posible
+        const numericId = parseInt(id.replace(/\D/g, ""));
+        const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
+
+        // Eliminar AbortController y usar rutas relativas
+        const response = await fetch(apiEndpoint, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          cache: 'no-cache' // Cambiado a no-cache para evitar problemas
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
+        const quizData = await response.json();
+
+        if (quizData.questions && quizData.questions.length > 0) {
+          // Normalizar la estructura de datos
+          quizData.questions = quizData.questions.map((q) => ({
+            ...q,
+            answers: q.options || q.answers || [],
+            correctAnswer: q.correctAnswer !== undefined ? q.correctAnswer : 0,
+          }));
+        }
+
+        // Guardar en caché para futuras visitas
+        quizzesCache.set(id, quizData);
+        
         setQuiz(quizData);
+        setError(null);
+
+        // Animar con un pequeño retraso para asegurar fluidez
         setTimeout(() => {
           setFadeIn(true);
           setAnimateQuestion(true);
           setIsLoading(false);
-        }, 300);
+        }, 50);
       } catch (error) {
         console.error("Error fetching quiz:", error);
-        setError("Error loading the quiz");
+        setError(
+          `Error loading the quiz: ${error.message}. Please try again later.`
+        );
         setIsLoading(false);
       }
     };
+
     fetchQuiz();
   }, [id]);
 
@@ -63,7 +108,7 @@ export default function Quiz() {
       handleAnswerSelect(null);
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, selectedAnswer, isLoading, quiz, handleAnswerSelect]);
+  }, [timeLeft, selectedAnswer, isLoading, quiz]);
 
   useEffect(() => {
     if (!isLoading && quiz) {
@@ -79,6 +124,32 @@ export default function Quiz() {
       timerProgressRef.current.style.animationPlayState = "paused";
     }
   }, [selectedAnswer]);
+
+  const saveGameResults = async (finalScore, totalQuestions) => {
+    try {
+      // Prepare game result data
+      const gameResult = {
+        quizId: parseInt(id),
+        score: finalScore,
+        totalQuestions: totalQuestions,
+        correctAnswers: finalScore,
+        questionResults: questionResults,
+      };
+
+      // Send the data to the backend using ruta relativa para el proxy
+      await fetch("/api/game-results", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(gameResult)
+      });
+      console.log("Game results saved successfully");
+    } catch (error) {
+      console.error("Error saving game results:", error);
+    }
+  };
 
   const handleQuestionTransition = React.useCallback(() => {
     setShowResults(false);
@@ -99,9 +170,22 @@ export default function Quiz() {
         (selectedAnswer === quiz.questions[currentQuestion].correctAnswer
           ? 1
           : 0);
+
+      // Save the game results before navigating
+      saveGameResults(finalScore, quiz.questions.length);
+
+      // Navigate to results page
       navigate(`/results/${finalScore}/${quiz.questions.length}`);
     }
-  }, [currentQuestion, navigate, quiz, score, selectedAnswer]);
+  }, [
+    currentQuestion,
+    navigate,
+    quiz,
+    score,
+    selectedAnswer,
+    id,
+    questionResults,
+  ]);
 
   const handleAnswerSelect = React.useCallback(
     (answerIndex) => {
@@ -115,6 +199,18 @@ export default function Quiz() {
         setScore(score + 1);
       }
 
+      // Record the question result
+      const questionResult = {
+        questionId: `${quiz.id}-${currentQuestion}`,
+        questionText: quiz.questions[currentQuestion].question,
+        selectedAnswer: answerIndex,
+        correctAnswer: quiz.questions[currentQuestion].correctAnswer,
+        isCorrect: isCorrect,
+        responseTime: 10 - timeLeft,
+      };
+
+      setQuestionResults((prev) => [...prev, questionResult]);
+
       setShowResults(true);
 
       setTimeout(() => {
@@ -126,7 +222,14 @@ export default function Quiz() {
         }, 400);
       }, 2000);
     },
-    [currentQuestion, handleQuestionTransition, quiz, score, selectedAnswer]
+    [
+      currentQuestion,
+      handleQuestionTransition,
+      quiz,
+      score,
+      selectedAnswer,
+      timeLeft,
+    ]
   );
 
   const getTimerClass = () => {
@@ -170,6 +273,13 @@ export default function Quiz() {
           <div className="error-message">
             <h2>Error</h2>
             <p>{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="retry-button"
+              style={{ marginBottom: "1rem" }}
+            >
+              Retry Loading Quiz
+            </button>
             <Link to="/" className="btn primary">
               Return Home
             </Link>

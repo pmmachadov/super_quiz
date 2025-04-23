@@ -2,74 +2,55 @@ import { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Analytics.css";
 
-let globalQuizzes = null;
-let quizzesTimestamp = 0;
-const CACHE_DURATION = 5 * 60 * 1000;
-
-const fallbackQuestions = [
-  {
-    id: 1,
-    title: "¿Qué es HTML?",
-    correctPercentage: 75,
-    avgResponseTime: 2.5,
-  },
-  {
-    id: 2,
-    title: "¿Qué es CSS?",
-    correctPercentage: 68,
-    avgResponseTime: 3.2,
-  },
-  {
-    id: 3,
-    title: "¿Qué es JavaScript?",
-    correctPercentage: 60,
-    avgResponseTime: 4.0,
-  },
-  {
-    id: 4,
-    title: "¿Qué es React?",
-    correctPercentage: 55,
-    avgResponseTime: 4.5,
-  },
-  {
-    id: 5,
-    title: "¿Qué son los componentes en React?",
-    correctPercentage: 72,
-    avgResponseTime: 3.8,
-  },
-];
-
-const QuestionPerformance = ({ questions: initialQuestions }) => {
+const QuestionPerformance = ({
+  questions = [],
+  isLoading = false,
+  error = null,
+}) => {
   const [selectedQuestion, setSelectedQuestion] = useState(0);
-  const [questions, setQuestions] = useState(initialQuestions || []);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [quizzes, setQuizzes] = useState([]);
+  const [localQuestions, setLocalQuestions] = useState([]);
+  const [localError, setLocalError] = useState(error);
+  const [localLoading, setLocalLoading] = useState(isLoading);
 
-  useEffect(() => {
-    if (initialQuestions && initialQuestions.length > 0) {
-      setQuestions(initialQuestions);
-      setIsLoading(false);
-      return;
-    }
-
-    if (globalQuizzes && Date.now() - quizzesTimestamp < CACHE_DURATION) {
-      processAndSetQuestions(globalQuizzes);
-      return;
-    }
-
-    fetchQuizzes();
-  }, [initialQuestions]);
-
-  const fetchQuizzes = async () => {
-    setIsLoading(true);
-    setError(null);
+  const fetchAnalytics = async () => {
+    setLocalLoading(true);
+    setLocalError(null);
 
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      // Try to fetch analytics data first (more efficient)
+      const response = await fetch("http://localhost:5173/api/analytics", {
+        cache: "no-cache",
+        headers: {
+          Accept: "application/json",
+        },
+        timeout: 3000,
+      });
 
-      const response = await fetch("/api/quizzes", {
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data && data.questionsData && data.questionsData.length > 0) {
+          setLocalQuestions(data.questionsData);
+          setLocalLoading(false);
+          setLocalError(null);
+          return;
+        }
+      }
+
+      // If analytics don't have question data, try quizzes endpoint
+      await fetchQuizzes();
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+      fetchQuizzes();
+    }
+  };
+
+  const fetchQuizzes = async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+      const response = await fetch("http://localhost:5173/api/quizzes", {
         cache: "no-cache",
         headers: {
           Accept: "application/json",
@@ -86,29 +67,29 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
       const data = await response.json();
 
       if (!Array.isArray(data) || data.length === 0) {
-        throw new Error("No se recibieron quizzes válidos");
+        throw new Error("No valid quizzes received");
       }
-
-      globalQuizzes = data;
-      quizzesTimestamp = Date.now();
-      setQuizzes(data);
 
       processAndSetQuestions(data);
     } catch (error) {
-      setError(`Error al cargar preguntas: ${error.message}`);
-      loadFallbackData();
+      console.error(`Error loading questions: ${error.message}`);
+      setLocalError(
+        `Error loading questions. Please check if the server is running.`
+      );
+      setLocalLoading(false);
     }
   };
 
   const processAndSetQuestions = (quizzesData) => {
     try {
       const processedQuestions = processQuizzesToQuestions(quizzesData);
-      setQuestions(processedQuestions);
-      setIsLoading(false);
-      setError(null);
+      setLocalQuestions(processedQuestions);
+      setLocalLoading(false);
+      setLocalError(null);
     } catch (err) {
-      setError("Error procesando datos de quizzes");
-      loadFallbackData();
+      console.error("Error processing quiz data:", err);
+      setLocalError("Error processing quiz data.");
+      setLocalLoading(false);
     }
   };
 
@@ -117,9 +98,26 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
       return [];
     }
 
-    let allQuestions = [];
     try {
-      allQuestions = quizzes
+      // Try to fetch analytics directly for better question performance data
+      try {
+        fetch("http://localhost:5173/api/analytics", { cache: "no-cache" })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.questionsData?.length > 0) {
+              setLocalQuestions(data.questionsData);
+              setLocalLoading(false);
+            }
+          })
+          .catch(() => {
+            /* Silent fail */
+          });
+      } catch (e) {
+        // Ignore errors here as we have fallback processing
+      }
+
+      // Map the quiz questions as a fallback
+      const allQuestions = quizzes
         .flatMap((quiz) => {
           if (!quiz.questions) {
             return [];
@@ -128,25 +126,22 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
             return {
               id: `${quiz.id}-${index}`,
               title: q.question || `Question ${index + 1}`,
-              correctPercentage: Math.floor(Math.random() * 30) + 65,
+              correctPercentage: Math.floor(Math.random() * 30) + 65, // Generate random performance data
               avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
             };
           });
         })
         .slice(0, 20);
+
+      return allQuestions.length > 0 ? allQuestions : [];
     } catch (err) {
+      console.error("Error mapping questions:", err);
       return [];
     }
-    return allQuestions.length > 0 ? allQuestions : fallbackQuestions;
-  };
-
-  const loadFallbackData = () => {
-    setQuestions(fallbackQuestions);
-    setIsLoading(false);
   };
 
   const retryFetch = () => {
-    fetchQuizzes();
+    fetchAnalytics();
   };
 
   useEffect(() => {
@@ -187,56 +182,47 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
       questions.reduce((sum, q) => sum + q.correctPercentage, 0) /
       questions.length;
 
-    if (avgCorrect < 70) {
+    if (avgCorrect < 60) {
       tips.push(
-        "La tasa promedio de respuestas correctas es baja. Considera revisar los temas con mayor dificultad."
+        "Los estudiantes están teniendo dificultades. Considera revisar el material o la forma de las preguntas."
+      );
+    } else if (avgCorrect > 90) {
+      tips.push(
+        "¡Excelente rendimiento! Considera aumentar la dificultad para un mayor desafío."
+      );
+    } else {
+      tips.push(
+        "¡Buen trabajo! Tu rendimiento general es bueno. Sigue practicando para mantener tu nivel."
       );
     }
-
-    const lowPerformanceCount = questions.reduce(
-      (count, q) => count + (q.correctPercentage < 60 ? 1 : 0),
-      0
-    );
-    if (lowPerformanceCount > 0) {
-      tips.push(
-        `Hay ${lowPerformanceCount} preguntas con menos del 60% de aciertos. Enfócate en estos temas para mejorar.`
-      );
-    }
-
-    const hasSlow = questions.some((q) => parseFloat(q.avgResponseTime) > 4.0);
-    if (hasSlow) {
-      tips.push(
-        "En algunas preguntas el tiempo de respuesta es alto. Practica para mejorar tu velocidad de respuesta."
-      );
-    }
-
-    return tips.length
-      ? tips
-      : [
-          "¡Buen trabajo! Tu rendimiento general es bueno. Sigue practicando para mantener tu nivel.",
-        ];
+    return tips;
   }, [questions]);
 
-  if (isLoading) {
+  // Use passed questions prop or locally fetched questions
+  const displayQuestions = questions?.length > 0 ? questions : localQuestions;
+  const displayError = error || localError;
+  const displayLoading = isLoading || localLoading;
+
+  if (displayLoading) {
     return (
       <div className="question-performance">
         <h2>Question Performance</h2>
         <div className="analytics-loading">
-          <div>Cargando datos de preguntas...</div>
+          <div>Loading question data...</div>
           <div className="loading-spinner"></div>
         </div>
       </div>
     );
   }
 
-  if (!questions?.length) {
+  if (!displayQuestions?.length) {
     return (
       <div className="question-performance">
         <h2>Question Performance</h2>
         <div className="no-data-message">
-          No hay datos de preguntas disponibles para analizar.
-          {error && <p className="error-message">{error}</p>}
-          <button onClick={retryFetch}>Reintentar</button>
+          No question data available for analysis.
+          {displayError && <p className="error-message">{displayError}</p>}
+          <button onClick={retryFetch}>Retry</button>
         </div>
       </div>
     );
@@ -245,7 +231,7 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
   return (
     <div className="question-performance">
       <h2>Question Performance</h2>
-      {error && <div className="analytics-warning">{error}</div>}
+      {displayError && <div className="analytics-warning">{displayError}</div>}
 
       <div className="question-selector">
         <div className="select-wrapper">
@@ -256,7 +242,7 @@ const QuestionPerformance = ({ questions: initialQuestions }) => {
               setSelectedQuestion(Number(e.target.value));
             }}
           >
-            {questions.slice(0, 100).map((q, index) => (
+            {displayQuestions.slice(0, 100).map((q, index) => (
               <option key={q.id || `question-${index}`} value={index}>
                 {q.title.length > 50
                   ? q.title.substring(0, 47) + "..."
