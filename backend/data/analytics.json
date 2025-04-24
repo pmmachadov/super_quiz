@@ -1,24 +1,24 @@
 {
-  "totalGames": 19,
-  "averageScore": 64.9,
+  "totalGames": 23,
+  "averageScore": 69.6,
   "questionsData": [
     {
       "id": "1-0",
       "title": "¿Qué significa HTML?",
       "correctPercentage": 100,
-      "avgResponseTime": 1.5
+      "avgResponseTime": 1.4
     },
     {
       "id": "1-1",
       "title": "¿Cuál de estos NO es un lenguaje de programación?",
-      "correctPercentage": 89,
-      "avgResponseTime": 2
+      "correctPercentage": 86,
+      "avgResponseTime": 1.8
     },
     {
       "id": "1-2",
       "title": "¿Qué hace la función console.log() en JavaScript?",
-      "correctPercentage": 67,
-      "avgResponseTime": 0
+      "correctPercentage": 86,
+      "avgResponseTime": 1.5
     },
     {
       "id": "2-0",
@@ -34,6 +34,38 @@
     }
   ],
   "gamesHistory": [
+    {
+      "id": "game-1745528704123-356",
+      "date": "2025-04-24",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
+    {
+      "id": "game-1745528688159-895",
+      "date": "2025-04-24",
+      "title": "Programación Básica",
+      "score": 2,
+      "totalQuestions": 3,
+      "correctAnswers": 2
+    },
+    {
+      "id": "game-1745437591579-36",
+      "date": "2025-04-23",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
+    {
+      "id": "game-1745436832323-200",
+      "date": "2025-04-23",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
     {
       "id": "game-1745436519667-428",
       "date": "2025-04-23",
@@ -76,38 +108,6 @@
     },
     {
       "id": "game-1745435232983-914",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 2,
-      "totalQuestions": 3,
-      "correctAnswers": 2
-    },
-    {
-      "id": "game-1745435106650-414",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 2,
-      "totalQuestions": 3,
-      "correctAnswers": 2
-    },
-    {
-      "id": "game-1745435086374-697",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 2,
-      "totalQuestions": 3,
-      "correctAnswers": 2
-    },
-    {
-      "id": "game-1745434995457-871",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 2,
-      "totalQuestions": 3,
-      "correctAnswers": 2
-    },
-    {
-      "id": "game-1745434860997-878",
       "date": "2025-04-23",
       "title": "Programación Básica",
       "score": 2,

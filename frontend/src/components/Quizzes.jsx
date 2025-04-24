@@ -11,7 +11,7 @@ const CACHE_DURATION = 10 * 60 * 1000;
 
 const Quizzes = () => {
   const [quizzes, setQuizzes] = useState(globalQuizzesCache.data || []);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible] = useState(true);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(!globalQuizzesCache.data);
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const Quizzes = () => {
 
       const processedData = Array.isArray(data)
         ? data
-        : data && data.quizzes && Array.isArray(data.quizzes)
+        : data?.quizzes && Array.isArray(data.quizzes)
         ? data.quizzes
         : [];
 

@@ -49,10 +49,7 @@ const quizCreateValidationSchema = [
       const questionIndex = req.path.split(".")[1];
       if (questionIndex === undefined) return true;
 
-      const question = requestBody.questions[questionIndex];
-      if (!question || !question.options) return true;
-
-      if (value >= question.options.length) {
+      if (value >= requestBody.questions[questionIndex]?.options?.length) {
         throw new Error(
           "The correct answer index must be valid within the options array"
         );

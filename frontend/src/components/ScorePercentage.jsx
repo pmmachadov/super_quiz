@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 const ScorePercentage = ({ score, total }) => {
   const scoreRingRef = useRef(null);
-  
+
   const scoreNum = parseInt(score, 10) || 0;
   const totalNum = parseInt(total, 10) || 1;
-  
+
   const exactPercentage = (scoreNum / totalNum) * 100;
   const roundedPercentage = Math.round(exactPercentage);
-  
-  useEffect(() => {
-  }, [scoreNum, totalNum, exactPercentage, roundedPercentage]);
+
+  useEffect(() => {}, [scoreNum, totalNum, exactPercentage, roundedPercentage]);
 
   const getResultInfo = () => {
     if (roundedPercentage >= 90) {
@@ -99,6 +99,11 @@ const ScorePercentage = ({ score, total }) => {
       </div>
     </>
   );
+};
+
+ScorePercentage.propTypes = {
+  score: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  total: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default ScorePercentage;

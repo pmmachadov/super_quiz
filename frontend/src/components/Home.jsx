@@ -78,7 +78,7 @@ export default function Home() {
 
       <section className="options-section">
         <div className="options-grid">
-          {options.map((option, index) => (
+          {options.map((option) => (
             <Link key={option.path} to={option.path} className="option-card">
               <div className="option-content">
                 <div className="option-header">
