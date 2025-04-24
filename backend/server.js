@@ -10,7 +10,7 @@ const {
 } = require("./validators/quizValidators");
 
 const app = express();
-const port = 5173;
+const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());

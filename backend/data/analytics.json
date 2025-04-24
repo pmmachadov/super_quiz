@@ -1,39 +1,61 @@
 {
-  "totalGames": 25,
-  "averageScore": 72,
+  "totalGames": 27,
+  "averageScore": 71.6,
   "questionsData": [
     {
       "id": "1-0",
       "title": "¿Qué significa HTML?",
       "correctPercentage": 100,
-      "avgResponseTime": 2
+      "avgResponseTime": 1.9
     },
     {
       "id": "1-1",
       "title": "¿Cuál de estos NO es un lenguaje de programación?",
-      "correctPercentage": 84,
+      "correctPercentage": 85,
       "avgResponseTime": 4.1
     },
     {
       "id": "1-2",
       "title": "¿Qué hace la función console.log() en JavaScript?",
-      "correctPercentage": 89,
-      "avgResponseTime": 1.8
+      "correctPercentage": 90,
+      "avgResponseTime": 2.7
     },
     {
       "id": "2-0",
       "title": "¿Qué es una Promise en JavaScript?",
-      "correctPercentage": 100,
-      "avgResponseTime": 3
+      "correctPercentage": 50,
+      "avgResponseTime": 2.5
     },
     {
       "id": "2-1",
       "title": "¿Qué método convierte un objeto JSON a una cadena?",
       "correctPercentage": 0,
-      "avgResponseTime": 3
+      "avgResponseTime": 2
+    },
+    {
+      "id": "2-2",
+      "title": "¿Qué es el hoisting en JavaScript?",
+      "correctPercentage": 100,
+      "avgResponseTime": 1
     }
   ],
   "gamesHistory": [
+    {
+      "id": "game-1745529215104-678",
+      "date": "2025-04-24",
+      "title": "JavaScript Avanzado",
+      "score": 1,
+      "totalQuestions": 3,
+      "correctAnswers": 1
+    },
+    {
+      "id": "game-1745529137409-456",
+      "date": "2025-04-24",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
     {
       "id": "game-1745528969357-299",
       "date": "2025-04-24",
@@ -97,22 +119,6 @@
       "score": 1,
       "totalQuestions": 3,
       "correctAnswers": 1
-    },
-    {
-      "id": "game-1745435644173-43",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 3,
-      "totalQuestions": 3,
-      "correctAnswers": 3
-    },
-    {
-      "id": "game-1745435444991-98",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 2,
-      "totalQuestions": 3,
-      "correctAnswers": 2
     }
   ]
 }
