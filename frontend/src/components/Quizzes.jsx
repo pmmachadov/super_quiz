@@ -64,9 +64,7 @@ const Quizzes = () => {
 
       if (globalQuizzesCache.data) {
         setQuizzes(globalQuizzesCache.data);
-        setError(
-          "Usando datos en caché (los datos podrían no estar actualizados)"
-        );
+        setError("Usando datos en caché (los datos podrían no estar actualizados)");
       } else {
         setError(`Error cargando quizzes: ${error.message}`);
         setQuizzes([]);
@@ -108,7 +106,10 @@ const Quizzes = () => {
       {error && (
         <div className="error-message">
           <p>{error}</p>
-          <button className="retry-button" onClick={fetchQuizzes}>
+          <button
+            className="retry-button"
+            onClick={fetchQuizzes}
+          >
             Retry
           </button>
         </div>
@@ -137,8 +138,18 @@ const Quizzes = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <line
+                  x1="12"
+                  y1="5"
+                  x2="12"
+                  y2="19"
+                ></line>
+                <line
+                  x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12"
+                ></line>
               </svg>
               <span>Create Your First Quiz</span>
             </div>
@@ -159,18 +170,17 @@ const Quizzes = () => {
       ) : (
         !error && (
           <div className="quizzes-grid">
-            {quizzes.map((quiz) => (
-              <div key={quiz.id} className="quiz-card">
+            {quizzes.map(quiz => (
+              <div
+                key={quiz.id}
+                className="quiz-card"
+              >
                 <div>
                   <h2 className="quiz-title">{quiz.title}</h2>
-                  <p className="quiz-description">
-                    {quiz.questions.length} questions
-                  </p>
+                  <p className="quiz-description">{quiz.questions.length} questions</p>
                   <div className="quiz-stats">
                     <div className="quiz-stat">
-                      <span className="quiz-stat-value">
-                        {quiz.questions.length}
-                      </span>
+                      <span className="quiz-stat-value">{quiz.questions.length}</span>
                       <span className="quiz-stat-label">Questions</span>
                     </div>
                     <div className="quiz-stat">
@@ -230,8 +240,7 @@ const Quizzes = () => {
         <div className="create-quiz-section">
           <h2 className="create-quiz-title">Create Your Own Quiz</h2>
           <p className="create-quiz-description">
-            Share your knowledge and challenge others by creating your own
-            interactive quiz!
+            Share your knowledge and challenge others by creating your own interactive quiz!
           </p>
           <button
             className="create-quiz-btn multi-bubble"
@@ -257,8 +266,18 @@ const Quizzes = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <line
+                  x1="12"
+                  y1="5"
+                  x2="12"
+                  y2="19"
+                ></line>
+                <line
+                  x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12"
+                ></line>
               </svg>
               <span>Create New Quiz</span>
             </div>
