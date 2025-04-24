@@ -46,11 +46,12 @@ const Quizzes = () => {
 
       const data = await response.json();
 
-      const processedData = Array.isArray(data)
-        ? data
-        : data?.quizzes && Array.isArray(data.quizzes)
-        ? data.quizzes
-        : [];
+      let processedData = [];
+      if (Array.isArray(data)) {
+        processedData = data;
+      } else if (data?.quizzes && Array.isArray(data.quizzes)) {
+        processedData = data.quizzes;
+      }
 
       globalQuizzesCache.data = processedData;
       globalQuizzesCache.timestamp = Date.now();

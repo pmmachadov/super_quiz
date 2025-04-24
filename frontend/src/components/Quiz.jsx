@@ -219,6 +219,16 @@ export default function Quiz() {
     return baseClass;
   };
 
+  const getTimerBackground = () => {
+    if (timeLeft <= 3) {
+      return "linear-gradient(to right, #f44336, #d32f2f)";
+    } else if (timeLeft <= 7) {
+      return "linear-gradient(to right, #ff9800, #f57c00)";
+    } else {
+      return "linear-gradient(to right, #4caf50, #388e3c)";
+    }
+  };
+
   const getAnswerClass = (index) => {
     const baseClass = "answer-button";
 
@@ -332,14 +342,9 @@ export default function Quiz() {
             style={{
               animationDuration: `15s`,
               width: `${(timeLeft / 15) * 100}%`,
-              background:
-                timeLeft <= 3
-                  ? "linear-gradient(to right, #f44336, #d32f2f)"
-                  : timeLeft <= 7
-                  ? "linear-gradient(to right, #ff9800, #f57c00)"
-                  : "linear-gradient(to right, #4caf50, #388e3c)",
+              background: getTimerBackground(),
               height: "6px",
-              transition: "width 0.9s linear"
+              transition: "width 0.9s linear",
             }}
           ></div>
         </div>
