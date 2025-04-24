@@ -10,7 +10,7 @@ const {
 } = require("./validators/quizValidators");
 
 const app = express();
-const port = 5173;
+const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -90,8 +90,8 @@ try {
           QUIZZES = quizzesData.quizzes;
         } else if (Array.isArray(quizzesData) && quizzesData.length > 0) {
           QUIZZES = quizzesData;
-        } else {
         }
+        // No valid quizzes found in the file, will use default STATIC_QUIZZES
       }
     } catch (parseError) {
       console.error("Error parsing quizzes.json:", parseError.message);
@@ -358,19 +358,22 @@ function generateAnalytics() {
     };
   });
 
-  const gamesHistory = GAME_RESULTS.sort((a, b) => b.timestamp - a.timestamp)
-    .slice(0, 10)
-    .map((game) => {
-      const quiz = QUIZZES.find((q) => q.id === game.quizId);
-      return {
-        id: game.id,
-        date: game.date,
-        title: quiz ? quiz.title : `Quiz ${game.quizId}`,
-        score: game.score,
-        totalQuestions: game.totalQuestions,
-        correctAnswers: game.correctAnswers,
-      };
-    });
+  // Sort the game results by timestamp (most recent first)
+  const sortedGameResults = [...GAME_RESULTS].sort(
+    (a, b) => b.timestamp - a.timestamp
+  );
+
+  const gamesHistory = sortedGameResults.slice(0, 10).map((game) => {
+    const quiz = QUIZZES.find((q) => q.id === game.quizId);
+    return {
+      id: game.id,
+      date: game.date,
+      title: quiz ? quiz.title : `Quiz ${game.quizId}`,
+      score: game.score,
+      totalQuestions: game.totalQuestions,
+      correctAnswers: game.correctAnswers,
+    };
+  });
 
   return {
     totalGames,

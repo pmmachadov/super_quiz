@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "./Quiz.css";
 
@@ -12,7 +12,7 @@ export default function Quiz() {
   });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -21,7 +21,6 @@ export default function Quiz() {
   const [animateQuestion, setAnimateQuestion] = useState(false);
   const [questionTransition, setQuestionTransition] = useState(false);
   const [resetProgress, setResetProgress] = useState(false);
-  const [questionResults, setQuestionResults] = useState([]);
   const timerProgressRef = useRef(null);
 
   const correctAnswersRef = useRef(0);
@@ -33,12 +32,12 @@ export default function Quiz() {
         const cachedQuiz = quizzesCache.get(id);
         setQuiz(cachedQuiz);
         setIsLoading(false);
-        
+
         setTimeout(() => {
           setFadeIn(true);
           setAnimateQuestion(true);
         }, 50);
-        
+
         return;
       }
 
@@ -50,12 +49,12 @@ export default function Quiz() {
         const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
 
         const response = await fetch(apiEndpoint, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
-          cache: 'no-cache'
+          cache: "no-cache",
         });
 
         if (!response.ok) {
@@ -73,7 +72,7 @@ export default function Quiz() {
         }
 
         quizzesCache.set(id, quizData);
-        
+
         setQuiz(quizData);
         setError(null);
 
@@ -94,6 +93,93 @@ export default function Quiz() {
     fetchQuiz();
   }, [id]);
 
+  const saveGameResults = useCallback(
+    async (finalScore, totalQuestions) => {
+      try {
+        const gameResult = {
+          quizId: parseInt(id),
+          score: finalScore,
+          totalQuestions: totalQuestions,
+          correctAnswers: finalScore,
+          questionResults: allResultsRef.current,
+        };
+
+        await fetch("/api/game-results", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(gameResult),
+        });
+      } catch (error) {
+        console.error("Error saving game results:", error);
+      }
+    },
+    [id]
+  );
+
+  const handleQuestionTransition = React.useCallback(() => {
+    setShowResults(false);
+
+    if (currentQuestion < quiz?.questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setTimeLeft(15);
+      setSelectedAnswer(null);
+
+      setTimeout(() => {
+        setFadeIn(true);
+        setAnimateQuestion(true);
+        setQuestionTransition(false);
+      }, 100);
+    } else {
+      const finalScore = correctAnswersRef.current;
+      saveGameResults(finalScore, quiz.questions.length);
+      navigate(`/results/${finalScore}/${quiz.questions.length}`);
+    }
+  }, [currentQuestion, navigate, quiz, saveGameResults]);
+
+  const handleAnswerSelect = React.useCallback(
+    (answerIndex) => {
+      if (selectedAnswer !== null || !quiz) return;
+
+      setSelectedAnswer(answerIndex);
+
+      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      const isCorrect = answerIndex === correctIndex;
+
+      const questionResult = {
+        questionId: `${quiz.id || "quiz"}-${currentQuestion}`,
+        questionText: quiz.questions[currentQuestion].question,
+        selectedAnswer: answerIndex,
+        correctAnswer: correctIndex,
+        isCorrect: isCorrect,
+        responseTime: 15 - timeLeft,
+      };
+
+      allResultsRef.current.push(questionResult);
+      if (isCorrect) {
+        correctAnswersRef.current += 1;
+      }
+
+      if (isCorrect) {
+        setScore((prevScore) => prevScore + 1);
+      }
+
+      setShowResults(true);
+
+      setTimeout(() => {
+        setFadeIn(false);
+        setQuestionTransition(true);
+
+        setTimeout(() => {
+          handleQuestionTransition();
+        }, 400);
+      }, 2000);
+    },
+    [currentQuestion, handleQuestionTransition, quiz, selectedAnswer, timeLeft]
+  );
+
   useEffect(() => {
     let timer;
     if (timeLeft > 0 && !selectedAnswer && !isLoading) {
@@ -102,7 +188,7 @@ export default function Quiz() {
       handleAnswerSelect(null);
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, selectedAnswer, isLoading, quiz]);
+  }, [timeLeft, selectedAnswer, isLoading, quiz, handleAnswerSelect]);
 
   useEffect(() => {
     if (!isLoading && quiz) {
@@ -119,108 +205,6 @@ export default function Quiz() {
     }
   }, [selectedAnswer]);
 
-  const saveGameResults = async (finalScore, totalQuestions) => {
-    try {
-      const gameResult = {
-        quizId: parseInt(id),
-        score: finalScore,
-        totalQuestions: totalQuestions,
-        correctAnswers: finalScore,
-        questionResults: allResultsRef.current, // Usar el ref en lugar del estado
-      };
-
-      await fetch("/api/game-results", {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(gameResult)
-      });
-    } catch (error) {
-      console.error("Error saving game results:", error);
-    }
-  };
-
-  const handleQuestionTransition = React.useCallback(() => {
-    setShowResults(false);
-
-    if (currentQuestion < quiz?.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setTimeLeft(10);
-      setSelectedAnswer(null);
-
-      setTimeout(() => {
-        setFadeIn(true);
-        setAnimateQuestion(true);
-        setQuestionTransition(false);
-      }, 100);
-    }
-     
-        const finalScore = correctAnswersRef.current;
-             
-        saveGameResults(finalScore, quiz.questions.length);
-        navigate(`/results/${finalScore}/${quiz.questions.length}`);
-      }
-    }, [
-      currentQuestion,
-      navigate,
-      quiz,
-      id,
-    ]);
-
-  const handleAnswerSelect = React.useCallback(
-    (answerIndex) => {
-      if (selectedAnswer !== null || !quiz) return;
-
-      setSelectedAnswer(answerIndex);
-
-      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
-      const isCorrect = answerIndex === correctIndex;
-      
-      const questionResult = {
-        questionId: `${quiz.id || 'quiz'}-${currentQuestion}`,
-        questionText: quiz.questions[currentQuestion].question,
-        selectedAnswer: answerIndex,
-        correctAnswer: correctIndex,
-        isCorrect: isCorrect,
-        responseTime: 10 - timeLeft,
-      };
-      
-      setQuestionResults(prevResults => {
-        return [...prevResults, questionResult];
-      });
-      
-      allResultsRef.current.push(questionResult);
-      if (isCorrect) {
-        correctAnswersRef.current += 1;
-      } else {
-      }
-      
-      if (isCorrect) {
-        setScore(prevScore => prevScore + 1);
-      }
-
-      setShowResults(true);
-
-      setTimeout(() => {
-        setFadeIn(false);
-        setQuestionTransition(true);
-
-        setTimeout(() => {
-          handleQuestionTransition();
-        }, 400);
-      }, 2000);
-    },
-    [
-      currentQuestion,
-      handleQuestionTransition,
-      quiz,
-      selectedAnswer,
-      timeLeft,
-    ]
-  );
-
   const getTimerClass = () => {
     if (timeLeft <= 3) return "timer-countdown danger";
     if (timeLeft <= 5) return "timer-countdown warning";
@@ -235,6 +219,16 @@ export default function Quiz() {
     return baseClass;
   };
 
+  const getTimerBackground = () => {
+    if (timeLeft <= 3) {
+      return "linear-gradient(to right, #f44336, #d32f2f)";
+    } else if (timeLeft <= 7) {
+      return "linear-gradient(to right, #ff9800, #f57c00)";
+    } else {
+      return "linear-gradient(to right, #4caf50, #388e3c)";
+    }
+  };
+
   const getAnswerClass = (index) => {
     const baseClass = "answer-button";
 
@@ -244,14 +238,14 @@ export default function Quiz() {
 
     if (showResults) {
       const correctIndex = quiz.questions[currentQuestion].correctAnswer;
-      
+
       if (index === correctIndex) {
         return `${baseClass} correct`;
       }
       if (selectedAnswer === index && index !== correctIndex) {
         return `${baseClass} incorrect`;
       }
-      
+
       if (selectedAnswer === index) {
         return `${baseClass} user-selected correct-selected`;
       }
@@ -346,12 +340,11 @@ export default function Quiz() {
             ref={timerProgressRef}
             className={getProgressBarClass()}
             style={{
-              animationDuration: `${timeLeft}s`,
-              background:
-                timeLeft <= 3
-                  ? "linear-gradient(to right, #f44336, #d32f2f)"
-                  : "linear-gradient(to right, #ff9800, #f44336)",
+              animationDuration: `15s`,
+              width: `${(timeLeft / 15) * 100}%`,
+              background: getTimerBackground(),
               height: "6px",
+              transition: "width 0.9s linear",
             }}
           ></div>
         </div>
