@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "./Quiz.css";
 
@@ -46,7 +51,9 @@ export default function Quiz() {
         setError(null);
 
         const numericId = parseInt(id.replace(/\D/g, ""));
-        const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
+        const apiEndpoint = `/api/quizzes/${
+          isNaN(numericId) ? id : numericId
+        }`;
 
         const response = await fetch(apiEndpoint, {
           method: "GET",
@@ -58,16 +65,19 @@ export default function Quiz() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Error: ${response.status} ${response.statusText}`
+          );
         }
 
         const quizData = await response.json();
 
         if (quizData.questions && quizData.questions.length > 0) {
-          quizData.questions = quizData.questions.map((q) => ({
+          quizData.questions = quizData.questions.map(q => ({
             ...q,
             answers: q.options || q.answers || [],
-            correctAnswer: q.correctAnswer !== undefined ? q.correctAnswer : 0,
+            correctAnswer:
+              q.correctAnswer !== undefined ? q.correctAnswer : 0,
           }));
         }
 
@@ -140,12 +150,13 @@ export default function Quiz() {
   }, [currentQuestion, navigate, quiz, saveGameResults]);
 
   const handleAnswerSelect = React.useCallback(
-    (answerIndex) => {
+    answerIndex => {
       if (selectedAnswer !== null || !quiz) return;
 
       setSelectedAnswer(answerIndex);
 
-      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      const correctIndex =
+        quiz.questions[currentQuestion].correctAnswer;
       const isCorrect = answerIndex === correctIndex;
 
       const questionResult = {
@@ -163,7 +174,7 @@ export default function Quiz() {
       }
 
       if (isCorrect) {
-        setScore((prevScore) => prevScore + 1);
+        setScore(prevScore => prevScore + 1);
       }
 
       setShowResults(true);
@@ -177,14 +188,25 @@ export default function Quiz() {
         }, 400);
       }, 2000);
     },
-    [currentQuestion, handleQuestionTransition, quiz, selectedAnswer, timeLeft]
+    [
+      currentQuestion,
+      handleQuestionTransition,
+      quiz,
+      selectedAnswer,
+      timeLeft,
+    ]
   );
 
   useEffect(() => {
     let timer;
     if (timeLeft > 0 && !selectedAnswer && !isLoading) {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-    } else if (timeLeft === 0 && !selectedAnswer && !isLoading && quiz) {
+    } else if (
+      timeLeft === 0 &&
+      !selectedAnswer &&
+      !isLoading &&
+      quiz
+    ) {
       handleAnswerSelect(null);
     }
     return () => clearTimeout(timer);
@@ -229,7 +251,7 @@ export default function Quiz() {
     }
   };
 
-  const getAnswerClass = (index) => {
+  const getAnswerClass = index => {
     const baseClass = "answer-button";
 
     if (!showResults && selectedAnswer === index) {
@@ -237,7 +259,8 @@ export default function Quiz() {
     }
 
     if (showResults) {
-      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
+      const correctIndex =
+        quiz.questions[currentQuestion].correctAnswer;
 
       if (index === correctIndex) {
         return `${baseClass} correct`;
@@ -256,7 +279,10 @@ export default function Quiz() {
 
   if (error) {
     return (
-      <div className="container" style={{ marginTop: "2rem" }}>
+      <div
+        className="container"
+        style={{ marginTop: "2rem" }}
+      >
         <div className="quiz-container">
           <div className="error-message">
             <h2>Error</h2>
@@ -268,7 +294,10 @@ export default function Quiz() {
             >
               Retry Loading Quiz
             </button>
-            <Link to="/" className="btn primary">
+            <Link
+              to="/"
+              className="btn primary"
+            >
               Return Home
             </Link>
           </div>
@@ -279,11 +308,17 @@ export default function Quiz() {
 
   if (isLoading || !quiz) {
     return (
-      <div className="container" style={{ marginTop: "2rem" }}>
+      <div
+        className="container"
+        style={{ marginTop: "2rem" }}
+      >
         <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Loading quiz...</p>
-          <Link to="/" className="home-button">
+          <Link
+            to="/"
+            className="home-button"
+          >
             Return Home
           </Link>
         </div>
@@ -292,7 +327,8 @@ export default function Quiz() {
   }
 
   const currentQ = quiz.questions[currentQuestion];
-  const progressPercentage = (currentQuestion / quiz.questions.length) * 100;
+  const progressPercentage =
+    (currentQuestion / quiz.questions.length) * 100;
 
   const containerClasses = [
     "quiz-container",
@@ -304,15 +340,24 @@ export default function Quiz() {
     .join(" ");
 
   return (
-    <div className="container" style={{ marginTop: "2rem" }}>
+    <div
+      className="container"
+      style={{ marginTop: "2rem" }}
+    >
       <div className={containerClasses}>
         <div className="ring-3d-pieces">
-          <div key="ring-piece-top" className="ring-piece ring-piece-0"></div>
+          <div
+            key="ring-piece-top"
+            className="ring-piece ring-piece-0"
+          ></div>
           <div
             key="ring-piece-top-right"
             className="ring-piece ring-piece-1"
           ></div>
-          <div key="ring-piece-right" className="ring-piece ring-piece-2"></div>
+          <div
+            key="ring-piece-right"
+            className="ring-piece ring-piece-2"
+          ></div>
           <div
             key="ring-piece-bottom-right"
             className="ring-piece ring-piece-3"
@@ -325,7 +370,10 @@ export default function Quiz() {
             key="ring-piece-bottom-left"
             className="ring-piece ring-piece-5"
           ></div>
-          <div key="ring-piece-left" className="ring-piece ring-piece-6"></div>
+          <div
+            key="ring-piece-left"
+            className="ring-piece ring-piece-6"
+          ></div>
           <div
             key="ring-piece-top-left"
             className="ring-piece ring-piece-7"
@@ -352,7 +400,8 @@ export default function Quiz() {
         <div className="quiz-header">
           <div className="quiz-info">
             <div className="question-number">
-              Question {currentQuestion + 1} of {quiz.questions.length}
+              Question {currentQuestion + 1} of{" "}
+              {quiz.questions.length}
             </div>
           </div>
           <div className="timer-container">
@@ -367,7 +416,11 @@ export default function Quiz() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <circle cx="12" cy="12" r="10"></circle>
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              ></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
             <div className={getTimerClass()}>{timeLeft}s</div>
@@ -381,7 +434,9 @@ export default function Quiz() {
         <div className="answer-grid">
           {currentQ.answers.map((answer, index) => (
             <button
-              key={`answer-${currentQ.id || currentQuestion}-${index}`}
+              key={`answer-${
+                currentQ.id || currentQuestion
+              }-${index}`}
               onClick={() => handleAnswerSelect(index)}
               className={getAnswerClass(index)}
               disabled={selectedAnswer !== null}
@@ -404,7 +459,10 @@ export default function Quiz() {
         </div>
 
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link to="/" className="home-button">
+          <Link
+            to="/"
+            className="home-button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"

@@ -15,12 +15,23 @@ const Results = () => {
   }, []);
 
   return (
-    <div className="container" style={{ marginTop: "2rem" }}>
-      <div className={`results-container ${isVisible ? "fade-in" : ""}`}>
-        <ScorePercentage score={score} total={total} />
+    <div
+      className="container"
+      style={{ marginTop: "2rem" }}
+    >
+      <div
+        className={`results-container ${isVisible ? "fade-in" : ""}`}
+      >
+        <ScorePercentage
+          score={score}
+          total={total}
+        />
 
         <div className="results-actions">
-          <Link to="/quizzes" className="action-button primary multi-bubble">
+          <Link
+            to="/quizzes"
+            className="action-button primary multi-bubble"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -38,7 +49,10 @@ const Results = () => {
             Back to Quizzes
             <BubbleEffect />
           </Link>
-          <Link to="/" className="action-button secondary multi-bubble">
+          <Link
+            to="/"
+            className="action-button secondary multi-bubble"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

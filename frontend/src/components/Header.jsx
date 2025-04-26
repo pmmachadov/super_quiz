@@ -1,6 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import "./Layout.css";
 
 const Header = ({ darkTheme, toggleTheme }) => {
@@ -26,12 +27,15 @@ const Header = ({ darkTheme, toggleTheme }) => {
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
       <div className="header-content">
-        <Link to="/" className="logo-link">
+        <Link
+          to="/"
+          className="logo-link"
+        >
           <h1 className="logo">Quiz Challenge</h1>
         </Link>
         <div className="header-controls">
           <nav className="nav-links">
-            {navItems.map((item) => (
+            {navItems.map(item => (
               <Link
                 key={item.path}
                 to={item.path}
@@ -47,7 +51,9 @@ const Header = ({ darkTheme, toggleTheme }) => {
             className="theme-toggle-btn"
             onClick={toggleTheme}
             aria-label={
-              darkTheme ? "Switch to light theme" : "Switch to dark theme"
+              darkTheme
+                ? "Switch to light theme"
+                : "Switch to dark theme"
             }
           >
             {darkTheme ? (
@@ -62,15 +68,59 @@ const Header = ({ darkTheme, toggleTheme }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="5"
+                ></circle>
+                <line
+                  x1="12"
+                  y1="1"
+                  x2="12"
+                  y2="3"
+                ></line>
+                <line
+                  x1="12"
+                  y1="21"
+                  x2="12"
+                  y2="23"
+                ></line>
+                <line
+                  x1="4.22"
+                  y1="4.22"
+                  x2="5.64"
+                  y2="5.64"
+                ></line>
+                <line
+                  x1="18.36"
+                  y1="18.36"
+                  x2="19.78"
+                  y2="19.78"
+                ></line>
+                <line
+                  x1="1"
+                  y1="12"
+                  x2="3"
+                  y2="12"
+                ></line>
+                <line
+                  x1="21"
+                  y1="12"
+                  x2="23"
+                  y2="12"
+                ></line>
+                <line
+                  x1="4.22"
+                  y1="19.78"
+                  x2="5.64"
+                  y2="18.36"
+                ></line>
+                <line
+                  x1="18.36"
+                  y1="5.64"
+                  x2="19.78"
+                  y2="4.22"
+                ></line>
               </svg>
             ) : (
               <svg

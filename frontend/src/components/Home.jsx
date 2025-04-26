@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import BubbleEffect from "./BubbleEffect";
 import "./Home.css";
 
@@ -35,11 +36,15 @@ export default function Home() {
       <section className="hero-section">
         <h1 className="hero-title">Interactive Quiz Challenges</h1>
         <p className="hero-description">
-          Create and play engaging quizzes with friends, classmates, or
-          colleagues. Test your knowledge, learn new facts, and have fun!
+          Create and play engaging quizzes with friends, classmates,
+          or colleagues. Test your knowledge, learn new facts, and
+          have fun!
         </p>
         <div className="hero-buttons">
-          <Link to="/quizzes" className="btn primary multi-bubble">
+          <Link
+            to="/quizzes"
+            className="btn primary multi-bubble"
+          >
             <span>Start Playing</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +61,10 @@ export default function Home() {
             </svg>
             <BubbleEffect />
           </Link>
-          <Link to="/create-quiz" className="btn secondary multi-bubble">
+          <Link
+            to="/create-quiz"
+            className="btn secondary multi-bubble"
+          >
             <span>Create Your Quiz</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +86,20 @@ export default function Home() {
 
       <section className="options-section">
         <div className="options-grid">
-          {options.map((option) => (
-            <Link key={option.path} to={option.path} className="option-card">
+          {options.map(option => (
+            <Link
+              key={option.path}
+              to={option.path}
+              className="option-card"
+            >
               <div className="option-content">
                 <div className="option-header">
                   <div className="option-icon">{option.icon}</div>
                   <div className="option-title">{option.label}</div>
                 </div>
-                <p className="option-description">{option.description}</p>
+                <p className="option-description">
+                  {option.description}
+                </p>
                 <div className="option-actions">
                   <button className="option-btn multi-bubble">
                     {option.actionLabel}
@@ -132,15 +146,34 @@ export default function Home() {
               <path d="M18 6L6 18M6 6l12 12" />
             ) : (
               <>
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
+                <line
+                  x1="3"
+                  y1="12"
+                  x2="21"
+                  y2="12"
+                />
+                <line
+                  x1="3"
+                  y1="6"
+                  x2="21"
+                  y2="6"
+                />
+                <line
+                  x1="3"
+                  y1="18"
+                  x2="21"
+                  y2="18"
+                />
               </>
             )}
           </svg>
         </button>
 
-        <div className={`mobile-menu-content ${isMenuOpen ? "active" : ""}`}>
+        <div
+          className={`mobile-menu-content ${
+            isMenuOpen ? "active" : ""
+          }`}
+        >
           <div className="mobile-menu-header">
             <h2>Quiz Challenge</h2>
             <button

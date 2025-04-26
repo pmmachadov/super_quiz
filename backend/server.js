@@ -88,13 +88,19 @@ try {
           quizzesData.quizzes.length > 0
         ) {
           QUIZZES = quizzesData.quizzes;
-        } else if (Array.isArray(quizzesData) && quizzesData.length > 0) {
+        } else if (
+          Array.isArray(quizzesData) &&
+          quizzesData.length > 0
+        ) {
           QUIZZES = quizzesData;
         }
         // No valid quizzes found in the file, will use default STATIC_QUIZZES
       }
     } catch (parseError) {
-      console.error("Error parsing quizzes.json:", parseError.message);
+      console.error(
+        "Error parsing quizzes.json:",
+        parseError.message
+      );
     }
   } else {
     fs.writeFileSync(
@@ -113,7 +119,8 @@ if (!Array.isArray(QUIZZES) || QUIZZES.length === 0) {
 let GAME_RESULTS = [];
 try {
   if (fs.existsSync(GAME_RESULTS_FILE)) {
-    GAME_RESULTS = JSON.parse(fs.readFileSync(GAME_RESULTS_FILE)) || [];
+    GAME_RESULTS =
+      JSON.parse(fs.readFileSync(GAME_RESULTS_FILE)) || [];
   } else {
     fs.writeFileSync(GAME_RESULTS_FILE, JSON.stringify([], null, 2));
   }
@@ -148,17 +155,21 @@ app.get("/api/quizzes/:id", (req, res) => {
     let quiz = null;
 
     if (!isNaN(numericId)) {
-      quiz = QUIZZES.find((q) => q.id === numericId);
+      quiz = QUIZZES.find(q => q.id === numericId);
     }
 
     if (!quiz && typeof idParam === "string") {
-      quiz = QUIZZES.find((q) => String(q.id) === idParam);
+      quiz = QUIZZES.find(q => String(q.id) === idParam);
     }
 
-    if (!quiz && typeof idParam === "string" && idParam.startsWith("quiz")) {
+    if (
+      !quiz &&
+      typeof idParam === "string" &&
+      idParam.startsWith("quiz")
+    ) {
       const extractedId = parseInt(idParam.replace("quiz", ""));
       if (!isNaN(extractedId)) {
-        quiz = QUIZZES.find((q) => q.id === extractedId);
+        quiz = QUIZZES.find(q => q.id === extractedId);
       }
     }
 
@@ -167,7 +178,7 @@ app.get("/api/quizzes/:id", (req, res) => {
       return res.json(quiz);
     }
 
-    const staticQuiz = STATIC_QUIZZES.find((q) => q.id === 1);
+    const staticQuiz = STATIC_QUIZZES.find(q => q.id === 1);
     if (staticQuiz) {
       return res.json(staticQuiz);
     }
@@ -193,17 +204,27 @@ app.get("/api/quizzes/:id", (req, res) => {
 
 app.post(
   "/api/quizzes",
-  [validateQuizStructure, ...quizCreateValidationSchema, validateQuiz],
+  [
+    validateQuizStructure,
+    ...quizCreateValidationSchema,
+    validateQuiz,
+  ],
   (req, res) => {
     const newQuiz = {
-      id: QUIZZES.length > 0 ? Math.max(...QUIZZES.map((q) => q.id)) + 1 : 1,
+      id:
+        QUIZZES.length > 0
+          ? Math.max(...QUIZZES.map(q => q.id)) + 1
+          : 1,
       ...req.body,
     };
     QUIZZES.push(newQuiz);
 
     try {
       const quizzesData = { quizzes: QUIZZES };
-      fs.writeFileSync(QUIZZES_FILE, JSON.stringify(quizzesData, null, 2));
+      fs.writeFileSync(
+        QUIZZES_FILE,
+        JSON.stringify(quizzesData, null, 2)
+      );
 
       analyticsCache = null;
 
@@ -235,13 +256,21 @@ app.post("/api/game-results", (req, res) => {
     ) {
       return res.status(400).json({
         message: "Missing required fields",
-        required: ["quizId", "score", "totalQuestions", "correctAnswers"],
+        required: [
+          "quizId",
+          "score",
+          "totalQuestions",
+          "correctAnswers",
+        ],
       });
     }
 
     GAME_RESULTS.push(gameResult);
 
-    fs.writeFileSync(GAME_RESULTS_FILE, JSON.stringify(GAME_RESULTS, null, 2));
+    fs.writeFileSync(
+      GAME_RESULTS_FILE,
+      JSON.stringify(GAME_RESULTS, null, 2)
+    );
 
     analyticsCache = null;
 
@@ -272,7 +301,10 @@ app.get("/api/analytics", (req, res) => {
     analyticsCache = analytics;
     analyticsCacheTimestamp = Date.now();
 
-    fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(analytics, null, 2));
+    fs.writeFileSync(
+      ANALYTICS_FILE,
+      JSON.stringify(analytics, null, 2)
+    );
 
     res.json(analytics);
   } catch (error) {
@@ -286,7 +318,9 @@ app.get("/api/analytics", (req, res) => {
 
 app.get("/api/game-results/quiz/:quizId", (req, res) => {
   const quizId = parseInt(req.params.quizId);
-  const results = GAME_RESULTS.filter((result) => result.quizId === quizId);
+  const results = GAME_RESULTS.filter(
+    result => result.quizId === quizId
+  );
 
   res.json(results);
 });
@@ -311,13 +345,15 @@ function generateAnalytics() {
   );
 
   const questionPerformance = {};
-  GAME_RESULTS.forEach((game) => {
+  GAME_RESULTS.forEach(game => {
     if (game.questionResults && Array.isArray(game.questionResults)) {
-      game.questionResults.forEach((qResult) => {
+      game.questionResults.forEach(qResult => {
         if (!questionPerformance[qResult.questionId]) {
           questionPerformance[qResult.questionId] = {
             id: qResult.questionId,
-            title: qResult.questionText || `Question ${qResult.questionId}`,
+            title:
+              qResult.questionText ||
+              `Question ${qResult.questionId}`,
             totalAttempts: 0,
             correctAttempts: 0,
             totalResponseTime: 0,
@@ -339,7 +375,7 @@ function generateAnalytics() {
     }
   });
 
-  const questionsData = Object.values(questionPerformance).map((q) => {
+  const questionsData = Object.values(questionPerformance).map(q => {
     const correctPercentage =
       q.totalAttempts > 0
         ? Math.round((q.correctAttempts / q.totalAttempts) * 100)
@@ -347,7 +383,9 @@ function generateAnalytics() {
 
     const avgResponseTime =
       q.responseCount > 0
-        ? parseFloat((q.totalResponseTime / q.responseCount).toFixed(1))
+        ? parseFloat(
+            (q.totalResponseTime / q.responseCount).toFixed(1)
+          )
         : 0;
 
     return {
@@ -363,8 +401,8 @@ function generateAnalytics() {
     (a, b) => b.timestamp - a.timestamp
   );
 
-  const gamesHistory = sortedGameResults.slice(0, 10).map((game) => {
-    const quiz = QUIZZES.find((q) => q.id === game.quizId);
+  const gamesHistory = sortedGameResults.slice(0, 10).map(game => {
+    const quiz = QUIZZES.find(q => q.id === game.quizId);
     return {
       id: game.id,
       date: game.date,
