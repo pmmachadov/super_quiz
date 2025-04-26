@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./Analytics.css";
 
@@ -56,7 +56,7 @@ const ExportResults = ({ data }) => {
     URL.revokeObjectURL(url);
   };
 
-  const exportToPDF = (data) => {
+  const exportToPDF = data => {
     const htmlContent = generatePDFContent(data);
 
     if (!printFrameRef.current) {
@@ -82,7 +82,7 @@ const ExportResults = ({ data }) => {
     }, 250);
   };
 
-  const generatePDFContent = (data) => {
+  const generatePDFContent = data => {
     return `
       <!DOCTYPE html>
       <html>
@@ -134,7 +134,7 @@ const ExportResults = ({ data }) => {
           <tbody>
             ${data.questionsData
               .map(
-                (q) => `
+                q => `
               <tr>
                 <td>${q.title}</td>
                 <td>${q.correctPercentage}%</td>
@@ -160,7 +160,7 @@ const ExportResults = ({ data }) => {
           <tbody>
             ${data.gamesHistory
               .map(
-                (g) => `
+                g => `
               <tr>
                 <td>${g.date}</td>
                 <td>${g.title}</td>
@@ -178,7 +178,7 @@ const ExportResults = ({ data }) => {
     `;
   };
 
-  const exportToExcel = (data) => {
+  const exportToExcel = data => {
     const xlsContent = generateExcelXML(data);
     const filename = `quiz-results-${new Date()
       .toISOString()
@@ -199,7 +199,7 @@ const ExportResults = ({ data }) => {
     document.body.removeChild(a);
   };
 
-  const generateExcelXML = (data) => {
+  const generateExcelXML = data => {
     let xml = '<?xml version="1.0"?>';
     xml += '<?mso-application progid="Excel.Sheet"?>';
     xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" ';
@@ -245,7 +245,7 @@ const ExportResults = ({ data }) => {
       '<Cell ss:StyleID="Header"><Data ss:Type="String">Average Response Time (s)</Data></Cell>';
     xml += "</Row>";
 
-    data.questionsData.forEach((q) => {
+    data.questionsData.forEach(q => {
       xml += "<Row>";
       xml += `<Cell><Data ss:Type="String">${q.title
         .replace(/&/g, "&amp;")
@@ -275,7 +275,7 @@ const ExportResults = ({ data }) => {
       '<Cell ss:StyleID="Header"><Data ss:Type="String">Correct Answers</Data></Cell>';
     xml += "</Row>";
 
-    data.gamesHistory.forEach((g) => {
+    data.gamesHistory.forEach(g => {
       xml += "<Row>";
       xml += `<Cell><Data ss:Type="String">${g.date}</Data></Cell>`;
       xml += `<Cell><Data ss:Type="String">${g.title
@@ -295,14 +295,14 @@ const ExportResults = ({ data }) => {
     return xml;
   };
 
-  const generateCSV = (data) => {
+  const generateCSV = data => {
     if (!data.questionsData.length || !data.gamesHistory.length) {
       return "No data available";
     }
 
     const headers = ["Question", "Correct Percentage", "Average Response Time"];
     const questionsRows = data.questionsData.map(
-      (q) =>
+      q =>
         `"${q.title.replace(/"/g, '""')}",${q.correctPercentage},${
           q.avgResponseTime
         }`
@@ -316,7 +316,7 @@ const ExportResults = ({ data }) => {
       "Correct Answers",
     ];
     const gamesRows = data.gamesHistory.map(
-      (g) =>
+      g =>
         `"${g.date}","${g.title.replace(/"/g, '""')}",${g.score},${
           g.totalQuestions
         },${g.correctAnswers}`
@@ -408,7 +408,10 @@ const ExportResults = ({ data }) => {
       </div>
 
       <div className="export-actions">
-        <button className="export-button" onClick={handleExport}>
+        <button
+          className="export-button"
+          onClick={handleExport}
+        >
           Export as {format.toUpperCase()}
         </button>
       </div>

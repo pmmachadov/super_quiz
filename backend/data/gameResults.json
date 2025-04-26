@@ -858,5 +858,75 @@
         "responseTime": 0
       }
     ]
+  },
+  {
+    "id": "game-1745678707893-826",
+    "date": "2025-04-26",
+    "timestamp": 1745678707893,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
+  },
+  {
+    "id": "game-1745680611436-232",
+    "date": "2025-04-26",
+    "timestamp": 1745680611436,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "¿Qué significa HTML?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "¿Cuál de estos NO es un lenguaje de programación?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 0
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "¿Qué hace la función console.log() en JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
   }
 ]

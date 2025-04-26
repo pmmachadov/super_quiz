@@ -1,8 +1,11 @@
 {
+  "importOrder": null,
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": false,
   "singleAttributePerLine": true,
   "bracketSameLine": false,
   "jsxSingleQuote": false,
-  "printWidth": 70,
+  "printWidth": 80,
   "bracketSpacing": true,
   "tabWidth": 2,
   "trailingComma": "es5",
