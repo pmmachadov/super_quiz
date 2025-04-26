@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
-import QuestionPerformance from "./QuestionPerformance";
-import GameHistory from "./GameHistory";
-import ExportResults from "./ExportResults";
+import React, { memo, useCallback, useEffect, useState } from "react";
+
 import "./Analytics.css";
+import ExportResults from "./ExportResults";
+import GameHistory from "./GameHistory";
+import QuestionPerformance from "./QuestionPerformance";
 
 const StatsCard = ({ title, value, icon }) => (
   <div className="stats-card">
@@ -19,7 +20,10 @@ const NoDataState = ({ message, retryFn }) => (
     <div className="no-data-icon">📊</div>
     <h3>No Analytics Data Available</h3>
     <p>{message}</p>
-    <button onClick={retryFn} className="retry-button">
+    <button
+      onClick={retryFn}
+      className="retry-button"
+    >
       Retry
     </button>
   </div>
@@ -67,9 +71,12 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("http://localhost:5173/api/analytics", {
-        cache: "no-cache",
-      });
+      const response = await fetch(
+        "http://localhost:5173/api/analytics",
+        {
+          cache: "no-cache",
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -85,7 +92,9 @@ const AnalyticsDashboard = ({ userId }) => {
       return false;
     } catch (error) {
       console.error("Error fetching analytics:", error);
-      setError("Failed to fetch analytics data. Please try again later.");
+      setError(
+        "Failed to fetch analytics data. Please try again later."
+      );
       setIsLoading(false);
       return false;
     }
@@ -187,7 +196,9 @@ const AnalyticsDashboard = ({ userId }) => {
     <div className="analytics-dashboard">
       <h1 className="analytics-title">Analytics Dashboard</h1>
 
-      {error && <div className="analytics-error-message">{error}</div>}
+      {error && (
+        <div className="analytics-error-message">{error}</div>
+      )}
 
       {userStats && (
         <div className="stats-cards">
@@ -220,13 +231,17 @@ const AnalyticsDashboard = ({ userId }) => {
             Performance
           </button>
           <button
-            className={`tab-button ${activeTab === "history" ? "active" : ""}`}
+            className={`tab-button ${
+              activeTab === "history" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("history")}
           >
             History
           </button>
           <button
-            className={`tab-button ${activeTab === "export" ? "active" : ""}`}
+            className={`tab-button ${
+              activeTab === "export" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("export")}
           >
             Export
@@ -263,7 +278,9 @@ const AnalyticsDashboard = ({ userId }) => {
         </div>
       </div>
 
-      {resetError && <div className="reset-error-message">{resetError}</div>}
+      {resetError && (
+        <div className="reset-error-message">{resetError}</div>
+      )}
 
       <div className="tab-content">{renderTabContent()}</div>
     </div>

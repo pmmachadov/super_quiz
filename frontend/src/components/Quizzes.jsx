@@ -10,10 +10,14 @@ const globalQuizzesCache = {
 const CACHE_DURATION = 10 * 60 * 1000;
 
 const Quizzes = () => {
-  const [quizzes, setQuizzes] = useState(globalQuizzesCache.data || []);
+  const [quizzes, setQuizzes] = useState(
+    globalQuizzesCache.data || []
+  );
   const [isVisible] = useState(true);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(!globalQuizzesCache.data);
+  const [isLoading, setIsLoading] = useState(
+    !globalQuizzesCache.data
+  );
   const navigate = useNavigate();
 
   const fetchQuizzes = useCallback(async () => {
@@ -41,7 +45,9 @@ const Quizzes = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Error: ${response.status} ${response.statusText}`
+        );
       }
 
       const data = await response.json();
@@ -64,7 +70,9 @@ const Quizzes = () => {
 
       if (globalQuizzesCache.data) {
         setQuizzes(globalQuizzesCache.data);
-        setError("Usando datos en caché (los datos podrían no estar actualizados)");
+        setError(
+          "Usando datos en caché (los datos podrían no estar actualizados)"
+        );
       } else {
         setError(`Error cargando quizzes: ${error.message}`);
         setQuizzes([]);
@@ -100,7 +108,9 @@ const Quizzes = () => {
   }
 
   return (
-    <div className={`quizzes-container ${isVisible ? "fade-in" : ""}`}>
+    <div
+      className={`quizzes-container ${isVisible ? "fade-in" : ""}`}
+    >
       <h1 className="page-title">Available Quizzes</h1>
 
       {error && (
@@ -118,9 +128,12 @@ const Quizzes = () => {
       {!error && quizzes.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">📚</div>
-          <h2 className="empty-state-title">No quizzes available yet</h2>
+          <h2 className="empty-state-title">
+            No quizzes available yet
+          </h2>
           <p className="empty-state-description">
-            Be the first one to create an awesome quiz for others to enjoy!
+            Be the first one to create an awesome quiz for others to
+            enjoy!
           </p>
           <button
             className="create-quiz-btn multi-bubble"
@@ -177,15 +190,23 @@ const Quizzes = () => {
               >
                 <div>
                   <h2 className="quiz-title">{quiz.title}</h2>
-                  <p className="quiz-description">{quiz.questions.length} questions</p>
+                  <p className="quiz-description">
+                    {quiz.questions.length} questions
+                  </p>
                   <div className="quiz-stats">
                     <div className="quiz-stat">
-                      <span className="quiz-stat-value">{quiz.questions.length}</span>
-                      <span className="quiz-stat-label">Questions</span>
+                      <span className="quiz-stat-value">
+                        {quiz.questions.length}
+                      </span>
+                      <span className="quiz-stat-label">
+                        Questions
+                      </span>
                     </div>
                     <div className="quiz-stat">
                       <span className="quiz-stat-value">👑</span>
-                      <span className="quiz-stat-label">Challenge</span>
+                      <span className="quiz-stat-label">
+                        Challenge
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -240,7 +261,8 @@ const Quizzes = () => {
         <div className="create-quiz-section">
           <h2 className="create-quiz-title">Create Your Own Quiz</h2>
           <p className="create-quiz-description">
-            Share your knowledge and challenge others by creating your own interactive quiz!
+            Share your knowledge and challenge others by creating your
+            own interactive quiz!
           </p>
           <button
             className="create-quiz-btn multi-bubble"

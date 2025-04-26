@@ -16,10 +16,12 @@ const QuizPage = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:5173/api/quizzes/${id}`);
+        const response = await fetch(
+          `http://localhost:5173/api/quizzes/${id}`
+        );
         if (!response.ok) throw new Error("Quiz not found");
         let data = await response.json();
-        data.questions = data.questions.map((q) => ({
+        data.questions = data.questions.map(q => ({
           ...q,
           answers: q.options,
           correctIndex: q.correctAnswer,
@@ -55,10 +57,12 @@ const QuizPage = () => {
     return <div className="loading-container">Loading quiz...</div>;
   }
 
-  const handleAnswer = (answerIndex) => {
+  const handleAnswer = answerIndex => {
     setSelectedAnswer(answerIndex);
 
-    if (answerIndex === quiz.questions[currentQuestion].correctIndex) {
+    if (
+      answerIndex === quiz.questions[currentQuestion].correctIndex
+    ) {
       setScore(score + 1);
     }
 
@@ -81,7 +85,9 @@ const QuizPage = () => {
           <h2 className="question-number">
             Question {currentQuestion + 1} of {quiz.questions.length}
           </h2>
-          <p className="question-text">{currentQuestionData.question}</p>
+          <p className="question-text">
+            {currentQuestionData.question}
+          </p>
 
           <div className="answers-container">
             {currentQuestionData.answers.map((answer, index) => (
