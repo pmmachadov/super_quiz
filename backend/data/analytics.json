@@ -1,23 +1,23 @@
 {
-  "totalGames": 27,
-  "averageScore": 71.6,
+  "totalGames": 29,
+  "averageScore": 73.6,
   "questionsData": [
     {
       "id": "1-0",
       "title": "¿Qué significa HTML?",
       "correctPercentage": 100,
-      "avgResponseTime": 1.9
+      "avgResponseTime": 2
     },
     {
       "id": "1-1",
       "title": "¿Cuál de estos NO es un lenguaje de programación?",
-      "correctPercentage": 85,
-      "avgResponseTime": 4.1
+      "correctPercentage": 86,
+      "avgResponseTime": 3.9
     },
     {
       "id": "1-2",
       "title": "¿Qué hace la función console.log() en JavaScript?",
-      "correctPercentage": 90,
+      "correctPercentage": 92,
       "avgResponseTime": 2.7
     },
     {
@@ -40,6 +40,22 @@
     }
   ],
   "gamesHistory": [
+    {
+      "id": "game-1745678707893-826",
+      "date": "2025-04-26",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
+    {
+      "id": "game-1745529479743-538",
+      "date": "2025-04-24",
+      "title": "Programación Básica",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
     {
       "id": "game-1745529215104-678",
       "date": "2025-04-24",
@@ -103,22 +119,6 @@
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
-    },
-    {
-      "id": "game-1745436519667-428",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 3,
-      "totalQuestions": 3,
-      "correctAnswers": 3
-    },
-    {
-      "id": "game-1745435666410-581",
-      "date": "2025-04-23",
-      "title": "Programación Básica",
-      "score": 1,
-      "totalQuestions": 3,
-      "correctAnswers": 1
     }
   ]
 }

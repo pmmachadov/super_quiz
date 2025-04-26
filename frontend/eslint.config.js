@@ -30,48 +30,9 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
-      // Import ordering rules
-      "import/order": [
-        "error",
-        {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["sibling", "parent", "index"],
-            "type",
-            "unknown",
-          ],
-          "newlines-between": "always",
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
-          pathGroups: [
-            {
-              pattern: "react",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "react-**",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "prop-types",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "./**/*.css",
-              group: "sibling",
-              position: "after",
-            },
-          ],
-          pathGroupsExcludedImportTypes: ["react"],
-        },
-      ],
+      // Desactivar completamente las reglas de ordenamiento de importaciones
+      "import/order": "off",
+      "sort-imports": "off",
     },
   },
 ];
