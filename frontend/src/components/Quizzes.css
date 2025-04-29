@@ -763,7 +763,7 @@
 }
 
 .delete-quiz-btn {
-  background: #bc0000;
+  background: #bc000081;
   color: white;
   padding: 0.9rem 1.8rem;
   border-radius: 0.5rem;
@@ -781,7 +781,7 @@
 }
 
 .delete-quiz-btn:hover {
-  background: #dc2626;
+  background: #c10404;
   box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
   transform: translateY(-2px);
   opacity: 1;
