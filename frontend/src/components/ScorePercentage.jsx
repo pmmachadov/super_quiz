@@ -65,7 +65,6 @@ const ScorePercentage = ({ score, total }) => {
         resultInfo.color
       );
 
-      // Configurar los colores del gradiente dinámico
       document.documentElement.style.setProperty(
         "--gradient-color-1",
         resultInfo.gradientColors[0]

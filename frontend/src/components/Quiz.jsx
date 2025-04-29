@@ -1,10 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+
 import "./Quiz.css";
 
 const quizzesCache = new Map();
@@ -15,6 +11,7 @@ export default function Quiz() {
   const [quiz, setQuiz] = useState(() => {
     return quizzesCache.get(id) || null;
   });
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(15);
@@ -51,9 +48,7 @@ export default function Quiz() {
         setError(null);
 
         const numericId = parseInt(id.replace(/\D/g, ""));
-        const apiEndpoint = `/api/quizzes/${
-          isNaN(numericId) ? id : numericId
-        }`;
+        const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
 
         const response = await fetch(apiEndpoint, {
           method: "GET",
@@ -65,9 +60,7 @@ export default function Quiz() {
         });
 
         if (!response.ok) {
-          throw new Error(
-            `Error: ${response.status} ${response.statusText}`
-          );
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
         const quizData = await response.json();
@@ -76,8 +69,7 @@ export default function Quiz() {
           quizData.questions = quizData.questions.map(q => ({
             ...q,
             answers: q.options || q.answers || [],
-            correctAnswer:
-              q.correctAnswer !== undefined ? q.correctAnswer : 0,
+            correctAnswer: q.correctAnswer !== undefined ? q.correctAnswer : 0,
           }));
         }
 
@@ -141,7 +133,7 @@ export default function Quiz() {
         setFadeIn(true);
         setAnimateQuestion(true);
         setQuestionTransition(false);
-      }, 100);
+      }, 50);
     } else {
       const finalScore = correctAnswersRef.current;
       saveGameResults(finalScore, quiz.questions.length);
@@ -155,8 +147,7 @@ export default function Quiz() {
 
       setSelectedAnswer(answerIndex);
 
-      const correctIndex =
-        quiz.questions[currentQuestion].correctAnswer;
+      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
       const isCorrect = answerIndex === correctIndex;
 
       const questionResult = {
@@ -185,28 +176,17 @@ export default function Quiz() {
 
         setTimeout(() => {
           handleQuestionTransition();
-        }, 400);
-      }, 2000);
+        }, 500);
+      }, 1500);
     },
-    [
-      currentQuestion,
-      handleQuestionTransition,
-      quiz,
-      selectedAnswer,
-      timeLeft,
-    ]
+    [currentQuestion, handleQuestionTransition, quiz, selectedAnswer, timeLeft]
   );
 
   useEffect(() => {
     let timer;
     if (timeLeft > 0 && !selectedAnswer && !isLoading) {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-    } else if (
-      timeLeft === 0 &&
-      !selectedAnswer &&
-      !isLoading &&
-      quiz
-    ) {
+    } else if (timeLeft === 0 && !selectedAnswer && !isLoading && quiz) {
       handleAnswerSelect(null);
     }
     return () => clearTimeout(timer);
@@ -217,7 +197,7 @@ export default function Quiz() {
       setResetProgress(true);
       setTimeout(() => {
         setResetProgress(false);
-      }, 50);
+      }, 100);
     }
   }, [currentQuestion, isLoading, quiz]);
 
@@ -259,8 +239,7 @@ export default function Quiz() {
     }
 
     if (showResults) {
-      const correctIndex =
-        quiz.questions[currentQuestion].correctAnswer;
+      const correctIndex = quiz.questions[currentQuestion].correctAnswer;
 
       if (index === correctIndex) {
         return `${baseClass} correct`;
@@ -327,8 +306,7 @@ export default function Quiz() {
   }
 
   const currentQ = quiz.questions[currentQuestion];
-  const progressPercentage =
-    (currentQuestion / quiz.questions.length) * 100;
+  const progressPercentage = (currentQuestion / quiz.questions.length) * 100;
 
   const containerClasses = [
     "quiz-container",
@@ -392,7 +370,7 @@ export default function Quiz() {
               width: `${(timeLeft / 15) * 100}%`,
               background: getTimerBackground(),
               height: "6px",
-              transition: "width 0.9s linear",
+              transition: "width 1s linear",
             }}
           ></div>
         </div>
@@ -400,8 +378,7 @@ export default function Quiz() {
         <div className="quiz-header">
           <div className="quiz-info">
             <div className="question-number">
-              Question {currentQuestion + 1} of{" "}
-              {quiz.questions.length}
+              Question {currentQuestion + 1} of {quiz.questions.length}
             </div>
           </div>
           <div className="timer-container">
@@ -434,9 +411,7 @@ export default function Quiz() {
         <div className="answer-grid">
           {currentQ.answers.map((answer, index) => (
             <button
-              key={`answer-${
-                currentQ.id || currentQuestion
-              }-${index}`}
+              key={`answer-${currentQ.id || currentQuestion}-${index}`}
               onClick={() => handleAnswerSelect(index)}
               className={getAnswerClass(index)}
               disabled={selectedAnswer !== null}

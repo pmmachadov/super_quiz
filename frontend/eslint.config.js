@@ -30,7 +30,6 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
-      // Desactivar completamente las reglas de ordenamiento de importaciones
       "import/order": "off",
       "sort-imports": "off",
     },

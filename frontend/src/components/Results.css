@@ -266,7 +266,6 @@
       inset 0 0 20px var(--glow-color),
       0 20px 30px rgba(0, 0, 0, 0.5);
     animation: scoreFill 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
-    /* Efecto 3D mejorado */
     border: 10px solid transparent;
     background-clip: padding-box;
     position: relative;
@@ -319,6 +318,11 @@
     }
     33% {
       transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -webkit-transform: translateZ(15px) rotateX(5deg) rotateY(10deg)
+        scale(1.05);
+      -moz-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -ms-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -o-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
     }
     66% {
       transform: translateZ(10px) rotateX(-3deg) rotateY(5deg) scale(1.02);
@@ -328,7 +332,6 @@
     }
   }
 
-  /* Efecto de luz en el borde del anillo */
   .score-container:after {
     content: "";
     position: absolute;
