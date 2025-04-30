@@ -363,7 +363,8 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: bg-shift 8s ease infinite;
+    animation: bg-shift 15s ease infinite;
+    -webkit-animation: bg-shift 15s ease infinite;
   }
 
   :root:not(.dark-theme) .correct-answer {

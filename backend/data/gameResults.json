@@ -1033,5 +1033,40 @@
         "responseTime": 4
       }
     ]
+  },
+  {
+    "id": "game-1746033705586-294",
+    "date": "2025-04-30",
+    "timestamp": 1746033705587,
+    "quizId": 1,
+    "score": 3,
+    "totalQuestions": 3,
+    "correctAnswers": 3,
+    "questionResults": [
+      {
+        "questionId": "1-0",
+        "questionText": "What does HTML stand for?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-1",
+        "questionText": "Which of these is NOT a programming language?",
+        "selectedAnswer": 2,
+        "correctAnswer": 2,
+        "isCorrect": true,
+        "responseTime": 1
+      },
+      {
+        "questionId": "1-2",
+        "questionText": "What does the console.log() function do in JavaScript?",
+        "selectedAnswer": 0,
+        "correctAnswer": 0,
+        "isCorrect": true,
+        "responseTime": 0
+      }
+    ]
   }
 ]

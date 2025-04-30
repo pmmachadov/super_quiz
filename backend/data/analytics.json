@@ -1,6 +1,6 @@
 {
-  "totalGames": 33,
-  "averageScore": 76.8,
+  "totalGames": 34,
+  "averageScore": 77.5,
   "questionsData": [
     {
       "id": "1-0",
@@ -12,7 +12,7 @@
       "id": "1-1",
       "title": "¿Cuál de estos NO es un lenguaje de programación?",
       "correctPercentage": 88,
-      "avgResponseTime": 3.9
+      "avgResponseTime": 3.7
     },
     {
       "id": "1-2",
@@ -41,9 +41,17 @@
   ],
   "gamesHistory": [
     {
+      "id": "game-1746033705586-294",
+      "date": "2025-04-30",
+      "title": "Basic Programming",
+      "score": 3,
+      "totalQuestions": 3,
+      "correctAnswers": 3
+    },
+    {
       "id": "game-1745783514444-794",
       "date": "2025-04-27",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -51,7 +59,7 @@
     {
       "id": "game-1745783388057-144",
       "date": "2025-04-27",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -59,7 +67,7 @@
     {
       "id": "game-1745783366982-402",
       "date": "2025-04-27",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -67,7 +75,7 @@
     {
       "id": "game-1745680611436-232",
       "date": "2025-04-26",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -75,7 +83,7 @@
     {
       "id": "game-1745678707893-826",
       "date": "2025-04-26",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -83,7 +91,7 @@
     {
       "id": "game-1745529479743-538",
       "date": "2025-04-24",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -91,7 +99,7 @@
     {
       "id": "game-1745529215104-678",
       "date": "2025-04-24",
-      "title": "JavaScript Avanzado",
+      "title": "Advanced JavaScript",
       "score": 1,
       "totalQuestions": 3,
       "correctAnswers": 1
@@ -99,7 +107,7 @@
     {
       "id": "game-1745529137409-456",
       "date": "2025-04-24",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
@@ -107,15 +115,7 @@
     {
       "id": "game-1745528969357-299",
       "date": "2025-04-24",
-      "title": "Programación Básica",
-      "score": 3,
-      "totalQuestions": 3,
-      "correctAnswers": 3
-    },
-    {
-      "id": "game-1745528883529-58",
-      "date": "2025-04-24",
-      "title": "Programación Básica",
+      "title": "Basic Programming",
       "score": 3,
       "totalQuestions": 3,
       "correctAnswers": 3
