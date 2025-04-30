@@ -16,7 +16,7 @@ export default function CreateQuiz() {
   const [validationErrors, setValidationErrors] = useState([]);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const quizData = transformFormDataToApiFormat(title, questions);
@@ -46,7 +46,7 @@ export default function CreateQuiz() {
         navigate("/quizzes");
       } else {
         const errorMessage = respData.errors
-          ? respData.errors.map((err) => err.msg || err.message)
+          ? respData.errors.map(err => err.msg || err.message)
           : [respData.message || "Error creating quiz"];
 
         setValidationErrors(errorMessage);
@@ -58,7 +58,7 @@ export default function CreateQuiz() {
     }
   };
 
-  const handleRemoveQuestion = (index) => {
+  const handleRemoveQuestion = index => {
     if (questions.length > 1) {
       const newQuestions = [...questions];
       newQuestions.splice(index, 1);
@@ -82,7 +82,7 @@ export default function CreateQuiz() {
         top: document.body.scrollHeight,
         behavior: "smooth",
       });
-    }, 100);
+    }, 300);
   };
 
   return (
@@ -108,14 +108,17 @@ export default function CreateQuiz() {
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label className="form-label" htmlFor="quiz-title">
+          <label
+            className="form-label"
+            htmlFor="quiz-title"
+          >
             Quiz Title
           </label>
           <input
             type="text"
             id="quiz-title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             className="form-input"
             placeholder="Enter a descriptive title for your quiz"
             required
@@ -128,7 +131,10 @@ export default function CreateQuiz() {
           </div>
 
           {questions.map((question, index) => (
-            <div key={question.id} className="question-group">
+            <div
+              key={question.id}
+              className="question-group"
+            >
               <div className="question-header">
                 <h3 className="question-number">Question {index + 1}</h3>
                 <div className="question-actions">
@@ -170,7 +176,7 @@ export default function CreateQuiz() {
                   id={`question-${question.id}`}
                   placeholder="Write your question here"
                   value={question.text}
-                  onChange={(e) => {
+                  onChange={e => {
                     const newQuestions = [...questions];
                     newQuestions[index].text = e.target.value;
                     setQuestions(newQuestions);
@@ -198,7 +204,7 @@ export default function CreateQuiz() {
                       id={`answer-${question.id}-${ansIndex}`}
                       placeholder={`Enter answer ${ansIndex + 1}`}
                       value={answer}
-                      onChange={(e) => {
+                      onChange={e => {
                         const newQuestions = [...questions];
                         newQuestions[index].answers[ansIndex] = e.target.value;
                         setQuestions(newQuestions);
@@ -246,14 +252,27 @@ export default function CreateQuiz() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <line
+                x1="12"
+                y1="5"
+                x2="12"
+                y2="19"
+              ></line>
+              <line
+                x1="5"
+                y1="12"
+                x2="19"
+                y2="12"
+              ></line>
             </svg>
             Add Question
             <BubbleEffect />
           </button>
 
-          <button type="submit" className="btn-primary multi-bubble">
+          <button
+            type="submit"
+            className="btn-primary multi-bubble"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"

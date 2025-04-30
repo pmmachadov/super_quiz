@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
-import "./App.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import AnalyticsDashboard from "./components/analytics/AnalyticsDashboard";
 import CreateQuiz from "./components/CreateQuiz";
@@ -14,6 +8,7 @@ import Layout from "./components/Layout";
 import Quiz from "./components/Quiz";
 import Quizzes from "./components/Quizzes";
 import Results from "./components/Results";
+import "./App.css";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import "./Layout.css";
 
@@ -51,9 +51,7 @@ const Header = ({ darkTheme, toggleTheme }) => {
             className="theme-toggle-btn"
             onClick={toggleTheme}
             aria-label={
-              darkTheme
-                ? "Switch to light theme"
-                : "Switch to dark theme"
+              darkTheme ? "Switch to light theme" : "Switch to dark theme"
             }
           >
             {darkTheme ? (

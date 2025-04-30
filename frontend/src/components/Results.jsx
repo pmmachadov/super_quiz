@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+
 import BubbleEffect from "./BubbleEffect";
 import ScorePercentage from "./ScorePercentage";
 import "./Results.css";
@@ -19,9 +20,7 @@ const Results = () => {
       className="container"
       style={{ marginTop: "2rem" }}
     >
-      <div
-        className={`results-container ${isVisible ? "fade-in" : ""}`}
-      >
+      <div className={`results-container ${isVisible ? "fade-in" : ""}`}>
         <ScorePercentage
           score={score}
           total={total}

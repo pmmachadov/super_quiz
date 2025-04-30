@@ -36,9 +36,8 @@ export default function Home() {
       <section className="hero-section">
         <h1 className="hero-title">Interactive Quiz Challenges</h1>
         <p className="hero-description">
-          Create and play engaging quizzes with friends, classmates,
-          or colleagues. Test your knowledge, learn new facts, and
-          have fun!
+          Create and play engaging quizzes with friends, classmates, or
+          colleagues. Test your knowledge, learn new facts, and have fun!
         </p>
         <div className="hero-buttons">
           <Link
@@ -97,9 +96,7 @@ export default function Home() {
                   <div className="option-icon">{option.icon}</div>
                   <div className="option-title">{option.label}</div>
                 </div>
-                <p className="option-description">
-                  {option.description}
-                </p>
+                <p className="option-description">{option.description}</p>
                 <div className="option-actions">
                   <button className="option-btn multi-bubble">
                     {option.actionLabel}
@@ -169,11 +166,7 @@ export default function Home() {
           </svg>
         </button>
 
-        <div
-          className={`mobile-menu-content ${
-            isMenuOpen ? "active" : ""
-          }`}
-        >
+        <div className={`mobile-menu-content ${isMenuOpen ? "active" : ""}`}>
           <div className="mobile-menu-header">
             <h2>Quiz Challenge</h2>
             <button

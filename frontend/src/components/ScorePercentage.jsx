@@ -20,7 +20,6 @@ const ScorePercentage = ({ score, total }) => {
         emoji: "🏆",
         className: "excellent",
         color: "#f5c518",
-        gradientColors: ["#ff9900", "#ffcc00", "#ffeb3b", "#ffd700", "#ffa500"],
       };
     } else if (roundedPercentage >= 70) {
       return {
@@ -29,7 +28,6 @@ const ScorePercentage = ({ score, total }) => {
         emoji: "",
         className: "good",
         color: "#4caf50",
-        gradientColors: ["#4caf50", "#8bc34a", "#00e676", "#69f0ae", "#00c853"],
       };
     } else if (roundedPercentage >= 50) {
       return {
@@ -38,7 +36,6 @@ const ScorePercentage = ({ score, total }) => {
         emoji: "👍",
         className: "average",
         color: "#2196f3",
-        gradientColors: ["#2196f3", "#03a9f4", "#00bcd4", "#80deea", "#29b6f6"],
       };
     } else {
       return {
@@ -47,7 +44,6 @@ const ScorePercentage = ({ score, total }) => {
         emoji: "💪",
         className: "needs-practice",
         color: "#ff5722",
-        gradientColors: ["#ff5722", "#ff7043", "#ff9800", "#ffab91", "#ff6e40"],
       };
     }
   };
@@ -64,30 +60,8 @@ const ScorePercentage = ({ score, total }) => {
         "--score-color",
         resultInfo.color
       );
-
-      // Configurar los colores del gradiente dinámico
-      document.documentElement.style.setProperty(
-        "--gradient-color-1",
-        resultInfo.gradientColors[0]
-      );
-      document.documentElement.style.setProperty(
-        "--gradient-color-2",
-        resultInfo.gradientColors[1]
-      );
-      document.documentElement.style.setProperty(
-        "--gradient-color-3",
-        resultInfo.gradientColors[2]
-      );
-      document.documentElement.style.setProperty(
-        "--gradient-color-4",
-        resultInfo.gradientColors[3]
-      );
-      document.documentElement.style.setProperty(
-        "--gradient-color-5",
-        resultInfo.gradientColors[4]
-      );
     }
-  }, [roundedPercentage, resultInfo.color, resultInfo.gradientColors]);
+  }, [roundedPercentage, resultInfo.color]);
 
   return (
     <>

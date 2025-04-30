@@ -13,11 +13,6 @@
     --electric-accent: rgba(220, 255, 230, 0.95);
     --particle-density: 0.8;
     --green-pulse-speed: 3s;
-    --gradient-color-1: #ff5722;
-    --gradient-color-2: #ff7043;
-    --gradient-color-3: #ffeb3b;
-    --gradient-color-4: #ffab91;
-    --gradient-color-5: #fb07d9;
   }
 
   body::before {
@@ -266,7 +261,6 @@
       inset 0 0 20px var(--glow-color),
       0 20px 30px rgba(0, 0, 0, 0.5);
     animation: scoreFill 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
-    /* Efecto 3D mejorado */
     border: 10px solid transparent;
     background-clip: padding-box;
     position: relative;
@@ -319,6 +313,11 @@
     }
     33% {
       transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -webkit-transform: translateZ(15px) rotateX(5deg) rotateY(10deg)
+        scale(1.05);
+      -moz-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -ms-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
+      -o-transform: translateZ(15px) rotateX(5deg) rotateY(10deg) scale(1.05);
     }
     66% {
       transform: translateZ(10px) rotateX(-3deg) rotateY(5deg) scale(1.02);
@@ -328,7 +327,6 @@
     }
   }
 
-  /* Efecto de luz en el borde del anillo */
   .score-container:after {
     content: "";
     position: absolute;
@@ -383,12 +381,7 @@
     left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(
-      to top,
-      var(--gradient-color-1),
-      var(--gradient-color-3),
-      transparent
-    );
+    background: linear-gradient(to top, #ff5722, #ffeb3b, transparent);
     filter: blur(15px);
     z-index: -1;
     animation: innerFlames 2s ease-in-out infinite alternate;
@@ -1171,12 +1164,12 @@
     top: -60%;
     left: -60%;
     background: conic-gradient(
-      var(--gradient-color-1),
-      var(--gradient-color-2),
-      var(--gradient-color-3),
-      var(--gradient-color-4),
-      var(--gradient-color-5),
-      var(--gradient-color-1)
+      #ff5722,
+      #ff7043,
+      #ffeb3b,
+      #ffab91,
+      #fb07d9,
+      #ff5722
     );
     border-radius: 50%;
     opacity: 0.5;
@@ -1279,12 +1272,7 @@
     left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(
-      to top,
-      var(--gradient-color-1),
-      var(--gradient-color-3),
-      transparent
-    );
+    background: linear-gradient(to top, #ff5722, #ffeb3b, transparent);
     filter: blur(15px);
     z-index: -1;
     animation: innerFlames 2s ease-in-out infinite alternate;
