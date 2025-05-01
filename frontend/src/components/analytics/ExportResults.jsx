@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
+
 import "./Analytics.css";
 
 const ExportResults = ({ data }) => {
@@ -15,7 +16,7 @@ const ExportResults = ({ data }) => {
 ...`;
       return previewCSV;
     } else if (format === "json") {
-      return JSON.stringify(data, null, 2).slice(0, 200) + "...";
+      return JSON.stringify(data, null, 2).slice(0, 400) + "...";
     }
     return "";
   }, [data, format]);
@@ -465,6 +466,33 @@ ExportResults.propTypes = {
       })
     ).isRequired,
   }).isRequired,
+  resultsData: PropTypes.shape({
+    quizTitle: PropTypes.string,
+    questionCount: PropTypes.number,
+    totalCorrect: PropTypes.number,
+    score: PropTypes.number,
+    questions: PropTypes.arrayOf(
+      PropTypes.shape({
+        question: PropTypes.string,
+        correctAnswer: PropTypes.string,
+        selectedAnswer: PropTypes.string,
+        isCorrect: PropTypes.bool,
+        timeSpent: PropTypes.number,
+      })
+    ),
+  }),
+  onClose: PropTypes.func,
+};
+
+ExportResults.defaultProps = {
+  resultsData: {
+    quizTitle: "",
+    questionCount: 0,
+    totalCorrect: 0,
+    score: 0,
+    questions: [],
+  },
+  onClose: () => {},
 };
 
 export default ExportResults;

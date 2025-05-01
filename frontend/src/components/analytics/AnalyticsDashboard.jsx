@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-import "./Analytics.css";
 import ExportResults from "./ExportResults";
 import GameHistory from "./GameHistory";
 import QuestionPerformance from "./QuestionPerformance";
+import "./Analytics.css";
 
 const StatsCard = ({ title, value, icon }) => (
   <div className="stats-card">
@@ -93,7 +94,7 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(false);
       return false;
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -272,6 +273,32 @@ const AnalyticsDashboard = ({ userId }) => {
       <div className="tab-content">{renderTabContent()}</div>
     </div>
   );
+};
+
+StatsCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
+NoDataState.propTypes = {
+  message: PropTypes.string.isRequired,
+  retryFn: PropTypes.func.isRequired,
+};
+
+AnalyticsDashboard.propTypes = {
+  userId: PropTypes.string,
+  initialData: PropTypes.shape({
+    gamesHistory: PropTypes.array,
+    questionsData: PropTypes.array,
+    totalGames: PropTypes.number,
+    averageScore: PropTypes.number,
+  }),
+};
+
+AnalyticsDashboard.defaultProps = {
+  userId: "",
+  initialData: null,
 };
 
 export default AnalyticsDashboard;
