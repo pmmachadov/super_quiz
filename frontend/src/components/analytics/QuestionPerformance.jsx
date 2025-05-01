@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
+
 import "./Analytics.css";
 
 const QuestionPerformance = ({
@@ -28,7 +29,7 @@ const QuestionPerformance = ({
       if (response.ok) {
         const data = await response.json();
 
-        if (data && data.questionsData && data.questionsData.length > 0) {
+        if (data?.questionsData?.length > 0) {
           setLocalQuestions(data.questionsData);
           setLocalLoading(false);
           setLocalError(null);
@@ -78,7 +79,7 @@ const QuestionPerformance = ({
     }
   };
 
-  const processAndSetQuestions = (quizzesData) => {
+  const processAndSetQuestions = quizzesData => {
     try {
       const processedQuestions = processQuizzesToQuestions(quizzesData);
       setLocalQuestions(processedQuestions);
@@ -91,26 +92,24 @@ const QuestionPerformance = ({
     }
   };
 
-  const processQuizzesToQuestions = (quizzes) => {
+  const processQuizzesToQuestions = quizzes => {
     if (!Array.isArray(quizzes) || quizzes.length === 0) {
       return [];
     }
 
     try {
-      try {
-        fetch("http://localhost:5173/api/analytics", { cache: "no-cache" })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.questionsData?.length > 0) {
-              setLocalQuestions(data.questionsData);
-              setLocalLoading(false);
-            }
-          })
-          .catch(() => {});
-      } catch (e) {}
+      fetch("http://localhost:5173/api/analytics", { cache: "no-cache" })
+        .then(res => res.json())
+        .then(data => {
+          if (data?.questionsData?.length > 0) {
+            setLocalQuestions(data.questionsData);
+            setLocalLoading(false);
+          }
+        })
+        .catch(() => {});
 
       const allQuestions = quizzes
-        .flatMap((quiz) => {
+        .flatMap(quiz => {
           if (!quiz.questions) {
             return [];
           }
@@ -118,7 +117,7 @@ const QuestionPerformance = ({
             return {
               id: `${quiz.id}-${index}`,
               title: q.question || `Question ${index + 1}`,
-              correctPercentage: Math.floor(Math.random() * 30) + 65, // Generate random performance data
+              correctPercentage: Math.floor(Math.random() * 30) + 65,
               avgResponseTime: (Math.random() * 3 + 2).toFixed(1),
             };
           });
@@ -156,7 +155,7 @@ const QuestionPerformance = ({
   const chartData = useMemo(() => {
     if (!questions?.length) return [];
 
-    return questions.slice(0, 7).map((q) => ({
+    return questions.slice(0, 7).map(q => ({
       id: q.id,
       title: q.title.length > 30 ? q.title.substring(0, 27) + "..." : q.title,
       correctPercentage: q.correctPercentage,
@@ -229,12 +228,15 @@ const QuestionPerformance = ({
           <select
             className="themed-select"
             value={selectedQuestion}
-            onChange={(e) => {
+            onChange={e => {
               setSelectedQuestion(Number(e.target.value));
             }}
           >
             {displayQuestions.slice(0, 100).map((q, index) => (
-              <option key={q.id || `question-${index}`} value={index}>
+              <option
+                key={q.id || `question-${index}`}
+                value={index}
+              >
                 {q.title.length > 50
                   ? q.title.substring(0, 47) + "..."
                   : q.title}
@@ -270,7 +272,7 @@ const QuestionPerformance = ({
       <div className="performance-chart">
         <h3>Comparison with Other Questions</h3>
         <div className="chart-bars">
-          {chartData.map((item) => (
+          {chartData.map(item => (
             <div
               key={item.id || `chart-item-${item.title}`}
               className="chart-bar-column"
@@ -304,7 +306,7 @@ const QuestionPerformance = ({
       <div className="performance-tips">
         <h4>Performance Tips</h4>
         <ul>
-          {performanceTips.map((tip) => (
+          {performanceTips.map(tip => (
             <li key={`tip-${tip.substring(0, 15).replace(/\s/g, "")}`}>
               {tip}
             </li>
@@ -325,6 +327,14 @@ QuestionPerformance.propTypes = {
         .isRequired,
     })
   ),
+  isLoading: PropTypes.bool,
+  error: PropTypes.string,
+};
+
+QuestionPerformance.defaultProps = {
+  questions: [],
+  isLoading: false,
+  error: null,
 };
 
 export default QuestionPerformance;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { calculateAccuracy } from "../utils/calculations";
 
 const ScorePercentage = ({ score, total }) => {
   const scoreRingRef = useRef(null);
@@ -7,10 +8,8 @@ const ScorePercentage = ({ score, total }) => {
   const scoreNum = parseInt(score, 10) || 0;
   const totalNum = parseInt(total, 10) || 1;
 
-  const exactPercentage = (scoreNum / totalNum) * 100;
+  const exactPercentage = parseFloat(calculateAccuracy(scoreNum, totalNum, 2));
   const roundedPercentage = Math.round(exactPercentage);
-
-  useEffect(() => {}, [scoreNum, totalNum, exactPercentage, roundedPercentage]);
 
   const getResultInfo = () => {
     if (roundedPercentage >= 90) {

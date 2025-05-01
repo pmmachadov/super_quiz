@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
+import { calculateAccuracy } from "../../utils/calculations";
+
 import "./Analytics.css";
-import { useEffect } from "react";
 
 const GameHistory = ({ games }) => {
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
-
-  useEffect(() => {}, [games]);
 
   if (!games || games.length === 0) {
     return (
@@ -38,11 +37,11 @@ const GameHistory = ({ games }) => {
             </tr>
           </thead>
           <tbody>
-            {games.map((game) => {
-              const accuracy = (
-                (game.correctAnswers / game.totalQuestions) *
-                100
-              ).toFixed(1);
+            {games.map(game => {
+              const accuracy = calculateAccuracy(
+                game.correctAnswers,
+                game.totalQuestions
+              );
               return (
                 <tr key={game.id}>
                   <td>{formatDate(game.date)}</td>
@@ -68,10 +67,13 @@ const GameHistory = ({ games }) => {
       <div className="history-summary">
         <h3>Performance Trends</h3>
         <div className="trend-chart">
-          {games.map((game) => {
+          {games.map(game => {
             const height = (game.score / 1000) * 100;
             return (
-              <div key={game.id} className="trend-bar-container">
+              <div
+                key={game.id}
+                className="trend-bar-container"
+              >
                 <div
                   className="trend-bar"
                   style={{ height: `${height}%` }}
@@ -91,18 +93,15 @@ const GameHistory = ({ games }) => {
         </div>
         <div className="stat-box">
           <h4>Best Score</h4>
-          <p>{Math.max(...games.map((game) => game.score))}</p>
+          <p>{Math.max(...games.map(game => game.score))}</p>
         </div>
         <div className="stat-box">
           <h4>Average Accuracy</h4>
           <p>
-            {(
-              games.reduce((total, game) => {
-                return (
-                  total + (game.correctAnswers / game.totalQuestions) * 100
-                );
-              }, 0) / games.length
-            ).toFixed(1)}
+            {calculateAccuracy(
+              games.reduce((total, game) => total + game.correctAnswers, 0),
+              games.reduce((total, game) => total + game.totalQuestions, 0)
+            )}
             %
           </p>
         </div>
