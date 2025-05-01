@@ -1,7 +1,7 @@
 {
-  "name": "kahoot-clone-server",
+  "name": "super-quiz-backend",
   "version": "1.0.0",
-  "description": "Backend server for Kahoot clone",
+  "description": "Backend server for Super Quiz",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

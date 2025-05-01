@@ -29,6 +29,20 @@ const BubbleEffect = () => {
       <div className="bubble"></div>
       <div className="bubble"></div>
       <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
+      <div className="bubble"></div>
     </>
   );
 };
