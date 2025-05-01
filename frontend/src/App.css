@@ -12,7 +12,8 @@
   --correct-hover: #16a34a;
   --incorrect: #ef4444;
   --incorrect-hover: #dc2626;
-  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -20,19 +21,25 @@ body {
   background: var(--background);
   color: var(--text);
   margin: 0;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .dark-theme {
-  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
 :root:not(.dark-theme) {
-  --shadow: 0 15px 25px -3px rgba(0, 0, 0, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(44, 123, 229, 0.06);
-  --hover-shadow: 0 20px 35px rgba(0, 0, 0, 0.18), 0 10px 15px rgba(44, 123, 229, 0.1);
+  --shadow:
+    0 15px 25px -3px rgba(0, 0, 0, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
+  --card-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(44, 123, 229, 0.06);
+  --hover-shadow:
+    0 20px 35px rgba(0, 0, 0, 0.18), 0 10px 15px rgba(44, 123, 229, 0.1);
 }
 
 :root:not(.dark-theme) .nav-link {
@@ -58,7 +65,9 @@ body {
 :root:not(.dark-theme) .answer-button:hover {
   background: #d4d4d4;
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(44, 123, 229, 0.08);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    0 3px 8px rgba(44, 123, 229, 0.08);
 }
 
 :root:not(.dark-theme) .btn.primary {
@@ -253,7 +262,7 @@ body {
 }
 
 .logo::before {
-  content: '🎮';
+  content: "🎮";
   font-size: 1.8rem;
 }
 
@@ -286,7 +295,7 @@ body {
 }
 
 .nav-link.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 25%;
@@ -459,27 +468,26 @@ body {
 .start-quiz-btn::after,
 .create-quiz-btn::before,
 .create-quiz-btn::after,
-.theme-toggle-btn::before,
-.theme-toggle-btn::after,
 button[type="submit"]::before,
 button[type="submit"]::after,
 button[type="button"]::before,
 button[type="button"]::after {
-  content: '';
+  content: "";
   position: absolute;
   background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   transform: scale(0);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  transition:
+    transform 0.8s ease-out,
+    opacity 0.8s ease-out;
 }
 
 .btn::before,
 .option-btn::before,
 .start-quiz-btn::before,
 .create-quiz-btn::before,
-.theme-toggle-btn::before,
 button[type="submit"]::before,
 button[type="button"]::before {
   width: 20px;
@@ -492,7 +500,6 @@ button[type="button"]::before {
 .option-btn::after,
 .start-quiz-btn::after,
 .create-quiz-btn::after,
-.theme-toggle-btn::after,
 button[type="submit"]::after,
 button[type="button"]::after {
   width: 25px;
@@ -505,7 +512,6 @@ button[type="button"]::after {
 .option-btn:hover::before,
 .start-quiz-btn:hover::before,
 .create-quiz-btn:hover::before,
-.theme-toggle-btn:hover::before,
 button[type="submit"]:hover::before,
 button[type="button"]:hover::before {
   transform: scale(1.5);
@@ -517,7 +523,6 @@ button[type="button"]:hover::before {
 .option-btn:hover::after,
 .start-quiz-btn:hover::after,
 .create-quiz-btn:hover::after,
-.theme-toggle-btn:hover::after,
 button[type="submit"]:hover::after,
 button[type="button"]:hover::after {
   transform: scale(2);
@@ -535,7 +540,7 @@ button[type="button"]:hover::after {
 }
 
 .multi-bubble::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 0;
