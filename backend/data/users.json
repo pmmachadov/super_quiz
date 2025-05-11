@@ -1,0 +1,26 @@
+[
+  {
+    "id": "teacher1",
+    "name": "Demo Teacher",
+    "email": "teacher@example.com",
+    "password": "$2b$10$1vV2D9VJQYsq2QjWnVJ09.oy4hyeTKTeL7otG4s2txNimgnLwl0/W",
+    "role": "teacher",
+    "createdAt": "2025-05-11T19:26:11.324Z"
+  },
+  {
+    "id": "student1",
+    "name": "Demo Student",
+    "email": "student@example.com",
+    "password": "$2b$10$sUUtJ3Ux5DFZCYqiZ5VRSe7tk.0ToKSMR4Ay0H36wL/NrXqSJoZnC",
+    "role": "student",
+    "createdAt": "2025-05-11T19:26:11.417Z"
+  },
+  {
+    "id": "user-1746991849836",
+    "name": "Pablo",
+    "email": "teacherpablo@example.com",
+    "password": "$2b$10$YEw77VbP1Mw8mET8nvD5nO68v5.jgzAs3OhwJidnBSDxgbCBhxZza",
+    "role": "teacher",
+    "createdAt": "2025-05-11T19:30:49.944Z"
+  }
+]

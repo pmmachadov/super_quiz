@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 import BubbleEffect from "./BubbleEffect";
 import "./Quizzes.css";
 
@@ -11,13 +11,18 @@ const globalQuizzesCache = {
 const CACHE_DURATION = 10 * 60 * 1000;
 
 const Quizzes = () => {
+  const { currentUser, token } = useAuth();
   const [quizzes, setQuizzes] = useState(globalQuizzesCache.data || []);
   const [isVisible] = useState(true);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(!globalQuizzesCache.data);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [launchingQuiz, setLaunchingQuiz] = useState(false);
+  const [sessionCode, setSessionCode] = useState(null);
   const navigate = useNavigate();
+
+  const isTeacher = currentUser?.role === "teacher";
 
   const fetchQuizzes = useCallback(async () => {
     if (
@@ -119,6 +124,57 @@ const Quizzes = () => {
     setDeleteConfirm(null);
   };
 
+  const launchQuiz = async quizId => {
+    try {
+      setLaunchingQuiz(true);
+
+      const response = await fetch("http://localhost:3000/api/game-sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quizId }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to launch quiz");
+      }
+
+      setSessionCode(data.session);
+    } catch (err) {
+      console.error("Error launching quiz:", err);
+      setError(err.message || "Failed to launch quiz");
+    } finally {
+      setLaunchingQuiz(false);
+    }
+  };
+
+  const copyCodeToClipboard = () => {
+    if (!sessionCode) return;
+
+    navigator.clipboard
+      .writeText(sessionCode.code)
+      .then(() => {
+        const codeElement = document.querySelector(".session-code");
+        if (codeElement) {
+          codeElement.classList.add("copied");
+          setTimeout(() => {
+            codeElement.classList.remove("copied");
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to copy code:", err);
+      });
+  };
+
+  const closeCodeModal = () => {
+    setSessionCode(null);
+  };
+
   useEffect(() => {
     if (globalQuizzesCache.data) {
       setQuizzes(globalQuizzesCache.data);
@@ -205,6 +261,57 @@ const Quizzes = () => {
                 disabled={isDeleting}
               >
                 {isDeleting ? "Deleting..." : "Delete Quiz"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {sessionCode && (
+        <div
+          className="modal-overlay"
+          onClick={e => {
+            if (e.target.className === "modal-overlay") {
+              closeCodeModal();
+            }
+          }}
+        >
+          <div className="code-modal">
+            <h2>¡Quiz Lanzado!</h2>
+            <p>Comparte este código con tus estudiantes:</p>
+
+            <div className="session-code-container">
+              <div
+                className="session-code"
+                onClick={copyCodeToClipboard}
+              >
+                {sessionCode.code}
+              </div>
+              <div className="code-copy-hint">Click para copiar</div>
+            </div>
+
+            <div className="session-info">
+              <p>
+                <strong>Quiz:</strong> {sessionCode.quizTitle}
+              </p>
+              <p>
+                <strong>Estudiantes conectados:</strong>{" "}
+                {sessionCode.players.length}
+              </p>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                className="copy-code-button"
+                onClick={copyCodeToClipboard}
+              >
+                Copiar Código
+              </button>
+              <button
+                className="close-modal-button"
+                onClick={closeCodeModal}
+              >
+                Cerrar
               </button>
             </div>
           </div>
@@ -331,6 +438,50 @@ const Quizzes = () => {
                       <BubbleEffect />
                     </div>
                   </button>
+                  {isTeacher && (
+                    <button
+                      className="launch-quiz-btn multi-bubble"
+                      onClick={() => launchQuiz(quiz.id)}
+                      disabled={launchingQuiz}
+                    >
+                      <div
+                        style={{
+                          position: "relative",
+                          zIndex: 2,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                        }}
+                      >
+                        {launchingQuiz ? "Lanzando..." : "Lanzar Quiz"}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                      </div>
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          zIndex: 1,
+                        }}
+                      >
+                        <BubbleEffect />
+                      </div>
+                    </button>
+                  )}
                   <button
                     className="delete-quiz-btn multi-bubble"
                     onClick={() => handleDeleteClick(quiz.id, quiz.title)}

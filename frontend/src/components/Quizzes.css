@@ -4,9 +4,7 @@
   padding: 2rem;
   opacity: 0;
   transform: translateY(20px);
-  transition:
-    opacity 0.8s ease-out,
-    transform 0.8s ease-out;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .quizzes-container.fade-in {
@@ -201,11 +199,9 @@
   );
   background-size: 300% 100%;
   border-radius: 2px;
-  -webkit-animation:
-    pulse-width-global 15s ease-in-out infinite,
+  -webkit-animation: pulse-width-global 15s ease-in-out infinite,
     color-shift 18s linear infinite;
-  animation:
-    pulse-width-global 15s ease-in-out infinite,
+  animation: pulse-width-global 15s ease-in-out infinite,
     color-shift 18s linear infinite;
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
@@ -250,11 +246,9 @@
     #8b00ff
   );
   background-size: 300% 100%;
-  animation:
-    pulse-width-global 15s ease-in-out infinite,
+  animation: pulse-width-global 15s ease-in-out infinite,
     color-shift 20s linear infinite;
-  -webkit-animation:
-    pulse-width-global 15s ease-in-out infinite,
+  -webkit-animation: pulse-width-global 15s ease-in-out infinite,
     color-shift 20s linear infinite;
 }
 
@@ -556,8 +550,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(142, 68, 173, 0.1);
-  box-shadow:
-    0 15px 30px rgba(0, 0, 0, 0.08),
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08),
     0 5px 15px rgba(44, 123, 229, 0.08);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   transform: translateY(0);
@@ -571,8 +564,7 @@
 :root:not(.dark-theme) .quiz-card:hover {
   transform: translateY(-12px) scale(1.02);
   border-color: rgba(142, 68, 173, 0.2);
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.12),
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12),
     0 10px 20px rgba(44, 123, 229, 0.15);
 }
 
@@ -630,8 +622,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(142, 68, 173, 0.1);
-  box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.08),
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08),
     0 5px 15px rgba(44, 123, 229, 0.06);
   transition: all 0.3s ease;
   position: relative;
@@ -669,8 +660,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(142, 68, 173, 0.1);
-  box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.08),
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08),
     0 5px 15px rgba(44, 123, 229, 0.06);
   transition: all 0.3s ease;
   position: relative;
@@ -679,8 +669,7 @@
 
 :root:not(.dark-theme) .create-quiz-section:hover {
   transform: translateY(-5px);
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.12),
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12),
     0 10px 20px rgba(44, 123, 229, 0.15);
 }
 
@@ -694,9 +683,7 @@
 
 :root:not(.dark-theme) .loading-spinner {
   border-top-color: linear-gradient(90deg, #8e44ad, #4caf50);
-  animation:
-    spin 0.8s linear infinite,
-    pulse-color 2s ease-in-out infinite;
+  animation: spin 0.8s linear infinite, pulse-color 2s ease-in-out infinite;
 }
 
 @keyframes pulse-color {
@@ -872,8 +859,7 @@
   width: 100%;
   max-width: 480px;
   text-align: center;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2),
     0 10px 10px -5px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.08);
   animation: modal-appear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1047,4 +1033,156 @@
 
 .confirm-delete-input::placeholder {
   color: rgba(239, 68, 68, 0.4);
+}
+
+.launch-quiz-btn {
+  background-color: #2ecc71;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin: 5px;
+}
+
+.launch-quiz-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.launch-quiz-btn:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.code-modal {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.code-modal h2 {
+  color: #2c3e50;
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.session-code-container {
+  margin: 25px 0;
+}
+
+.session-code {
+  font-family: "Courier New", monospace;
+  font-size: 48px;
+  font-weight: bold;
+  color: #e74c3c;
+  letter-spacing: 5px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 2px dashed #e74c3c;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: all;
+}
+
+.session-code:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.03);
+}
+
+.session-code.copied {
+  background-color: #e6f4ea;
+  color: #34a853;
+  border-color: #34a853;
+}
+
+.code-copy-hint {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-top: 8px;
+}
+
+.session-info {
+  margin: 20px 0;
+  text-align: left;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.copy-code-button,
+.close-modal-button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.copy-code-button {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.copy-code-button:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.close-modal-button {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.close-modal-button:hover {
+  background-color: #7f8c8d;
+  transform: translateY(-2px);
 }

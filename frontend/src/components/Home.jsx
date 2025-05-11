@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 import BubbleEffect from "./BubbleEffect";
 import "./Home.css";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const { currentUser, logout } = useAuth();
 
   useEffect(() => {
     setIsVisible(true);
@@ -31,6 +32,66 @@ export default function Home() {
     },
   ];
 
+  // User-specific options based on authentication status
+  const authOptions = currentUser
+    ? [
+        // Options for logged-in users
+        {
+          path:
+            currentUser.role === "teacher"
+              ? "/teacher/dashboard"
+              : "/student/dashboard",
+          label: `${
+            currentUser.role === "teacher" ? "Teacher" : "Student"
+          } Dashboard`,
+          description: `Access your ${
+            currentUser.role === "teacher"
+              ? "classes and manage students"
+              : "enrolled classes and take quizzes"
+          }.`,
+          icon: currentUser.role === "teacher" ? "👨‍🏫" : "👨‍🎓",
+          actionLabel: "Go to Dashboard",
+        },
+        {
+          path: "/analytics",
+          label: "View Analytics",
+          description:
+            "Track your performance and see detailed statistics about quiz results.",
+          icon: "📊",
+          actionLabel: "View Analytics",
+        },
+      ]
+    : [
+        // Options for guests
+        {
+          path: "/login",
+          label: "Login",
+          description:
+            "Already have an account? Sign in to access your dashboard and saved quizzes.",
+          icon: "🔑",
+          actionLabel: "Login",
+        },
+        {
+          path: "/register",
+          label: "Register as Student",
+          description:
+            "Create a student account to join classes and track your quiz performance.",
+          icon: "👨‍🎓",
+          actionLabel: "Register",
+        },
+        {
+          path: "/register/teacher",
+          label: "Register as Teacher",
+          description:
+            "Create a teacher account to manage classes, students, and create specialized quizzes.",
+          icon: "👨‍🏫",
+          actionLabel: "Register",
+        },
+      ];
+
+  // Combine regular options and auth options
+  const allOptions = [...options, ...authOptions];
+
   return (
     <div className={`page-container ${isVisible ? "fade-in" : ""}`}>
       <section className="hero-section">
@@ -40,56 +101,133 @@ export default function Home() {
           colleagues. Test your knowledge, learn new facts, and have fun!
         </p>
         <div className="hero-buttons">
-          <Link
-            to="/quizzes"
-            className="btn primary multi-bubble"
-          >
-            <span>Start Playing</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {currentUser ? (
+            // Show dashboard button for logged-in users
+            <Link
+              to={
+                currentUser.role === "teacher"
+                  ? "/teacher/dashboard"
+                  : "/student/dashboard"
+              }
+              className="btn primary multi-bubble"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-            <BubbleEffect />
-          </Link>
-          <Link
-            to="/create-quiz"
-            className="btn secondary multi-bubble"
-          >
-            <span>Create Your Quiz</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              <span>Go to Dashboard</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+              <BubbleEffect />
+            </Link>
+          ) : (
+            // Show start playing for guests
+            <Link
+              to="/quizzes"
+              className="btn primary multi-bubble"
             >
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            <BubbleEffect />
-          </Link>
+              <span>Start Playing</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+              <BubbleEffect />
+            </Link>
+          )}
+          {currentUser ? (
+            // Show logout button for logged-in users
+            <button
+              onClick={logout}
+              className="btn secondary multi-bubble"
+            >
+              <span>Logout</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line
+                  x1="21"
+                  y1="12"
+                  x2="9"
+                  y2="12"
+                />
+              </svg>
+              <BubbleEffect />
+            </button>
+          ) : (
+            // Show login button for guests
+            <Link
+              to="/login"
+              className="btn secondary multi-bubble"
+            >
+              <span>Login</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 3h4a2 2 0 0 1-2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line
+                  x1="15"
+                  y1="12"
+                  x2="3"
+                  y2="12"
+                />
+              </svg>
+              <BubbleEffect />
+            </Link>
+          )}
         </div>
+
+        {currentUser && (
+          <div className="user-welcome">
+            <p>
+              Welcome, {currentUser.name} ({currentUser.role})
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="options-section">
         <div className="options-grid">
-          {options.map(option => (
+          {allOptions.map(option => (
             <Link
               key={option.path}
               to={option.path}
               className="option-card"
+              onClick={option.onClick}
             >
               <div className="option-content">
                 <div className="option-header">
@@ -212,6 +350,56 @@ export default function Home() {
             >
               Create Quiz
             </Link>
+
+            {/* Authentication links */}
+            {currentUser ? (
+              <>
+                <Link
+                  to={
+                    currentUser.role === "teacher"
+                      ? "/teacher/dashboard"
+                      : "/student/dashboard"
+                  }
+                  className="mobile-menu-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="mobile-menu-link logout-link"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="mobile-menu-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="mobile-menu-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register as Student
+                </Link>
+                <Link
+                  to="/register/teacher"
+                  className="mobile-menu-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register as Teacher
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </div>

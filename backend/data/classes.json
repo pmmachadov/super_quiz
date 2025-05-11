@@ -1,0 +1,15 @@
+[
+  {
+    "id": "class1",
+    "name": "Demo Class",
+    "teacherId": "teacher1",
+    "students": [
+      "student1"
+    ],
+    "quizzes": [
+      1,
+      2
+    ],
+    "createdAt": "2025-05-11T19:26:11.421Z"
+  }
+]
