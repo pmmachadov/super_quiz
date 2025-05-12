@@ -396,29 +396,29 @@
   .session-actions {
     flex-direction: column;
   }
-  
+
   .live-session {
     padding: 15px;
   }
-  
+
   .live-controls {
     padding: 15px;
   }
-  
+
   .session-title {
     font-size: 1.2rem;
   }
-  
+
   .timer {
     font-size: 1.5rem;
   }
-  
+
   .quick-launch-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .launch-button {
     width: 100%;
   }
@@ -428,33 +428,33 @@
   .live-session {
     padding: 12px;
   }
-  
+
   .session-title {
     font-size: 1.1rem;
   }
-  
+
   .session-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .session-status {
     margin-left: 0;
   }
-  
+
   .quick-launch-container {
     padding: 12px;
   }
-  
+
   .participant-list {
     padding: 12px;
   }
-  
+
   .participant-count {
     font-size: 0.9rem;
   }
-  
+
   .question-navigation {
     gap: 8px;
   }

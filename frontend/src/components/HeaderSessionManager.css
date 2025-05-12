@@ -456,15 +456,15 @@
     width: 260px;
     right: -40px;
   }
-  
+
   .session-list {
     max-height: 200px;
   }
-  
+
   .session-actions {
     padding: 10px;
   }
-  
+
   .add-session-button {
     font-size: 0.85rem;
     padding: 8px 14px;
@@ -480,28 +480,28 @@
   .session-dropdown::before {
     right: 90px;
   }
-  
+
   .session-toggle-button {
     padding: 6px;
   }
-  
+
   .user-name {
     max-width: 60px;
     font-size: 0.9rem;
   }
-  
+
   .dropdown-icon {
     font-size: 0.75em;
   }
-  
+
   .session-item {
     padding: 10px;
   }
-  
+
   .session-info h4 {
     font-size: 0.9rem;
   }
-  
+
   .session-info p {
     font-size: 0.75rem;
   }
@@ -512,11 +512,11 @@
     width: 220px;
     right: -60px;
   }
-  
+
   .session-dropdown::before {
     right: 70px;
   }
-  
+
   .user-name {
     max-width: 50px;
   }

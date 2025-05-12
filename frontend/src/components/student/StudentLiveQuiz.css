@@ -257,38 +257,38 @@
   .live-quiz-container {
     padding: 10px;
   }
-  
+
   .loading-state,
   .error-state,
   .waiting-room,
   .quiz-ended-state {
     padding: 25px 15px;
   }
-  
+
   .question-container {
     padding: 15px;
   }
-  
+
   .question-text {
     font-size: 18px;
   }
-  
+
   .answer-button {
     padding: 12px 15px;
     font-size: 15px;
     min-height: auto;
   }
-  
+
   .timer {
     font-size: 22px;
     width: 50px;
     height: 50px;
   }
-  
+
   .results-summary {
     padding: 15px;
   }
-  
+
   .final-score {
     font-size: 20px;
   }

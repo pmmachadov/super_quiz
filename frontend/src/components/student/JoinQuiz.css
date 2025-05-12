@@ -165,23 +165,23 @@
   .join-form {
     padding: 20px 15px;
   }
-  
+
   .code-input {
     font-size: 20px;
     letter-spacing: 8px;
     padding: 12px 8px;
   }
-  
+
   .paste-code-button {
     font-size: 13px;
     padding: 8px 12px;
   }
-  
+
   .join-button {
     padding: 12px 24px;
     font-size: 15px;
   }
-  
+
   .joined-details {
     padding: 15px;
   }
@@ -191,7 +191,7 @@
   .code-input-wrapper {
     width: 100%;
   }
-  
+
   .join-button {
     width: 100%;
   }
