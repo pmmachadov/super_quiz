@@ -4,6 +4,75 @@
   min-height: 100vh;
 }
 
+/* Session Manager Styles */
+.session-manager {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.session-toggle-button {
+  background-color: #4b7bec;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.session-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-top: 4px;
+}
+
+.session-dropdown h4 {
+  margin: 0 0 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.session-item {
+  padding: 8px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.session-item:hover {
+  background-color: #f0f0f0;
+}
+
+.session-item.current {
+  background-color: #e3f2fd;
+  border-left: 3px solid #4b7bec;
+}
+
+.session-role {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #4b7bec;
+}
+
+.session-name {
+  font-weight: bold;
+}
+
+.session-email {
+  font-size: 0.8em;
+  color: #777;
+}
+
 .auth-container {
   flex: 1;
   display: flex;
@@ -182,6 +251,94 @@
 .role-tab.active {
   color: #3498db;
   border-bottom: 3px solid #3498db;
+}
+
+/* Student Dashboard Join Quiz Section */
+.dashboard-section {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.animate-card {
+  transition: all 0.3s ease;
+}
+
+.highlight-section {
+  background-color: #f0f7ff;
+  border-left: 4px solid #4a90e2;
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-section::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(74, 144, 226, 0.1);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.section-description {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 16px;
+}
+
+.join-quiz-instruction {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: space-between;
+}
+
+.instruction-step {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f8f8f8;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.step-number {
+  background-color: #4a90e2;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.instruction-step p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.dashboard-section h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 22px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.join-quiz-section {
+  margin-top: 25px;
+  background-color: #f8fcff;
+  border-left: 4px solid #3498db;
 }
 
 @media (max-width: 576px) {

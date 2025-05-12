@@ -296,7 +296,6 @@
   .dark-theme .footer {
     background: #0a0a0a;
   }
-
   @media (max-width: 768px) {
     .header-content {
       padding: 0 1rem;
@@ -323,6 +322,42 @@
 
     .footer-links {
       justify-content: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header-content {
+      padding: 0 0.75rem;
+    }
+    
+    .logo {
+      font-size: 1.1rem;
+    }
+    
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .header-controls {
+      gap: 0.25rem;
+    }
+    
+    .theme-toggle-btn {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .main-content {
+      padding: 0.75rem;
+    }
+    
+    .footer {
+      padding: 1.5rem 0.75rem;
+    }
+    
+    .footer-content {
+      gap: 1rem;
     }
   }
 }

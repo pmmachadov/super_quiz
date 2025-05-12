@@ -1,0 +1,194 @@
+/* DashboardResponsive.css - Responsive styles for all dashboard views */
+
+/* Large Desktops (>= 1200px) */
+@media (min-width: 1200px) {
+  .dashboard-container {
+    padding: 2.5rem;
+    max-width: 1400px;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .classes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Regular Desktops (992px-1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .dashboard-container {
+    padding: 2rem;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .classes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+/* Tablets (768px-991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+
+  .dashboard-header {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .classes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .join-quiz-instruction {
+    flex-wrap: wrap;
+  }
+
+  .instruction-step {
+    min-width: 48%;
+  }
+}
+
+/* Large Phones (576px-767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .user-welcome {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .classes-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dashboard-tabs {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .join-quiz-instruction {
+    flex-direction: column;
+  }
+
+  .instruction-step {
+    min-width: 100%;
+  }
+}
+
+/* Small Phones (< 576px) */
+@media (max-width: 575px) {
+  .dashboard-container {
+    padding: 1rem 0.75rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .user-welcome {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .dashboard-section {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .dashboard-overview {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .classes-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dashboard-tabs {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .join-quiz-instruction {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .instruction-step {
+    min-width: 100%;
+  }
+
+  .instruction-step p {
+    font-size: 0.85rem;
+  }
+
+  .step-number {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .take-quiz-button,
+  .logout-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}

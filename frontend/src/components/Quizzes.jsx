@@ -151,6 +151,7 @@ const Quizzes = () => {
       setLaunchingQuiz(false);
     }
   };
+  const [codeCopied, setCodeCopied] = useState(false);
 
   const copyCodeToClipboard = () => {
     if (!sessionCode) return;
@@ -158,13 +159,10 @@ const Quizzes = () => {
     navigator.clipboard
       .writeText(sessionCode.code)
       .then(() => {
-        const codeElement = document.querySelector(".session-code");
-        if (codeElement) {
-          codeElement.classList.add("copied");
-          setTimeout(() => {
-            codeElement.classList.remove("copied");
-          }, 1500);
-        }
+        setCodeCopied(true);
+        setTimeout(() => {
+          setCodeCopied(false);
+        }, 3000);
       })
       .catch(err => {
         console.error("Failed to copy code:", err);
@@ -278,18 +276,18 @@ const Quizzes = () => {
         >
           <div className="code-modal">
             <h2>¡Quiz Lanzado!</h2>
-            <p>Comparte este código con tus estudiantes:</p>
-
+            <p>Comparte este código con tus estudiantes:</p>{" "}
             <div className="session-code-container">
               <div
-                className="session-code"
+                className={`session-code ${codeCopied ? "copied" : ""}`}
                 onClick={copyCodeToClipboard}
               >
                 {sessionCode.code}
               </div>
-              <div className="code-copy-hint">Click para copiar</div>
+              <div className="code-copy-hint">
+                {codeCopied ? "¡Código copiado!" : "Click para copiar"}
+              </div>
             </div>
-
             <div className="session-info">
               <p>
                 <strong>Quiz:</strong> {sessionCode.quizTitle}
@@ -299,13 +297,13 @@ const Quizzes = () => {
                 {sessionCode.players.length}
               </p>
             </div>
-
             <div className="modal-actions">
+              {" "}
               <button
-                className="copy-code-button"
+                className={`copy-code-button ${codeCopied ? "copied" : ""}`}
                 onClick={copyCodeToClipboard}
               >
-                Copiar Código
+                {codeCopied ? "¡Código Copiado!" : "Copiar Código"}
               </button>
               <button
                 className="close-modal-button"

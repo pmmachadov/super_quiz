@@ -12,10 +12,7 @@ const Layout = ({ children }) => {
   });
 
   useEffect(() => {
-    document.documentElement.classList.toggle(
-      "dark-theme",
-      darkTheme
-    );
+    document.documentElement.classList.toggle("dark-theme", darkTheme);
     document.body.classList.toggle("dark-theme", darkTheme);
     localStorage.setItem("theme", darkTheme ? "dark" : "light");
   }, [darkTheme]);
@@ -23,9 +20,9 @@ const Layout = ({ children }) => {
   const toggleTheme = () => {
     setDarkTheme(prev => !prev);
   };
-
   return (
     <div className="app-container">
+      {" "}
       <Header
         darkTheme={darkTheme}
         toggleTheme={toggleTheme}

@@ -1,0 +1,523 @@
+/* HeaderSessionManager.css */
+.header-session-manager {
+  position: relative;
+  z-index: 1000;
+  margin-left: 20px;
+}
+
+.session-toggle-button[data-sessions]:after {
+  content: attr(data-sessions);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #00ff88;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px #111;
+}
+
+.session-toggle-button {
+  background: linear-gradient(135deg, #1e1e1e, #121212);
+  color: #e0e0e0;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  min-width: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.session-toggle-button:hover {
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 255, 136, 0.4);
+}
+
+.session-toggle-button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 255, 136, 0.1) 0%,
+    rgba(0, 255, 136, 0.05) 30%,
+    transparent 70%
+  );
+  transform: rotate(-15deg);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.session-toggle-button:hover::after {
+  opacity: 1;
+}
+
+.session-mini-avatar {
+  font-size: 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.2),
+    rgba(0, 255, 136, 0.05)
+  );
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.2);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.session-toggle-button:hover .session-mini-avatar {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.4), 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.button-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.user-role {
+  text-transform: capitalize;
+  color: #00ff88;
+  font-size: 0.7em;
+  font-weight: 600;
+  opacity: 0.9;
+  background-color: rgba(0, 255, 136, 0.15);
+  padding: 1px 5px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2px;
+}
+
+.user-name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.session-toggle-button:hover .user-name {
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+}
+
+.dropdown-icon {
+  font-size: 0.8em;
+  margin-left: auto;
+  color: #00ff88;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.session-toggle-button:hover .dropdown-icon {
+  transform: translateY(2px);
+  opacity: 1;
+}
+
+.session-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #111;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 8px;
+  width: 280px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 136, 0.1);
+  padding: 16px;
+  margin-top: 10px;
+  animation: fadeIn 0.3s ease;
+  max-height: 400px;
+  overflow-y: auto;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 1001;
+  position: relative;
+}
+
+.session-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.4),
+    transparent 60%,
+    rgba(0, 255, 136, 0.1)
+  );
+  border-radius: 9px;
+  z-index: -1;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.session-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.session-dropdown::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.session-dropdown::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.session-dropdown h4 {
+  margin: 0 0 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+  color: #00ff88;
+  font-size: 1.1rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  position: relative;
+}
+
+.session-dropdown h4::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    rgba(0, 255, 136, 0.1),
+    rgba(0, 255, 136, 0.7),
+    rgba(0, 255, 136, 0.1)
+  );
+}
+
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.session-item {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #1a1a1a;
+  position: relative;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  overflow: hidden;
+}
+
+.session-item:last-child {
+  margin-bottom: 0;
+}
+
+.session-item:hover {
+  background-color: #252525;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 255, 136, 0.15);
+}
+
+.session-item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 255, 136, 0.1) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.session-item:hover::after {
+  left: 100%;
+}
+
+.session-item.current {
+  background-color: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+}
+
+.session-avatar {
+  font-size: 1.4rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.2),
+    rgba(0, 255, 136, 0.05)
+  );
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.2),
+    inset 0 0 10px rgba(0, 255, 136, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.session-item:hover .session-avatar {
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3),
+    inset 0 0 15px rgba(0, 255, 136, 0.1);
+  transform: scale(1.05);
+}
+
+.session-avatar::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 136, 0.15) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.session-item:hover .session-avatar::before {
+  opacity: 1;
+}
+
+.session-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.session-role {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #00ff88;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: rgba(0, 255, 136, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.1);
+  transition: all 0.3s ease;
+}
+
+.session-item:hover .session-role {
+  background-color: rgba(0, 255, 136, 0.15);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+}
+
+.session-name {
+  font-weight: 600;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.session-item:hover .session-name {
+  color: #ffffff;
+}
+
+.session-email {
+  font-size: 0.75rem;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.session-item:hover .session-email {
+  color: #999;
+}
+
+.active-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.8),
+    rgba(0, 255, 136, 0.6)
+  );
+  color: #000;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Dropdown arrow */
+.session-dropdown::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  background-color: #111;
+  transform: rotate(45deg);
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+  border-left: 1px solid rgba(0, 255, 136, 0.2);
+  z-index: -1;
+}
+
+/* Animation for the dropdown */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(5px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .session-toggle-button {
+    padding: 6px 10px;
+    min-width: auto;
+  }
+
+  .user-role {
+    display: none;
+  }
+
+  .user-name {
+    max-width: 80px;
+  }
+
+  .session-dropdown {
+    width: 260px;
+    right: -40px;
+  }
+  
+  .session-list {
+    max-height: 200px;
+  }
+  
+  .session-actions {
+    padding: 10px;
+  }
+  
+  .add-session-button {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .session-dropdown {
+    width: 240px;
+    right: -80px;
+  }
+
+  .session-dropdown::before {
+    right: 90px;
+  }
+  
+  .session-toggle-button {
+    padding: 6px;
+  }
+  
+  .user-name {
+    max-width: 60px;
+    font-size: 0.9rem;
+  }
+  
+  .dropdown-icon {
+    font-size: 0.75em;
+  }
+  
+  .session-item {
+    padding: 10px;
+  }
+  
+  .session-info h4 {
+    font-size: 0.9rem;
+  }
+  
+  .session-info p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .session-dropdown {
+    width: 220px;
+    right: -60px;
+  }
+  
+  .session-dropdown::before {
+    right: 70px;
+  }
+  
+  .user-name {
+    max-width: 50px;
+  }
+}

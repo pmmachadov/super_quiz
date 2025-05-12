@@ -1,0 +1,298 @@
+/* Dashboard Animations and Interactive Effects */
+
+/* Button Hover Effects */
+.dashboard-container button {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-container button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.dashboard-container button:hover::after {
+  left: 100%;
+}
+
+/* Card Hover Effects */
+.dashboard-container .class-card,
+.dashboard-container .stats-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.dashboard-container .class-card:hover,
+.dashboard-container .stats-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard Header Animation */
+.dashboard-header h1 {
+  position: relative;
+}
+
+.dashboard-header h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  transition: width 0.3s ease;
+}
+
+.dashboard-header:hover h1::after {
+  width: 100%;
+}
+
+/* Loading Animation */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.loading::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(52, 152, 219, 0.3);
+  border-top-color: #3498db;
+  margin-right: 10px;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty State Animation */
+.empty-state {
+  position: relative;
+  padding: 30px;
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.empty-state::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    rgba(52, 152, 219, 0.05) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+/* Tab Button Click Effect */
+.tab-button:active {
+  transform: scale(0.97);
+}
+
+/* Hover Effect for Action Links */
+.action-link {
+  position: relative;
+}
+
+.action-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 50%;
+  background-color: #3498db;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.action-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Card Loading Skeleton Animation */
+.skeleton-card {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Error Message Shake Animation */
+.error-message {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+/* Success Message Fade In Animation */
+.success-message {
+  animation: fadeInDown 0.5s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Live Quiz Button Pulse Effect */
+.live-quiz-button {
+  position: relative;
+}
+
+.live-quiz-button::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: currentColor;
+  border-radius: inherit;
+  opacity: 0.15;
+  transform: scale(1);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+}
+
+/* Dashboard Section Fade-in Animation */
+.dashboard-section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.7s forwards;
+}
+
+.dashboard-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dashboard-section:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth Transition for Content Changes */
+.dashboard-content > div {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* User Welcome Hover Effect */
+.user-welcome span {
+  position: relative;
+}
+
+.user-welcome span::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
+
+.user-welcome:hover span::after {
+  width: 100%;
+}

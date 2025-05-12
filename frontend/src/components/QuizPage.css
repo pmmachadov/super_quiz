@@ -127,9 +127,38 @@ button.btn-primary:hover {
   .results-container h2 {
     font-size: 1.75rem;
   }
-
   .results-container p {
     font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .quiz-container {
+    padding: 1rem;
+    max-width: 600px;
+  }
+
+  .quiz-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .question-container {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .question-text {
+    font-size: 1.3rem;
+  }
+
+  .answer-button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .answer-grid {
+    grid-gap: 1rem;
   }
 }
 

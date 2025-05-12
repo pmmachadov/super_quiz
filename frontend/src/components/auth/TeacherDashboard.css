@@ -1,0 +1,174 @@
+/* TeacherDashboard.css - Additional styles for the teacher dashboard */
+
+/* Teacher Stats Card Enhancements */
+.teacher-dashboard .stats-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.teacher-dashboard .stats-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 50%,
+    transparent 100%
+  );
+  transform: rotate(-15deg);
+  z-index: 0;
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.teacher-dashboard .stats-card:hover::before {
+  transform: rotate(-25deg) translateY(-10%);
+}
+
+.teacher-dashboard .stats-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tab Button Enhancements */
+.teacher-dashboard .dashboard-tabs {
+  position: relative;
+}
+
+.teacher-dashboard .dashboard-tabs::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(52, 152, 219, 0.7) 0%,
+    rgba(155, 89, 182, 0.7) 25%,
+    rgba(46, 204, 113, 0.7) 50%,
+    rgba(52, 152, 219, 0.7) 100%
+  );
+}
+
+.teacher-dashboard .tab-button {
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.teacher-dashboard .tab-button::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: #3498db;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+  z-index: 2;
+}
+
+.teacher-dashboard .tab-button:hover::before {
+  width: 80%;
+}
+
+.teacher-dashboard .tab-button.active::before {
+  width: 100%;
+}
+
+/* Class Card Teacher Customization */
+.teacher-dashboard .class-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border-top: none;
+  border-left: 4px solid #3498db;
+  padding-left: 1.25rem;
+}
+
+.teacher-dashboard .class-card:nth-child(2n) {
+  border-left-color: #9b59b6;
+}
+
+.teacher-dashboard .class-card:nth-child(3n) {
+  border-left-color: #2ecc71;
+}
+
+.teacher-dashboard .class-card:nth-child(4n) {
+  border-left-color: #f39c12;
+}
+
+.teacher-dashboard .class-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.teacher-dashboard .card-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.teacher-dashboard .card-actions .secondary-button {
+  width: 100%;
+  text-align: center;
+}
+
+/* Dashboard Content Animation */
+.teacher-dashboard .dashboard-content {
+  position: relative;
+}
+
+.teacher-dashboard .dashboard-content > div {
+  animation: fadeSlideIn 0.5s ease;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Quick Action Button Enhancement */
+.teacher-dashboard .quick-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.teacher-dashboard .quick-action .primary-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.teacher-dashboard .quick-action .primary-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 1s ease;
+}
+
+.teacher-dashboard .quick-action .primary-button:hover::after {
+  transform: translateX(100%);
+}

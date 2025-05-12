@@ -17,12 +17,17 @@ import StudentRegister from "./components/auth/StudentRegister";
 import TeacherRegister from "./components/auth/TeacherRegister";
 import StudentDashboard from "./components/auth/StudentDashboard";
 import TeacherDashboard from "./components/auth/TeacherDashboard";
+import StudentLiveQuiz from "./components/student/StudentLiveQuiz";
 import { AuthProvider } from "./context/AuthContext";
+import { authRouteValidators } from "./utils/authHelpers";
 
 // Protected route component
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const token = localStorage.getItem("token");
-  const userDataString = localStorage.getItem("userData");
+  // Get active user key from storage
+  const activeUserKey =
+    localStorage.getItem("quiz_active_user") || "quiz_auth_default";
+  const token = localStorage.getItem(`${activeUserKey}_token`);
+  const userDataString = localStorage.getItem(`${activeUserKey}_user`);
   let userData = null;
 
   if (userDataString) {
@@ -71,14 +76,15 @@ function App() {
           <Route
             path="/register/teacher"
             element={<TeacherRegister />}
-          />
-
+          />{" "}
           {/* Protected Dashboard Routes */}
           <Route
             path="/student/dashboard"
             element={
               <ProtectedRoute requiredRole="student">
-                <StudentDashboard />
+                <Layout>
+                  <StudentDashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -86,11 +92,12 @@ function App() {
             path="/teacher/dashboard"
             element={
               <ProtectedRoute requiredRole="teacher">
-                <TeacherDashboard />
+                <Layout>
+                  <TeacherDashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
-
           {/* Public Routes */}
           <Route
             path="/"
@@ -131,7 +138,7 @@ function App() {
                 <Results />
               </Layout>
             }
-          />
+          />{" "}
           <Route
             path="/analytics"
             element={
@@ -140,7 +147,17 @@ function App() {
               </Layout>
             }
           />
-
+          {/* Live Quiz Route */}
+          <Route
+            path="/live-quiz/:code"
+            element={
+              <ProtectedRoute requiredRole="student">
+                <Layout>
+                  <StudentLiveQuiz />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
           {/* Default redirect */}
           <Route
             path="*"

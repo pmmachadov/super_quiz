@@ -12,6 +12,7 @@ const LiveQuiz = () => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [currentSession, setCurrentSession] = useState(null);
+  const [gameCode, setGameCode] = useState("");
 
   // Fetch quizzes and active sessions
   useEffect(() => {
@@ -97,8 +98,9 @@ const LiveQuiz = () => {
       setLoading(false);
     }
   };
-
   // Copy session code to clipboard
+  const [codeCopied, setCodeCopied] = useState(false);
+
   const copyCodeToClipboard = () => {
     if (!currentSession) return;
 
@@ -106,7 +108,13 @@ const LiveQuiz = () => {
       .writeText(currentSession.code)
       .then(() => {
         setSuccess("¡Código copiado al portapapeles!");
-        setTimeout(() => setSuccess(""), 3000);
+        setCodeCopied(true);
+
+        // Reset the copied state after 3 seconds
+        setTimeout(() => {
+          setSuccess("");
+          setCodeCopied(false);
+        }, 3000);
       })
       .catch(() => {
         setError("Error al copiar el código");
@@ -252,18 +260,18 @@ const LiveQuiz = () => {
             onClick={e => e.stopPropagation()}
           >
             <h2>¡Quiz Lanzado!</h2>
-            <p>Comparte este código con tus estudiantes:</p>
-
+            <p>Comparte este código con tus estudiantes:</p>{" "}
             <div className="code-display-container">
               <div
-                className="code-display"
+                className={`code-display ${codeCopied ? "code-copied" : ""}`}
                 onClick={copyCodeToClipboard}
               >
                 {currentSession.code}
               </div>
-              <div className="code-copy-hint">Click para copiar</div>
+              <div className="code-copy-hint">
+                {codeCopied ? "¡Código copiado!" : "Click para copiar"}
+              </div>
             </div>
-
             <div className="modal-info">
               <p>
                 <strong>Quiz:</strong> {currentSession.quizTitle}
@@ -272,14 +280,13 @@ const LiveQuiz = () => {
                 <strong>Estudiantes conectados:</strong>{" "}
                 {currentSession.players.length}
               </p>
-            </div>
-
+            </div>{" "}
             <div className="modal-actions">
               <button
                 onClick={copyCodeToClipboard}
-                className="copy-code-button"
+                className={`copy-code-button ${codeCopied ? "copied" : ""}`}
               >
-                Copiar Código
+                {codeCopied ? "¡Código Copiado!" : "Copiar Código"}
               </button>
               <button
                 onClick={() => setShowCodeModal(false)}

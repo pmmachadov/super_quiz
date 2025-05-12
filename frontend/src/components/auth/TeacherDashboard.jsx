@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import LiveQuiz from "../LiveQuiz";
 import "./Auth.css";
+import "./Dashboard.css";
+import "./TeacherDashboard.css";
+import "./DashboardEffects.css";
+import "./DashboardResponsive.css";
 
 const TeacherDashboard = () => {
   const { currentUser, token, logout } = useAuth();
@@ -40,15 +44,14 @@ const TeacherDashboard = () => {
   if (!currentUser) {
     return <div className="loading">Loading...</div>;
   }
-
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container teacher-dashboard">
       <div className="dashboard-header">
-        <h1>Teacher Dashboard</h1>
+        <h1>Teacher Dashboard</h1>{" "}
         <div className="user-welcome">
           <span>Welcome, {currentUser.name}</span>
           <button
-            className="logout-btn"
+            className="logout-button"
             onClick={logout}
           >
             Logout
@@ -115,10 +118,11 @@ const TeacherDashboard = () => {
             </div>
 
             <div className="stats-card">
+              {" "}
               <h3>Launch Quiz</h3>
               <div className="quick-action">
                 <button
-                  className="primary-button"
+                  className="primary-button live-quiz-button"
                   onClick={() => setActiveTab("liveQuiz")}
                 >
                   Start Live Quiz

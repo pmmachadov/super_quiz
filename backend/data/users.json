@@ -16,6 +16,38 @@
     "createdAt": "2025-05-11T19:26:11.417Z"
   },
   {
+    "id": "student2",
+    "name": "Anna Smith",
+    "email": "anna@example.com",
+    "password": "$2b$10$sUUtJ3Ux5DFZCYqiZ5VRSe7tk.0ToKSMR4Ay0H36wL/NrXqSJoZnC",
+    "role": "student",
+    "createdAt": "2025-05-11T19:26:11.417Z"
+  },
+  {
+    "id": "student3",
+    "name": "Carlos Rodriguez",
+    "email": "carlos@example.com",
+    "password": "$2b$10$sUUtJ3Ux5DFZCYqiZ5VRSe7tk.0ToKSMR4Ay0H36wL/NrXqSJoZnC",
+    "role": "student",
+    "createdAt": "2025-05-11T19:26:11.417Z"
+  },
+  {
+    "id": "student4",
+    "name": "Maria Garcia",
+    "email": "maria@example.com",
+    "password": "$2b$10$sUUtJ3Ux5DFZCYqiZ5VRSe7tk.0ToKSMR4Ay0H36wL/NrXqSJoZnC",
+    "role": "student",
+    "createdAt": "2025-05-11T19:26:11.417Z"
+  },
+  {
+    "id": "student5",
+    "name": "James Wilson",
+    "email": "james@example.com",
+    "password": "$2b$10$sUUtJ3Ux5DFZCYqiZ5VRSe7tk.0ToKSMR4Ay0H36wL/NrXqSJoZnC",
+    "role": "student",
+    "createdAt": "2025-05-11T19:26:11.417Z"
+  },
+  {
     "id": "user-1746991849836",
     "name": "Pablo",
     "email": "teacherpablo@example.com",

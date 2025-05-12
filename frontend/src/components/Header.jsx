@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import HeaderSessionManager from "./HeaderSessionManager";
 
 import "./Layout.css";
 
@@ -46,7 +47,8 @@ const Header = ({ darkTheme, toggleTheme }) => {
                 {item.label}
               </Link>
             ))}
-          </nav>
+          </nav>{" "}
+          <HeaderSessionManager />
           <button
             className="theme-toggle-btn"
             onClick={toggleTheme}
