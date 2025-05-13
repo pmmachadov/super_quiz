@@ -3,8 +3,12 @@
   max-width: 1200px;
   opacity: 0;
   padding: 2rem;
+  padding-top: 4rem;
+  position: relative;
   transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out,
+    margin-top 0.3s ease;
+  z-index: 1;
 }
 .quizzes-container.fade-in {
   opacity: 1;
@@ -423,6 +427,7 @@
 :root:not(.dark-theme) .quizzes-container {
   position: relative;
   z-index: 1;
+  margin-top: 20px; /* Add space between header and content */
 }
 :root:not(.dark-theme) .quizzes-container::before {
   animation: float-light 15s ease-in-out infinite alternate;
@@ -671,9 +676,13 @@
 @media (max-width: 480px) {
   .quizzes-container {
     padding: 1.5rem 1rem;
+    margin-top: 1rem; /* Reduced default margin */
+    z-index: 1; /* Ensure content has a proper z-index */
   }
   .page-title {
     font-size: 1.8rem;
+    margin-top: 1.5rem; /* Reduced default margin */
+    transition: margin-top 0.3s ease;
   }
   .quiz-card {
     padding: 1.2rem;
@@ -1022,7 +1031,6 @@
   background-color: #f8f9fa;
   border-radius: 8px;
   margin: 20px 0;
-  padding: 15px;
   text-align: left;
 }
 .modal-actions {

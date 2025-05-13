@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import HeaderSessionManager from "./HeaderSessionManager";
 
 import "./Layout.css";
+import "./mobile-menu.css";
 
 const Header = ({ darkTheme, toggleTheme }) => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { path: "/", label: "Home" },
@@ -15,7 +17,6 @@ const Header = ({ darkTheme, toggleTheme }) => {
     { path: "/create-quiz", label: "Create Quiz" },
     { path: "/analytics", label: "Analytics" },
   ];
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -24,30 +25,88 @@ const Header = ({ darkTheme, toggleTheme }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = "visible"; // Restore scrolling
+    document.body.classList.remove("menu-open"); // Remove menu-open class
+  }, [location.pathname]);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    // Toggle body classes for menu open state and scroll locking
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.style.overflow = "visible";
+      document.body.classList.remove("menu-open");
+    }
+  };
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
       <div className="header-content">
         <Link
           to="/"
           className="logo-link"
-        >
-          <h1 className="logo">Quiz Challenge</h1>
-        </Link>
+        ></Link>
+
+        <nav className={`nav-links ${mobileMenuOpen ? "open" : ""}`}>
+          {navItems.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-link ${
+                location.pathname === item.path ? "active" : ""
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
         <div className="header-controls">
-          <nav className="nav-links">
-            {navItems.map(item => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`nav-link ${
-                  location.pathname === item.path ? "active" : ""
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>{" "}
+          <button
+            className={`hamburger-menu-btn ${mobileMenuOpen ? "active" : ""}`}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {mobileMenuOpen ? (
+                <path d="M18 6L6 18M6 6l12 12" />
+              ) : (
+                <>
+                  <line
+                    x1="3"
+                    y1="12"
+                    x2="21"
+                    y2="12"
+                  ></line>
+                  <line
+                    x1="3"
+                    y1="6"
+                    x2="21"
+                    y2="6"
+                  ></line>
+                  <line
+                    x1="3"
+                    y1="18"
+                    x2="21"
+                    y2="18"
+                  ></line>
+                </>
+              )}
+            </svg>
+          </button>
           <HeaderSessionManager />
           <button
             className="theme-toggle-btn"

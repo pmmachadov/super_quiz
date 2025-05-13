@@ -1,0 +1,99 @@
+/* Mobile Menu Styles */
+
+/* Style for body when menu is open */
+body.menu-open .quizzes-container,
+body.menu-open .page-title {
+  transition: margin-top 0.3s ease;
+}
+
+/* Apply dynamic spacing when menu is open */
+@media (max-width: 768px) {
+  body.menu-open .quizzes-container {
+    margin-top: 8rem;
+  }
+
+  body.menu-open .page-title {
+    margin-top: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body.menu-open .quizzes-container {
+    margin-top: 15rem;
+  }
+
+  body.menu-open .page-title {
+    margin-top: 8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+  .logo {
+    display: none !important;
+  }
+
+  .hamburger-menu-btn {
+    display: flex !important;
+    z-index: 1100;
+    position: absolute;
+    left: 10px;
+  }
+
+  .theme-toggle-btn {
+    position: absolute;
+    right: 10px;
+  }
+
+  .nav-links {
+    margin: 0 auto;
+  }
+
+  .hamburger-menu-btn.active svg {
+    stroke: var(--primary);
+  }
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--background);
+    display: none;
+    flex-direction: column;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+  .nav-links.open {
+    display: flex;
+    animation: slideDown 0.3s ease forwards;
+    height: auto;
+    max-height: 300px; /* Limit height and add scrolling if needed */
+    overflow-y: auto;
+  }
+
+  .nav-link {
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

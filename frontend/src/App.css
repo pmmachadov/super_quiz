@@ -12,8 +12,8 @@
   --correct-hover: #16a34a;
   --incorrect: #ef4444;
   --incorrect-hover: #dc2626;
-  --shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -23,23 +23,21 @@ body {
   margin: 0;
   font-family: "Inter", "Segoe UI", sans-serif;
   line-height: 1.6;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-theme {
-  --shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
 :root:not(.dark-theme) {
-  --shadow:
-    0 15px 25px -3px rgba(0, 0, 0, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
-  --card-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(44, 123, 229, 0.06);
-  --hover-shadow:
-    0 20px 35px rgba(0, 0, 0, 0.18), 0 10px 15px rgba(44, 123, 229, 0.1);
+  --shadow: 0 15px 25px -3px rgba(0, 0, 0, 0.15),
+    0 8px 12px -2px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(44, 123, 229, 0.06);
+  --hover-shadow: 0 20px 35px rgba(0, 0, 0, 0.18),
+    0 10px 15px rgba(44, 123, 229, 0.1);
 }
 
 :root:not(.dark-theme) .nav-link {
@@ -65,9 +63,7 @@ body {
 :root:not(.dark-theme) .answer-button:hover {
   background: #d4d4d4;
   transform: translateY(-3px);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.12),
-    0 3px 8px rgba(44, 123, 229, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(44, 123, 229, 0.08);
 }
 
 :root:not(.dark-theme) .btn.primary {
@@ -234,18 +230,20 @@ body {
 
 .header {
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
@@ -479,9 +477,7 @@ button[type="button"]::after {
   transform: scale(0);
   opacity: 0;
   pointer-events: none;
-  transition:
-    transform 0.8s ease-out,
-    opacity 0.8s ease-out;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
 
 .btn::before,
@@ -748,7 +744,7 @@ button[type="button"]:hover::after {
 }
 
 @media (max-width: 768px) {
-  .nav-links {
+  .logo {
     display: none;
   }
 

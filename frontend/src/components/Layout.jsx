@@ -27,7 +27,9 @@ const Layout = ({ children }) => {
         darkTheme={darkTheme}
         toggleTheme={toggleTheme}
       />
-      <main className="main-content">{children}</main>
+      <div className="app-content">
+        <main className="main-content">{children}</main>
+      </div>
       <Footer />
     </div>
   );

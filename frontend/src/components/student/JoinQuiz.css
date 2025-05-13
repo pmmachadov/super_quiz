@@ -12,6 +12,9 @@
   margin-top: 20px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden; /* Prevenir que el contenido se superponga fuera de los bordes */
+  position: relative; /* Establece un contexto de posicionamiento para elementos hijos */
+  z-index: 1; /* Asegura que el formulario tenga un valor de z-index */
 }
 
 .code-input-group {
@@ -20,24 +23,52 @@
   gap: 15px;
   margin-top: 20px;
   align-items: center;
+  width: 100%; /* Asegura que el grupo ocupe todo el ancho disponible */
+  max-width: 100%; /* Evita que se desborde del contenedor padre */
 }
 
 .code-input-wrapper {
   position: relative;
-  width: 220px;
+  width: 320px; /* Aumentado aún más el ancho para acomodar los 6 caracteres */
+  max-width: 100%; /* Asegura que no sea más ancho que su contenedor */
+  margin: 0 auto; /* Centra el contenedor */
 }
 
 .code-input {
   font-size: 24px;
-  letter-spacing: 10px;
+  letter-spacing: 6px; /* Espaciado entre letras optimizado */
   text-align: center;
-  width: auto;
-  padding: 15px 10px;
+  width: 100%; /* Usa todo el ancho disponible del wrapper */
+  padding: 15px 25px; /* Aumentado el padding horizontal para mejor visibilidad */
   border: 2px solid #333;
   border-radius: 8px;
   background-color: #111111;
   color: #e0e0e0;
   transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  -moz-appearance: textfield; /* Elimina flechas en Firefox */
+  appearance: textfield; /* Estándar */
+}
+
+/* Eliminar los spinners (flechas) en navegadores webkit */
+.code-input::-webkit-outer-spin-button,
+.code-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Eliminar el botón de borrado (X) en el campo de código */
+.code-input::-webkit-search-cancel-button,
+.code-input::-ms-clear {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Asegurar que el placeholder esté correctamente espaciado */
+.code-input::placeholder {
+  letter-spacing: 4px;
+  opacity: 0.5;
 }
 
 .code-input:focus {
@@ -47,16 +78,18 @@
 }
 
 .clear-code-button {
+  display: none; /* Ocultar el botón de limpieza */
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   color: #888;
   cursor: pointer;
   padding: 5px;
+  z-index: 2;
 }
 
 .clear-code-button:hover {
@@ -67,6 +100,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin: 5px 0;
 }
 
 .paste-code-button {
@@ -81,6 +115,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%; /* Asegura que no se desborde del contenedor */
+  box-sizing: border-box;
 }
 
 .paste-code-button:hover {
@@ -99,7 +135,10 @@
   cursor: pointer;
   transition: all 0.3s;
   width: 220px;
+  max-width: 100%; /* Asegura que no sea más ancho que su contenedor */
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  margin: 10px 0; /* Añade espacio vertical */
 }
 
 .join-button:hover {
@@ -166,20 +205,26 @@
     padding: 20px 15px;
   }
 
+  .code-input-wrapper {
+    width: 100%; /* En móvil, que ocupe todo el ancho disponible */
+    max-width: 300px; /* Mantiene un ancho máximo para evitar estiramientos excesivos */
+  }
   .code-input {
     font-size: 20px;
-    letter-spacing: 8px;
-    padding: 12px 8px;
+    letter-spacing: 5px; /* Optimizado para dispositivos móviles */
+    padding: 12px 15px; /* Padding ajustado para mejor visibilidad */
   }
 
   .paste-code-button {
     font-size: 13px;
     padding: 8px 12px;
+    width: 100%; /* En móvil, que ocupe todo el ancho disponible */
   }
 
   .join-button {
     padding: 12px 24px;
     font-size: 15px;
+    width: 100%; /* En móvil, que ocupe todo el ancho disponible */
   }
 
   .joined-details {
