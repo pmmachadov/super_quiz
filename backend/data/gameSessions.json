@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "session-1747298702618",
+    "code": "931910",
+    "quizId": 1,
+    "teacherId": "teacher1",
+    "teacherName": "Demo Teacher",
+    "quizTitle": "Basic Programming",
+    "players": [],
+    "status": "waiting",
+    "createdAt": 1747298702618,
+    "expiresAt": 1747385102618
+  }
+]

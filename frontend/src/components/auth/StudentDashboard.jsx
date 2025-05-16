@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import JoinQuiz from "../student/JoinQuiz";
 import "./Auth.css";
 import "./Dashboard.css";
@@ -46,11 +46,12 @@ const StudentDashboard = () => {
     window.location.href = `/quiz/${quizId}`;
   };
   return (
-    <div className="dashboard-container student-dashboard">
-      <div className="dashboard-header">
+    <div className="dashboard-container student-dashboard">      <div className="dashboard-header">
         <h1>Student Dashboard</h1>
         <div className="user-welcome">
-          <span>Welcome, {currentUser?.name}!</span>
+          {currentUser && (
+            <span>Welcome, {currentUser.name || "Student"}!</span>
+          )}
           <button
             className="logout-button"
             onClick={logout}

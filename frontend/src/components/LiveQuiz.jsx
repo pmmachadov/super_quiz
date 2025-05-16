@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import "./LiveQuiz.css";
 
 const LiveQuiz = () => {
   const { token, currentUser } = useAuth();
-  const [quizzes, setQuizzes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [quizzes, setQuizzes] = useState([]);  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [activeSessions, setActiveSessions] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showCodeModal, setShowCodeModal] = useState(false);
-  const [currentSession, setCurrentSession] = useState(null);
-  const [gameCode, setGameCode] = useState("");
-
+  const [currentSession, setCurrentSession] = useState(null);  // Estado separado para la carga inicial y las operaciones
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [operationLoading, setOperationLoading] = useState(false);
   // Fetch quizzes and active sessions
   useEffect(() => {
     if (!token || currentUser?.role !== "teacher") {
@@ -21,7 +19,7 @@ const LiveQuiz = () => {
     }
 
     const fetchData = async () => {
-      setLoading(true);
+      setInitialLoading(true);
       try {
         // Fetch quizzes
         const quizzesResponse = await fetch(
@@ -52,13 +50,12 @@ const LiveQuiz = () => {
         setError("Error al cargar los datos. Inténtalo de nuevo más tarde.");
         console.error("Error fetching data:", err);
       } finally {
-        setLoading(false);
+        setInitialLoading(false);
       }
     };
 
     fetchData();
   }, [token, currentUser]);
-
   // Launch a new game session
   const handleLaunchQuiz = async () => {
     if (!selectedQuiz) {
@@ -66,8 +63,9 @@ const LiveQuiz = () => {
       return;
     }
 
-    try {
-      setLoading(true);
+    try {      // Set operation loading state to prevent UI flickering
+      setOperationLoading(true);
+      
       const response = await fetch("http://localhost:3000/api/game-sessions", {
         method: "POST",
         headers: {
@@ -94,8 +92,10 @@ const LiveQuiz = () => {
     } catch (err) {
       setError(err.message || "Error al lanzar el quiz");
       console.error("Error launching quiz:", err);
-    } finally {
-      setLoading(false);
+    } finally {      // Add a small delay before changing loading state to avoid UI flickering
+      setTimeout(() => {
+        setOperationLoading(false);
+      }, 300);
     }
   };
   // Copy session code to clipboard
@@ -120,11 +120,10 @@ const LiveQuiz = () => {
         setError("Error al copiar el código");
       });
   };
-
   // End a session
   const handleEndSession = async code => {
     try {
-      setLoading(true);
+      setOperationLoading(true);
       const response = await fetch(
         `http://localhost:3000/api/game-sessions/${code}`,
         {
@@ -149,7 +148,7 @@ const LiveQuiz = () => {
       setError(err.message || "Error al finalizar la sesión");
       console.error("Error ending session:", err);
     } finally {
-      setLoading(false);
+      setOperationLoading(false);
     }
   };
 
@@ -164,15 +163,14 @@ const LiveQuiz = () => {
       <div className="quiz-launch-form">
         <h2>Lanzar Quiz Rápidamente</h2>
 
-        <div className="form-group">
-          <label>Seleccionar Quiz:</label>
-          <div className="quick-launch-select-wrapper">
-            <select
+        <div className="form-group">          <label htmlFor="quiz-selector">Seleccionar Quiz:</label>
+          <div className="quick-launch-select-wrapper">            <select
+              id="quiz-selector"
               value={selectedQuiz || ""}
               onChange={e =>
                 setSelectedQuiz(e.target.value ? Number(e.target.value) : null)
               }
-              disabled={loading}
+              disabled={operationLoading || initialLoading}
               className="quick-launch-select"
             >
               <option value="">-- Seleccionar un Quiz --</option>
@@ -188,9 +186,9 @@ const LiveQuiz = () => {
             <button
               className="launch-button"
               onClick={handleLaunchQuiz}
-              disabled={loading || !selectedQuiz}
+              disabled={operationLoading || !selectedQuiz}
             >
-              {loading ? "Lanzando..." : "Lanzar Quiz"}
+              {operationLoading ? "Lanzando..." : "Lanzar Quiz"}
             </button>
           </div>
         </div>
@@ -250,21 +248,37 @@ const LiveQuiz = () => {
       </div>
 
       {/* Code Modal */}
-      {showCodeModal && currentSession && (
-        <div
+      {showCodeModal && currentSession && (        <div
           className="modal-overlay"
           onClick={() => setShowCodeModal(false)}
-        >
-          <div
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setShowCodeModal(false);
+          }}
+        >          <div
             className="code-modal"
             onClick={e => e.stopPropagation()}
+            role="dialog"
+            aria-labelledby="modal-title"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') setShowCodeModal(false);
+            }}
           >
-            <h2>¡Quiz Lanzado!</h2>
+            <h2 id="modal-title">¡Quiz Lanzado!</h2>
             <p>Comparte este código con tus estudiantes:</p>{" "}
-            <div className="code-display-container">
-              <div
+            <div className="code-display-container">              <div
                 className={`code-display ${codeCopied ? "code-copied" : ""}`}
                 onClick={copyCodeToClipboard}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    copyCodeToClipboard();
+                  }
+                }}
+                aria-label="Click para copiar el código"
               >
                 {currentSession.code}
               </div>

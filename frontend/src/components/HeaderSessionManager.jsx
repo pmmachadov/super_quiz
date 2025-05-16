@@ -12,20 +12,22 @@ const HeaderSessionManager = () => {
   useEffect(() => {
     setSessions(getAvailableSessions());
   }, [getAvailableSessions, currentUser]);
-
+  
   const handleSwitchSession = sessionKey => {
-    switchSession(sessionKey);
+    // Primero cerramos el menú desplegable
     setShowSessions(false);
+    
+    // Pequeña espera para mejorar la experiencia de usuario
+    setTimeout(() => {
+      // Cambiamos la sesión
+      switchSession(sessionKey);
+    }, 100);
   };
 
   // Only show if there are multiple sessions available
   if (sessions.length <= 1) {
     return null;
   }
-
-  const currentSession = sessions.find(
-    session => session.user.email === currentUser?.email
-  );
 
   return (
     <div className="header-session-manager">

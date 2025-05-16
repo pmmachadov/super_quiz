@@ -1,17 +1,13 @@
-import {
+import React, {
   createContext,
   useState,
   useEffect,
-  useContext,
   useCallback,
+  useMemo
 } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
 
 // Function to generate a unique storage key for a user
 const getUserStorageKey = user => {
@@ -38,9 +34,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(savedToken || null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
   // Logout function - using useCallback to avoid dependency issues
   const logout = useCallback(() => {
+    // Clear current user data first
     if (currentUser) {
       const userKey = getUserStorageKey(currentUser);
       if (userKey) {
@@ -49,9 +45,17 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    // Force clear all active user session data
+    localStorage.removeItem("quiz_active_user");
+    
+    // Clear AuthContext state
     setCurrentUser(null);
     setToken(null);
-    localStorage.removeItem("quiz_active_user");
+    
+    // Force clean all session storage to ensure no lingering data
+    sessionStorage.clear();
+    
+    // Redirect to login
     navigate("/login");
   }, [currentUser, navigate]);
 
@@ -94,8 +98,7 @@ export const AuthProvider = ({ children }) => {
       }
     };
     verifyToken();
-  }, [token, logout]);
-  // Login function
+  }, [token, logout]);  // Login function
   const login = async (email, password) => {
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
@@ -112,6 +115,12 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || "Login failed");
       }
 
+      // Clear any previous active user data to avoid session confusion
+      if (currentUser) {
+        // Only remove the active_user marker, keep the other sessions intact
+        localStorage.removeItem("quiz_active_user");
+      }
+
       // Generate a unique storage key for this user
       const userKey = getUserStorageKey(data.user);
 
@@ -120,7 +129,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(`${userKey}_token`, data.token);
       localStorage.setItem("quiz_active_user", userKey);
 
-      // Update state
+      // Update state with the new user
       setCurrentUser(data.user);
       setToken(data.token);
 
@@ -231,8 +240,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Create student error:", error);
       throw error;
     }
-  };
-  // Function to switch to a different user session
+  };  // Function to switch to a different user session
   const switchSession = useCallback(userKey => {
     // Check if the session exists
     const userData = localStorage.getItem(`${userKey}_user`);
@@ -244,18 +252,34 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      // Set this as the active user
-      localStorage.setItem("quiz_active_user", userKey);
-
-      // Update state
-      setCurrentUser(JSON.parse(userData));
-      setToken(sessionToken);
+      // First, clear the currentUser state to ensure a clean switch
+      setCurrentUser(null);
+      setToken(null);
+      
+      // Short delay to ensure state is reset before setting new values
+      setTimeout(() => {
+        // Set this as the active user
+        localStorage.setItem("quiz_active_user", userKey);
+        
+        // Update state with parsed user data
+        const parsedUserData = JSON.parse(userData);
+        setCurrentUser(parsedUserData);
+        setToken(sessionToken);
+        
+        // Redirect to the appropriate dashboard based on role
+        if (parsedUserData.role === "teacher") {
+          navigate("/teacher/dashboard");
+        } else if (parsedUserData.role === "student") {
+          navigate("/student/dashboard");
+        }
+      }, 50);
+      
       return true;
     } catch (error) {
       console.error("Error switching session:", error);
       return false;
     }
-  }, []);
+  }, [navigate]);
 
   // Function to list all available sessions
   const getAvailableSessions = useCallback(() => {
@@ -280,8 +304,8 @@ export const AuthProvider = ({ children }) => {
     }
     return sessions;
   }, []);
-
-  const value = {
+  // Use useMemo to prevent unnecessary re-renders
+  const value = useMemo(() => ({
     currentUser,
     login,
     register,
@@ -292,13 +316,31 @@ export const AuthProvider = ({ children }) => {
     loading,
     switchSession,
     getAvailableSessions,
-  };
+  }), [
+    currentUser, 
+    login, 
+    register, 
+    logout, 
+    createTeacher, 
+    createStudent, 
+    token, 
+    loading, 
+    switchSession, 
+    getAvailableSessions
+  ]);
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   );
+};
+
+// Add PropTypes validation for children
+import PropTypes from 'prop-types';
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export default AuthContext;

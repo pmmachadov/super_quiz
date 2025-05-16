@@ -40,7 +40,7 @@
 }
 
 .quiz-launch-form h2 {
-  color: #2c3e50;
+  color: var(--md-on-surface, #e0e0e0);
   margin-top: 0;
   font-size: 22px;
   margin-bottom: 20px;
@@ -54,30 +54,41 @@
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
-  color: #34495e;
+  color: var(--md-on-surface, #d0d0d0);
 }
 
 .quick-launch-select-wrapper {
   display: flex;
   align-items: center;
   gap: 15px;
+  position: relative;
+  z-index: 5; /* Ensure proper stacking context */
 }
 
 .quick-launch-select {
   flex: 1;
   padding: 12px 15px;
   border-radius: 6px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid #444;
+  background-color: var(--md-surface, #1e1e1e);
   font-size: 16px;
-  color: #333;
-  transition: all 0.3s;
+  color: var(--md-on-surface, #e0e0e0);
+  transition: none; /* Removed transition to prevent flickering */
+  z-index: 10; /* Ensure dropdown appears above other elements */
+  position: relative; /* Required for z-index to work */
 }
 
 .quick-launch-select:focus {
   border-color: #3498db;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
   outline: none;
+}
+
+/* Add styles for dropdown options to ensure they're visible */
+.quick-launch-select option {
+  background-color: var(--md-surface, #1e1e1e);
+  color: var(--md-on-surface, #e0e0e0);
+  padding: 10px;
 }
 
 .launch-button {
@@ -89,13 +100,14 @@
   cursor: pointer;
   font-weight: bold;
   font-size: 16px;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
   white-space: nowrap;
+  position: relative;
+  z-index: 1;
 }
 
 .launch-button:hover {
   background-color: #27ae60;
-  transform: translateY(-2px);
 }
 
 .launch-button:disabled {
@@ -106,25 +118,25 @@
 
 /* Active Sessions */
 .active-sessions {
-  background-color: #fff;
+  background-color: var(--md-surface, #1e1e1e);
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .active-sessions h2 {
-  color: #2c3e50;
+  color: var(--md-on-surface, #e0e0e0);
   margin-top: 0;
   font-size: 22px;
   margin-bottom: 20px;
 }
 
 .no-sessions {
-  color: #7f8c8d;
+  color: #b0b0b0;
   font-style: italic;
   text-align: center;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--md-surface-container, #2a2a2a);
   border-radius: 6px;
 }
 
@@ -135,14 +147,14 @@
 }
 
 .session-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #444;
   border-radius: 8px;
   padding: 20px;
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  background-color: var(--md-surface-container, #2a2a2a);
 }
 
 .session-card:hover {
@@ -168,7 +180,7 @@
   font-size: 20px;
   font-weight: bold;
   color: #e74c3c;
-  background-color: #f8f9fa;
+  background-color: rgba(52, 152, 219, 0.2);
   padding: 3px 8px;
   border-radius: 4px;
 }

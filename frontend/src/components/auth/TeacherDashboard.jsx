@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import LiveQuiz from "../LiveQuiz";
 import "./Auth.css";
 import "./Dashboard.css";
@@ -45,11 +45,12 @@ const TeacherDashboard = () => {
     return <div className="loading">Loading...</div>;
   }
   return (
-    <div className="dashboard-container teacher-dashboard">
-      <div className="dashboard-header">
-        <h1>Teacher Dashboard</h1>{" "}
+    <div className="dashboard-container teacher-dashboard">      <div className="dashboard-header">
+        <h1>Teacher Dashboard</h1>
         <div className="user-welcome">
-          <span>Welcome, {currentUser.name}</span>
+          {currentUser && (
+            <span>Welcome, {currentUser.name || "Teacher"}!</span>
+          )}
           <button
             className="logout-button"
             onClick={logout}
