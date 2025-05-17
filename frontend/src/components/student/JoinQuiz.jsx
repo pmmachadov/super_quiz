@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import "../LiveQuiz.css";
 import "./JoinQuiz.css";
 import "./StudentLiveQuiz.css";
+import "../auth/Auth.css";
 
 const JoinQuiz = () => {
   const { token, currentUser } = useAuth();
