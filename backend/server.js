@@ -10,9 +10,12 @@ const {
 } = require("./validators/quizValidators");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://mysuperquiz.netlify.app'],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 const dataDir = path.join(__dirname, "data");

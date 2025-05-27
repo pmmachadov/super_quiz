@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "https://tu-url-render-aqui.onrender.com/api/:splat"
   status = 200
   force = true
 
