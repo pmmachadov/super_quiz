@@ -16,9 +16,12 @@ const QuestionPerformance = ({
   const fetchAnalytics = async () => {
     setLocalLoading(true);
     setLocalError(null);
-
     try {
-      const response = await fetch("http://localhost:5173/api/analytics", {
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
+        : "";
+
+      const response = await fetch(`${baseUrl}/api/analytics`, {
         cache: "no-cache",
         headers: {
           Accept: "application/json",
@@ -49,7 +52,11 @@ const QuestionPerformance = ({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch("http://localhost:5173/api/quizzes", {
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
+        : "";
+
+      const response = await fetch(`${baseUrl}/api/quizzes`, {
         cache: "no-cache",
         headers: {
           Accept: "application/json",
@@ -96,9 +103,12 @@ const QuestionPerformance = ({
     if (!Array.isArray(quizzes) || quizzes.length === 0) {
       return [];
     }
-
     try {
-      fetch("http://localhost:5173/api/analytics", { cache: "no-cache" })
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
+        : "";
+
+      fetch(`${baseUrl}/api/analytics`, { cache: "no-cache" })
         .then(res => res.json())
         .then(data => {
           if (data?.questionsData?.length > 0) {

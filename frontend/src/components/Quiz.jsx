@@ -46,7 +46,6 @@ export default function Quiz() {
       try {
         setIsLoading(true);
         setError(null);
-
         const numericId = parseInt(id.replace(/\D/g, ""));
         const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
 
@@ -105,11 +104,7 @@ export default function Quiz() {
           correctAnswers: finalScore,
           questionResults: allResultsRef.current,
         };
-        const baseUrl = import.meta.env.PROD
-          ? "https://pablomachado.netlify.app"
-          : "";
-
-        await fetch(`${baseUrl}/api/game-results`, {
+        await fetch("/api/game-results", {
           method: "POST",
           headers: {
             Accept: "application/json",

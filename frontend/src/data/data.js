@@ -3,7 +3,7 @@ const analyticsData = [];
 
 export const fetchQuizzes = async () => {
   try {
-    const response = await fetch("http://localhost:5173/api/quizzes", {
+    const response = await fetch("/api/quizzes", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -40,11 +40,7 @@ export const getQuizById = id => {
 
 export const fetchAnalytics = async () => {
   try {
-    const baseUrl = import.meta.env.PROD
-      ? "https://pablomachado.netlify.app"
-      : "";
-
-    const response = await fetch(`${baseUrl}/api/analytics`);
+    const response = await fetch("/api/analytics");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

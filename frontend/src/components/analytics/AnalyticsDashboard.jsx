@@ -72,7 +72,11 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("http://localhost:5173/api/analytics", {
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
+        : "";
+
+      const response = await fetch(`${baseUrl}/api/analytics`, {
         cache: "no-cache",
       });
 
