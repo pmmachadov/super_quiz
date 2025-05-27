@@ -34,13 +34,17 @@ export const fetchQuizzes = async () => {
   }
 };
 
-export const getQuizById = (id) => {
-  return quizzesData.find((quiz) => quiz.id === id) || null;
+export const getQuizById = id => {
+  return quizzesData.find(quiz => quiz.id === id) || null;
 };
 
 export const fetchAnalytics = async () => {
   try {
-    const response = await fetch("/api/analytics");
+    const baseUrl = import.meta.env.PROD
+      ? "https://pablomachado.netlify.app"
+      : "";
+
+    const response = await fetch(`${baseUrl}/api/analytics`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
