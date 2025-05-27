@@ -32,9 +32,12 @@ const Quizzes = () => {
 
     try {
       setIsLoading(true);
-      setError(null);
+      setError(null); // En desarrollo usamos la ruta relativa, en producción la URL completa
+      const baseUrl = import.meta.env.PROD
+        ? "https://pablomachado.netlify.app"
+        : "";
 
-      const response = await fetch("/api/quizzes", {
+      const response = await fetch(`${baseUrl}/api/quizzes`, {
         method: "GET",
         cache: "no-cache",
         headers: {
@@ -82,8 +85,11 @@ const Quizzes = () => {
   const deleteQuiz = async quizId => {
     try {
       setIsDeleting(true);
+      const baseUrl = import.meta.env.PROD
+        ? "https://pablomachado.netlify.app"
+        : "";
 
-      const response = await fetch(`/api/quizzes/${quizId}`, {
+      const response = await fetch(`${baseUrl}/api/quizzes/${quizId}`, {
         method: "DELETE",
         headers: {
           Accept: "application/json",

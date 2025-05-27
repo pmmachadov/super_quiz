@@ -105,8 +105,11 @@ export default function Quiz() {
           correctAnswers: finalScore,
           questionResults: allResultsRef.current,
         };
+        const baseUrl = import.meta.env.PROD
+          ? "https://pablomachado.netlify.app"
+          : "";
 
-        await fetch("/api/game-results", {
+        await fetch(`${baseUrl}/api/game-results`, {
           method: "POST",
           headers: {
             Accept: "application/json",
