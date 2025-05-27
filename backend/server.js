@@ -13,8 +13,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://mysuperquiz.netlify.app'],
-  credentials: true
+  origin: ['http://localhost:5173', 'https://mysuperquiz.netlify.app', 'https://pablomachado.netlify.app'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 

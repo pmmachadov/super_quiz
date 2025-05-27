@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://tu-url-render-aqui.onrender.com/api/:splat"
+  to = "https://super-quiz-backend.onrender.com/api/:splat"
   status = 200
   force = true
 
