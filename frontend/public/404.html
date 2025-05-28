@@ -7,14 +7,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Quiz - Redireccionando</title>
     <script>
-        // Redirigir directamente a index.html para manejar rutas en el cliente
-        window.location.href = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/') + '/index.html';
+        (function() {
+            const l = window.location;
+            const base = '/super_quiz/'; // Your GitHub Pages repository name as the base path
+
+            let intendedPath = '';
+            if (l.pathname.startsWith(base)) {
+                intendedPath = l.pathname.substring(base.length);
+            } else {
+                intendedPath = l.pathname.startsWith('/') ? l.pathname.substring(1) : l.pathname;
+            }
+
+            // Remove leading/trailing slashes from intendedPath for cleaner hash
+            intendedPath = intendedPath.replace(/^\/+|\/+$/g, '');
+
+            window.location.replace(
+                l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+                base +
+                'index.html#/' + // Ensure a leading slash for the hash path
+                intendedPath +
+                l.search +
+                l.hash
+            );
+        })();
     </script>
 </head>
 
 <body>
     <h1>Redireccionando...</h1>
-    <p>Si no eres redirigido automáticamente, <a href="/index.html">haz clic aquí</a>.</p>
+    <p>Si no eres redirigido automáticamente, <a id="redirect-link" href="#">haz clic aquí</a>.</p>
+    <script>
+        // Update the fallback link dynamically
+        (function() {
+            const link = document.getElementById('redirect-link');
+            const l = window.location;
+            const base = '/super_quiz/';
+            let intendedPath = '';
+            if (l.pathname.startsWith(base)) {
+                intendedPath = l.pathname.substring(base.length);
+            } else {
+                intendedPath = l.pathname.startsWith('/') ? l.pathname.substring(1) : l.pathname;
+            }
+            intendedPath = intendedPath.replace(/^\/+|\/+$/g, '');
+            link.href = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+                               base + 'index.html#/' + intendedPath + l.search + l.hash;
+        })();
+    </script>
 </body>
 
 </html>
