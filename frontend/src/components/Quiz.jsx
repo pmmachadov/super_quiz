@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getApiBaseUrl } from "../utils/apiConfig";
+import { getApiBaseUrl, fetchFromStaticJSON } from "../utils/apiConfig";
 
 import "./Quiz.css";
 
@@ -48,25 +48,38 @@ export default function Quiz() {
         setError(null);
         const numericId = parseInt(id.replace(/\D/g, ""));
 
-        const baseUrl = getApiBaseUrl();
-        const apiEndpoint = `${baseUrl}/api/quizzes/${
-          isNaN(numericId) ? id : numericId
-        }`;
+        let quizData;
 
-        const response = await fetch(apiEndpoint, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          cache: "no-cache",
-        });
+        // Usar el JSON estático en producción (GitHub Pages)
+        if (import.meta.env.PROD) {
+          quizData = await fetchFromStaticJSON(
+            `/api/quizzes/${isNaN(numericId) ? id : numericId}`
+          );
+          if (!quizData) {
+            throw new Error("Quiz not found");
+          }
+        } else {
+          // En desarrollo, usar la API normal
+          const baseUrl = getApiBaseUrl();
+          const apiEndpoint = `${baseUrl}/api/quizzes/${
+            isNaN(numericId) ? id : numericId
+          }`;
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
+          const response = await fetch(apiEndpoint, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+
+          quizData = await response.json();
         }
-
-        const quizData = await response.json();
 
         if (quizData.questions && quizData.questions.length > 0) {
           quizData.questions = quizData.questions.map(q => ({

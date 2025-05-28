@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  HashRouter,
+} from "react-router-dom";
 
 import AnalyticsDashboard from "./components/analytics/AnalyticsDashboard";
 import CreateQuiz from "./components/CreateQuiz";
@@ -10,9 +16,12 @@ import Quizzes from "./components/Quizzes";
 import Results from "./components/Results";
 import "./App.css";
 
+// Usar HashRouter en producción para GitHub Pages y BrowserRouter en desarrollo
+const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
+
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Layout>
         <Routes>
           <Route
@@ -47,10 +56,10 @@ function App() {
                 replace
               />
             }
-          />
+          />{" "}
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </Router>
   );
 }
 

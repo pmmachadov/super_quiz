@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Quiz - Redireccionando</title>
+    <script>
+        // Tomar la URL actual y redirigir a la raíz con el path como parámetro
+        const path = window.location.pathname.substr(1);
+        window.location.href = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/') + '/?path=' + path;
+    </script>
+</head>
+
+<body>
+    <h1>Redireccionando...</h1>
+    <p>Si no eres redirigido automáticamente, <a href="/">haz clic aquí</a>.</p>
+</body>
+
+</html>

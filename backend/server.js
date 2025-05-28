@@ -12,12 +12,29 @@ const {
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://mysuperquiz.netlify.app', 'https://pablomachado.netlify.app'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://mysuperquiz.netlify.app",
+      "https://pablomachado.netlify.app",
+      "https://www.mysuperquiz.netlify.app",
+      "https://www.pablomachado.netlify.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Origin",
+      "Accept",
+      "X-Requested-With",
+    ],
+  })
+);
+
+// Add OPTIONS handling for preflight requests
+app.options("*", cors());
 app.use(bodyParser.json());
 
 const dataDir = path.join(__dirname, "data");

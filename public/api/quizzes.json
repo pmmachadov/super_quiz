@@ -1,0 +1,76 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Basic Programming",
+      "questions": [
+        {
+          "question": "What does HTML stand for?",
+          "options": [
+            "Hyper Text Markup Language",
+            "High Tech Modern Language",
+            "Hyper Technical Machine Learning",
+            "Home Tool Markup Language"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these is NOT a programming language?",
+          "options": [
+            "JavaScript",
+            "Python",
+            "HTML",
+            "Java"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "What does the console.log() function do in JavaScript?",
+          "options": [
+            "Logs information to the console",
+            "Creates an error log",
+            "Prints a web page",
+            "Shows an alert to the user"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Advanced JavaScript",
+      "questions": [
+        {
+          "question": "What is a Promise in JavaScript?",
+          "options": [
+            "A type of variable",
+            "An object that represents a future value",
+            "A built-in function",
+            "A type of loop"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "Which method converts a JSON object to a string?",
+          "options": [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.toString()",
+            "JSON.convert()"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "What is hoisting in JavaScript?",
+          "options": [
+            "An optimization technique",
+            "The process of moving declarations to the top of their scope",
+            "A common error in JavaScript",
+            "A method to lift elements on the page"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ]
+}

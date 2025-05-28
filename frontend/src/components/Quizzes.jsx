@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BubbleEffect from "./BubbleEffect";
-import { getApiBaseUrl } from "../utils/apiConfig";
+import { getApiBaseUrl, fetchFromStaticJSON } from "../utils/apiConfig";
 import "./Quizzes.css";
 
 const globalQuizzesCache = {
@@ -34,22 +34,30 @@ const Quizzes = () => {
       setIsLoading(true);
       setError(null);
 
-      const baseUrl = getApiBaseUrl();
+      let data;
 
-      const response = await fetch(`${baseUrl}/api/quizzes`, {
-        method: "GET",
-        cache: "no-cache",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      // Usar el JSON estático en producción (GitHub Pages)
+      if (import.meta.env.PROD) {
+        data = await fetchFromStaticJSON("/api/quizzes");
+      } else {
+        // En desarrollo, usar la API normal
+        const baseUrl = getApiBaseUrl();
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const response = await fetch(`${baseUrl}/api/quizzes`, {
+          method: "GET",
+          cache: "no-cache",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        data = await response.json();
       }
-
-      const data = await response.json();
 
       let processedData = [];
       if (Array.isArray(data)) {
@@ -84,6 +92,25 @@ const Quizzes = () => {
   const deleteQuiz = async quizId => {
     try {
       setIsDeleting(true);
+
+      // En producción (GitHub Pages), sólo simulamos la eliminación
+      if (import.meta.env.PROD) {
+        // Solo actualizar la UI localmente
+        setQuizzes(prevQuizzes =>
+          prevQuizzes.filter(quiz => quiz.id !== quizId)
+        );
+
+        if (globalQuizzesCache.data) {
+          globalQuizzesCache.data = globalQuizzesCache.data.filter(
+            quiz => quiz.id !== quizId
+          );
+        }
+
+        setDeleteConfirm(null);
+        return;
+      }
+
+      // En desarrollo, usar la API normal
       const baseUrl = getApiBaseUrl();
 
       const response = await fetch(`${baseUrl}/api/quizzes/${quizId}`, {
