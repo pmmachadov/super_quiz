@@ -3,7 +3,11 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === "production" ? "/super-quiz/" : "/",
+  base: process.env.NODE_ENV === "production" ? "/kahootClone2/" : "/",
+  build: {
+    outDir: "../dist", // Especificar el directorio de salida relativo al directorio frontend
+    emptyOutDir: true, // Limpiar el directorio de salida antes de construir
+  },
   server: {
     port: 5173, // Frontend en puerto 5173
     historyApiFallback: true,

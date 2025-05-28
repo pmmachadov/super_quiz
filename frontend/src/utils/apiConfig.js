@@ -1,7 +1,7 @@
 // API configuration for Super Quiz
 export const getApiBaseUrl = () => {
   // Si estamos en desarrollo, usar localhost, de lo contrario usar el JSON estático en GitHub Pages
-  return import.meta.env.PROD ? "/super-quiz" : "";
+  return import.meta.env.PROD ? "/kahootClone2" : "";
 };
 
 // Función auxiliar para obtener datos de JSON estáticos cuando estamos en GitHub Pages
@@ -11,21 +11,20 @@ export const fetchFromStaticJSON = async endpoint => {
     // Determinar qué archivo JSON cargar
     if (endpoint.startsWith("/api/quizzes/")) {
       // Si es un quiz individual, extraer el ID
-      const quizId = endpoint.split("/").pop();
-      // Cargar todos los quizzes y filtrar el solicitado
-      const response = await fetch("/super-quiz/api/quizzes.json");
+      const quizId = endpoint.split("/").pop(); // Cargar todos los quizzes y filtrar el solicitado
+      const response = await fetch("/kahootClone2/api/quizzes.json");
       const data = await response.json();
       const quiz = data.quizzes.find(q => String(q.id) === quizId);
       return quiz || null;
     } else if (endpoint === "/api/quizzes") {
       // Si son todos los quizzes
-      const response = await fetch("/super-quiz/api/quizzes.json");
+      const response = await fetch("/kahootClone2/api/quizzes.json");
       const data = await response.json();
       return data.quizzes || [];
     } else {
       // Para otros endpoints
       try {
-        const response = await fetch(`/super-quiz${endpoint}.json`);
+        const response = await fetch(`/kahootClone2${endpoint}.json`);
         return await response.json();
       } catch (error) {
         console.error(`Error loading static JSON for ${endpoint}:`, error);
