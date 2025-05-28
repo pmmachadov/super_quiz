@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BubbleEffect from "./BubbleEffect";
+import { getApiBaseUrl } from "../utils/apiConfig";
 import "./QuizPage.css";
 
 const QuizPage = () => {
@@ -12,13 +13,12 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5173/api/quizzes/${id}`
-        );
+        const baseUrl = getApiBaseUrl();
+
+        const response = await fetch(`${baseUrl}/api/quizzes/${id}`);
         if (!response.ok) throw new Error("Quiz not found");
         let data = await response.json();
         data.questions = data.questions.map(q => ({
@@ -60,9 +60,7 @@ const QuizPage = () => {
   const handleAnswer = answerIndex => {
     setSelectedAnswer(answerIndex);
 
-    if (
-      answerIndex === quiz.questions[currentQuestion].correctIndex
-    ) {
+    if (answerIndex === quiz.questions[currentQuestion].correctIndex) {
       setScore(score + 1);
     }
 
@@ -85,9 +83,7 @@ const QuizPage = () => {
           <h2 className="question-number">
             Question {currentQuestion + 1} of {quiz.questions.length}
           </h2>
-          <p className="question-text">
-            {currentQuestionData.question}
-          </p>
+          <p className="question-text">{currentQuestionData.question}</p>
 
           <div className="answers-container">
             {currentQuestionData.answers.map((answer, index) => (

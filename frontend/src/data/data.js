@@ -3,7 +3,11 @@ const analyticsData = [];
 
 export const fetchQuizzes = async () => {
   try {
-    const response = await fetch("/api/quizzes", {
+    const baseUrl = import.meta.env.PROD
+      ? "https://backend-supersquiz.onrender.com"
+      : "";
+
+    const response = await fetch(`${baseUrl}/api/quizzes`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -40,7 +44,11 @@ export const getQuizById = id => {
 
 export const fetchAnalytics = async () => {
   try {
-    const response = await fetch("/api/analytics");
+    const baseUrl = import.meta.env.PROD
+      ? "https://backend-supersquiz.onrender.com"
+      : "";
+
+    const response = await fetch(`${baseUrl}/api/analytics`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BubbleEffect from "./BubbleEffect";
+import { getApiBaseUrl } from "../utils/apiConfig";
 import "./Quizzes.css";
 
 const globalQuizzesCache = {
@@ -29,11 +30,13 @@ const Quizzes = () => {
       setError(null);
       return;
     }
-
     try {
       setIsLoading(true);
       setError(null);
-      const response = await fetch("/api/quizzes", {
+
+      const baseUrl = getApiBaseUrl();
+
+      const response = await fetch(`${baseUrl}/api/quizzes`, {
         method: "GET",
         cache: "no-cache",
         headers: {
@@ -81,9 +84,7 @@ const Quizzes = () => {
   const deleteQuiz = async quizId => {
     try {
       setIsDeleting(true);
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
+      const baseUrl = getApiBaseUrl();
 
       const response = await fetch(`${baseUrl}/api/quizzes/${quizId}`, {
         method: "DELETE",

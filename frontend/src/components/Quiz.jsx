@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { getApiBaseUrl } from "../utils/apiConfig";
 
 import "./Quiz.css";
 
@@ -42,12 +43,15 @@ export default function Quiz() {
 
         return;
       }
-
       try {
         setIsLoading(true);
         setError(null);
         const numericId = parseInt(id.replace(/\D/g, ""));
-        const apiEndpoint = `/api/quizzes/${isNaN(numericId) ? id : numericId}`;
+
+        const baseUrl = getApiBaseUrl();
+        const apiEndpoint = `${baseUrl}/api/quizzes/${
+          isNaN(numericId) ? id : numericId
+        }`;
 
         const response = await fetch(apiEndpoint, {
           method: "GET",
@@ -97,6 +101,8 @@ export default function Quiz() {
   const saveGameResults = useCallback(
     async (finalScore, totalQuestions) => {
       try {
+        const baseUrl = getApiBaseUrl();
+
         const gameResult = {
           quizId: parseInt(id),
           score: finalScore,
@@ -104,7 +110,7 @@ export default function Quiz() {
           correctAnswers: finalScore,
           questionResults: allResultsRef.current,
         };
-        await fetch("/api/game-results", {
+        await fetch(`${baseUrl}/api/game-results`, {
           method: "POST",
           headers: {
             Accept: "application/json",
