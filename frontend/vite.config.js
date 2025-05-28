@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === "production" ? "/kahootClone2/" : "/",
   build: {
-    outDir: "../dist", // Especificar el directorio de salida relativo al directorio frontend
+    outDir: "dist", // Especificar el directorio de salida relativo al directorio frontend
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
   },
   server: {
