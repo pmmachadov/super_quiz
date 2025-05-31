@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === "production" ? "/super_quiz/" : "/",
+  base: "/",
   build: {
     outDir: "dist", // Especificar el directorio de salida relativo al directorio frontend
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
