@@ -100,7 +100,7 @@ app.get("/api/quizzes", (req, res) => {
 // Get quiz by ID
 app.get("/api/quizzes/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const quiz = QUIZZES.find((q) => q.id === id);
+  const quiz = QUIZZES.find(q => q.id === id);
 
   if (quiz) {
     return res.json(quiz);
