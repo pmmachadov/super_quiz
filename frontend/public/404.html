@@ -7,14 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Quiz - Redireccionando</title>
     <script>
-        // Redirigir directamente a index.html en la base del repositorio
-        window.location.href = window.location.origin + '/super_quiz/index.html';
+        // SPA redirect for GitHub Pages: preserve pathname in query
+        (function() {
+            const base = '/super_quiz';
+            const fullPath = window.location.pathname;
+            const repoPath = fullPath.replace(new RegExp('^' + base), '');
+            window.location.replace(base + '/index.html?path=' + repoPath.substring(1));
+        })();
     </script>
+
 </head>
 
 <body>
     <h1>Redireccionando...</h1>
     <p>Si no eres redirigido automáticamente, <a href="/super_quiz/index.html">haz clic aquí</a>.</p>
+
 </body>
 
 </html>
