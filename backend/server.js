@@ -80,7 +80,10 @@ try {
     QUIZZES = Array.isArray(parsed.quizzes) ? parsed.quizzes : parsed;
   } else {
     QUIZZES = DEFAULT_QUIZZES;
-    fs.writeFileSync(QUIZZES_FILE, JSON.stringify({ quizzes: QUIZZES }, null, 2));
+    fs.writeFileSync(
+      QUIZZES_FILE,
+      JSON.stringify({ quizzes: QUIZZES }, null, 2)
+    );
   }
 } catch (err) {
   console.error("Error loading quizzes.json:", err.message);
@@ -96,7 +99,9 @@ app.get("/api/quizzes/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) return res.status(400).json({ error: "Invalid quiz ID" });
   const quiz = QUIZZES.find(q => q.id === id);
-  return quiz ? res.json(quiz) : res.status(404).json({ error: "Quiz not found" });
+  return quiz
+    ? res.json(quiz)
+    : res.status(404).json({ error: "Quiz not found" });
 });
 
 // Health check

@@ -3,9 +3,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/super_quiz/",
-  build: {
-    outDir: "../dist", // Especificar el directorio de salida en la raíz del proyecto
+  base: "/super_quiz/",  build: {
+    outDir: "dist", // Directorio de salida dentro de frontend
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
   },
   server: {

@@ -8,7 +8,7 @@ export const getApiBaseUrl = () => {
 export const fetchFromStaticJSON = async endpoint => {
   // Si estamos en producción (GitHub Pages), cargamos los datos del JSON estático
   if (import.meta.env.PROD) {
-    const base = import.meta.env.BASE_URL;  // Dynamically get base path
+    const base = import.meta.env.BASE_URL; // Dynamically get base path
 
     // Determinar qué archivo JSON cargar
     if (endpoint.startsWith("/api/quizzes/")) {
@@ -27,7 +27,9 @@ export const fetchFromStaticJSON = async endpoint => {
       // Para otros endpoints
       try {
         // Remove leading slash from endpoint when concatenating
-        const cleanEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint;
+        const cleanEndpoint = endpoint.startsWith("/")
+          ? endpoint.slice(1)
+          : endpoint;
         const response = await fetch(`${base}${cleanEndpoint}.json`);
         return await response.json();
       } catch (error) {
