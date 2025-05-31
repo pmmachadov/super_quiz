@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/super_quiz/",
+  base: "/kahootClone2/",
   build: {
     outDir: "../dist", // Especificar el directorio de salida en la raíz del proyecto
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
