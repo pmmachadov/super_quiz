@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   build: {
-    outDir: "dist", // Especificar el directorio de salida relativo al directorio frontend
+    outDir: "../dist", // Especificar el directorio de salida en la raíz del proyecto
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
   },
   server: {
