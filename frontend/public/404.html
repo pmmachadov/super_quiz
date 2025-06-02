@@ -11,9 +11,9 @@
             const base = '/super_quiz';
             const fullPath = window.location.pathname;
             // Si la URL ya contiene super_quiz, extraer la ruta adicional
-            const repoPath = fullPath.includes(base) ? 
-              fullPath.replace(new RegExp('^' + base), '') : 
-              fullPath;
+            const repoPath = fullPath.includes(base) ?
+                fullPath.replace(new RegExp('^' + base), '') :
+                fullPath;
             window.location.replace(base + '/index.html?path=' + (repoPath.startsWith('/') ? repoPath.substring(1) : repoPath));
         })();
     </script>
