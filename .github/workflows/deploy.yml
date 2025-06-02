@@ -4,7 +4,7 @@ name: Deploy Super Quiz to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "publish"]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,9 +34,11 @@ jobs:
       - name: Install dependencies
         run: cd frontend && npm ci
       - name: Build
-        run: cd frontend && npm run build
-      - name: Ensure .nojekyll file exists
-        run: touch ./frontend/dist/.nojekyll
+        run: cd frontend && npm run build      - name: Ensure .nojekyll files exist
+        run: |
+          touch ./frontend/dist/.nojekyll
+          cp ./frontend/dist/index.html ./index.html
+          touch ./.nojekyll
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
