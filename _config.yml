@@ -1,0 +1,28 @@
+# GitHub Pages Configuration
+name: Super Quiz App
+title: Super Quiz - Test your knowledge!
+description: A fun interactive quiz application
+baseurl: /super-quiz
+url: ""
+
+exclude:
+  - backend/
+  - .github/
+  - "*.yml"
+  - "*.yaml"
+  - CORS_TROUBLESHOOTING.md
+  - .nojekyll
+  
+include:
+  - frontend/dist/**/*
+  - frontend/public/**/*
+  - index.html
+  - README.md
+  - .nojekyll
+
+# GitHub Pages settings
+github:
+  is_project_page: true
+  repository_url: https://github.com/username/super-quiz
+  owner_name: Your Name
+  owner_url: https://github.com/username
