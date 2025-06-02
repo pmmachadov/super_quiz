@@ -5,6 +5,7 @@ Esta aplicación permite a los usuarios participar en cuestionarios interactivos
 ## Acerca de
 
 Super Quiz es una aplicación web que incluye:
+
 - Cuestionarios interactivos
 - Seguimiento de resultados
 - Panel de análisis
