@@ -1,0 +1,66 @@
+{
+  "id": 5,
+  "title": "Pop Culture and Entertainment",
+  "questions": [
+    {
+      "question": "Which Harry Potter character is known as 'The Boy Who Lived'?",
+      "options": [
+        "Ron Weasley",
+        "Draco Malfoy",
+        "Harry Potter",
+        "Neville Longbottom"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "question": "Which movie won the Best Picture Oscar in 2020?",
+      "options": [
+        "1917",
+        "Joker",
+        "Parasite",
+        "Once Upon a Time in Hollywood"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "question": "Who played Iron Man in the Marvel Cinematic Universe?",
+      "options": [
+        "Chris Evans",
+        "Chris Hemsworth",
+        "Mark Ruffalo",
+        "Robert Downey Jr."
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "question": "What is the longest-running TV series still on air?",
+      "options": [
+        "The Simpsons",
+        "Days of Our Lives",
+        "Doctor Who",
+        "Coronation Street"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "question": "Which band released the album 'The Dark Side of the Moon'?",
+      "options": [
+        "The Beatles",
+        "Led Zeppelin",
+        "Pink Floyd",
+        "The Rolling Stones"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "question": "In what year was the first Star Wars movie released?",
+      "options": [
+        "1975",
+        "1977",
+        "1980",
+        "1983"
+      ],
+      "correctAnswer": 1
+    }
+  ]
+}
