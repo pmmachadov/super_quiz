@@ -1,1 +1,0 @@
-# Deployment Instructions\n\n1. Build the frontend: `cd frontend && npm run build`\n2. Deploy to Netlify with: `netlify deploy --prod`\n\nMake sure your environment variables are properly set in Netlify if needed.
