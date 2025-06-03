@@ -91,9 +91,7 @@ const Quizzes = () => {
     try {
       setIsDeleting(true);
 
-      // En producción (GitHub Pages), sólo simulamos la eliminación
       if (import.meta.env.PROD) {
-        // Solo actualizar la UI localmente
         setQuizzes(prevQuizzes =>
           prevQuizzes.filter(quiz => quiz.id !== quizId)
         );
@@ -108,7 +106,6 @@ const Quizzes = () => {
         return;
       }
 
-      // En desarrollo, usar la API normal
       const baseUrl = getApiBaseUrl();
 
       const response = await fetch(`${baseUrl}/api/quizzes/${quizId}`, {
