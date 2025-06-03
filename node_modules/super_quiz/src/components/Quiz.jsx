@@ -51,12 +51,15 @@ export default function Quiz() {
         let quizData;
 
         if (import.meta.env.PROD) {
-          quizData = await fetchFromStaticJSON(
-            `/api/quizzes/${isNaN(numericId) ? id : numericId}`
-          );
-          if (!quizData) {
-            throw new Error("Quiz not found");
+          const data = await fetchFromStaticJSON("/api/quizzes");
+          const list = Array.isArray(data) ? data : data.quizzes || [];
+          if (!list.length) throw new Error("No quizzes available");
+          if (!isNaN(numericId)) {
+            quizData = list.find(q => q.id === numericId);
+          } else {
+            quizData = list.find(q => String(q.id) === id);
           }
+          if (!quizData) throw new Error("Quiz not found");
         } else {
           const baseUrl = getApiBaseUrl();
           const apiEndpoint = `${baseUrl}/api/quizzes/${
