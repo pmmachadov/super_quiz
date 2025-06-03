@@ -1,12 +1,11 @@
+import getApiBaseUrl from "../utils/apiConfig";
+
 const quizzesData = [];
 const analyticsData = [];
 
 export const fetchQuizzes = async () => {
   try {
-    const baseUrl = import.meta.env.PROD
-      ? "https://backend-supersquiz.onrender.com"
-      : "";
-
+    const baseUrl = getApiBaseUrl();
     const response = await fetch(`${baseUrl}/api/quizzes`, {
       method: "GET",
       headers: {
@@ -44,10 +43,7 @@ export const getQuizById = id => {
 
 export const fetchAnalytics = async () => {
   try {
-    const baseUrl = import.meta.env.PROD
-      ? "https://backend-supersquiz.onrender.com"
-      : "";
-
+    const baseUrl = getApiBaseUrl();
     const response = await fetch(`${baseUrl}/api/analytics`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
