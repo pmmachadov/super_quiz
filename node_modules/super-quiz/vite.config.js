@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: "/super_quiz/",
   build: {
-    outDir: "dist", // Directorio de salida dentro de frontend
+    outDir: "../docs", // Salida ahora a la carpeta docs en main
     emptyOutDir: true, // Limpiar el directorio de salida antes de construir
   },
   server: {

@@ -7,8 +7,10 @@
 3. Conecta tu repositorio de GitHub o sube directamente esta carpeta backend
 
 ### Configuración importante
+
 4. Configura los siguientes ajustes:
-   - **Name**: super-quiz-backend (o el nombre que prefieras)
+
+   - **Name**: super_quiz_backend (o el nombre que prefieras)
    - **Environment**: Node
    - **Root Directory**: backend (¡importante si estás desplegando desde el repositorio raíz!)
    - **Build Command**: npm install
@@ -17,6 +19,7 @@
    - **Branch**: main (o la rama donde esté tu código)
 
 5. En la sección "Advanced":
+
    - Asegúrate que "Auto-Deploy" esté habilitado
    - En caso de error con Yarn, haz clic en "Environment" y añade variable:
      - **Key**: PACKAGE_MANAGER
@@ -38,6 +41,7 @@ Si ves la lista de quizzes, significa que el despliegue fue exitoso.
 ## Configuración de CORS
 
 El backend ya está configurado para permitir solicitudes desde:
+
 - localhost:5173 (desarrollo)
 - mysuperquiz.netlify.app (producción)
 

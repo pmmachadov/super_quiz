@@ -1,0 +1,36 @@
+{
+  "id": 2,
+  "title": "Advanced JavaScript",
+  "questions": [
+    {
+      "question": "What is a Promise in JavaScript?",
+      "options": [
+        "A type of variable",
+        "An object that represents a value that may be available now, in the future, or never",
+        "A built-in function",
+        "A type of loop"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "question": "Which method converts a JSON object to a string?",
+      "options": [
+        "JSON.parse()",
+        "JSON.stringify()",
+        "JSON.toString()",
+        "JSON.convert()"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "question": "What is hoisting in JavaScript?",
+      "options": [
+        "An optimization technique",
+        "The process of moving declarations to the top of their scope",
+        "A common error in JavaScript",
+        "A method to lift elements on the page"
+      ],
+      "correctAnswer": 1
+    }
+  ]
+}
