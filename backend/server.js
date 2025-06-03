@@ -1,4 +1,3 @@
-// Simplified backend server to avoid path-to-regexp errors
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -7,20 +6,16 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS for all origins (development mode)
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 
-// Data directory and file
 const dataDir = path.join(__dirname, "data");
 const QUIZZES_FILE = path.join(dataDir, "quizzes.json");
 
-// Ensure data directory exists
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-// Default quizzes in case file is missing
 const DEFAULT_QUIZZES = [
   {
     id: 1,
@@ -71,7 +66,6 @@ const DEFAULT_QUIZZES = [
   },
 ];
 
-// Load quizzes from disk or initialize defaults
 let QUIZZES;
 try {
   if (fs.existsSync(QUIZZES_FILE)) {
@@ -90,7 +84,6 @@ try {
   QUIZZES = DEFAULT_QUIZZES;
 }
 
-// Essential routes only
 app.get("/api/quizzes", (req, res) => {
   res.json(QUIZZES);
 });
@@ -104,7 +97,6 @@ app.get("/api/quizzes/:id", (req, res) => {
     : res.status(404).json({ error: "Quiz not found" });
 });
 
-// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });

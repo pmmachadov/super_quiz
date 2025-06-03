@@ -50,7 +50,6 @@ export default function Quiz() {
 
         let quizData;
 
-        // Usar el JSON estático en producción (GitHub Pages)
         if (import.meta.env.PROD) {
           quizData = await fetchFromStaticJSON(
             `/api/quizzes/${isNaN(numericId) ? id : numericId}`
@@ -59,7 +58,6 @@ export default function Quiz() {
             throw new Error("Quiz not found");
           }
         } else {
-          // En desarrollo, usar la API normal
           const baseUrl = getApiBaseUrl();
           const apiEndpoint = `${baseUrl}/api/quizzes/${
             isNaN(numericId) ? id : numericId

@@ -5,15 +5,15 @@ export default defineConfig({
   plugins: [react()],
   base: "/super_quiz/",
   build: {
-    outDir: "../docs", // Salida ahora a la carpeta docs en main
-    emptyOutDir: true, // Limpiar el directorio de salida antes de construir
+    outDir: "../docs",
+    emptyOutDir: true,
   },
   server: {
-    port: 5173, // Frontend en puerto 5173
+    port: 5173,
     historyApiFallback: true,
     proxy: {
       "/api": {
-        target: "http://localhost:3000", // Backend en puerto 3000
+        target: "http://localhost:3000",
         changeOrigin: true,
         secure: false,
       },

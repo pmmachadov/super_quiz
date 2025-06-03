@@ -1,4 +1,3 @@
-// Simplified server.js to fix path-to-regexp error
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -7,25 +6,21 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Simplified CORS setup
 app.use(
   cors({
-    origin: "*", // Allow all origins for development
+    origin: "*",
     credentials: true,
   })
 );
 app.use(express.json());
 
-// Data paths
 const dataDir = path.join(__dirname, "data");
 const QUIZZES_FILE = path.join(dataDir, "quizzes.json");
 
-// Ensure data directory exists
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-// Default quizzes
 const DEFAULT_QUIZZES = [
   {
     id: 1,
@@ -76,7 +71,6 @@ const DEFAULT_QUIZZES = [
   },
 ];
 
-// Load quizzes from file or use defaults
 let QUIZZES = [...DEFAULT_QUIZZES];
 try {
   if (fs.existsSync(QUIZZES_FILE)) {
@@ -98,7 +92,6 @@ try {
       console.error("Error parsing quizzes.json:", parseError.message);
     }
   } else {
-    // Create a default quizzes.json if it doesn't exist
     fs.writeFileSync(
       QUIZZES_FILE,
       JSON.stringify({ quizzes: QUIZZES }, null, 2)
@@ -108,8 +101,6 @@ try {
   console.error("File system error:", fileError.message);
 }
 
-// ESSENTIAL ROUTES ONLY
-// Get all quizzes
 app.get("/api/quizzes", (req, res) => {
   console.log("GET /api/quizzes requested");
   try {
@@ -120,7 +111,6 @@ app.get("/api/quizzes", (req, res) => {
   }
 });
 
-// Get quiz by ID - simple numeric ID only
 app.get("/api/quizzes/:id", (req, res) => {
   console.log(`GET /api/quizzes/${req.params.id} requested`);
   try {
@@ -141,12 +131,10 @@ app.get("/api/quizzes/:id", (req, res) => {
   }
 });
 
-// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Simplified server running on port ${port}`);
 });

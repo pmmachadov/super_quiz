@@ -1,4 +1,3 @@
-// Minimal debug version of server.js
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -7,17 +6,13 @@ const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-// Permissive CORS for debugging
 app.use(cors({ origin: "*", credentials: true }));
 app.options("*", cors());
 app.use(bodyParser.json());
 
-// Data paths
 const dataDir = path.join(__dirname, "data");
 const QUIZZES_FILE = path.join(dataDir, "quizzes.json");
 
-// Default quizzes in case file access fails
 const DEFAULT_QUIZZES = [
   {
     id: 1,
@@ -68,7 +63,6 @@ const DEFAULT_QUIZZES = [
   },
 ];
 
-// Load quizzes from file or use defaults
 let QUIZZES = [...DEFAULT_QUIZZES];
 try {
   if (fs.existsSync(QUIZZES_FILE)) {
@@ -90,14 +84,10 @@ try {
   console.error("Error loading quizzes:", error.message);
 }
 
-// ROUTES - Simplified to avoid path-to-regexp issues
-
-// Get all quizzes
 app.get("/api/quizzes", (req, res) => {
   res.json(QUIZZES);
 });
 
-// Get quiz by ID
 app.get("/api/quizzes/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const quiz = QUIZZES.find(q => q.id === id);
@@ -109,12 +99,10 @@ app.get("/api/quizzes/:id", (req, res) => {
   res.status(404).json({ message: "Quiz not found" });
 });
 
-// Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Start server
 app.listen(port, () => {
   console.log(`Debug server running on port ${port}`);
   console.log(`CORS enabled for all origins`);

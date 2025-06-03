@@ -16,7 +16,6 @@ import Quizzes from "./components/Quizzes";
 import Results from "./components/Results";
 import "./App.css";
 
-// Usar HashRouter en producción para GitHub Pages y BrowserRouter en desarrollo
 const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
 
 function App() {

@@ -1,6 +1,3 @@
-// CORS Test Script - Save as cors-test.js and run with Node.js
-// Run: node cors-test.js
-
 const fetch = require("node-fetch");
 
 async function testCORS() {
@@ -21,7 +18,6 @@ async function testCORS() {
     console.log("Response status:", response.status);
     console.log("Response headers:");
 
-    // Print all response headers related to CORS
     const corsHeaders = [
       "access-control-allow-origin",
       "access-control-allow-methods",

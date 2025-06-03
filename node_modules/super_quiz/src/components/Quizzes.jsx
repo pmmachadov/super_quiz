@@ -36,11 +36,9 @@ const Quizzes = () => {
 
       let data;
 
-      // Usar el JSON estático en producción (GitHub Pages)
       if (import.meta.env.PROD) {
         data = await fetchFromStaticJSON("/api/quizzes");
       } else {
-        // En desarrollo, usar la API normal
         const baseUrl = getApiBaseUrl();
 
         const response = await fetch(`${baseUrl}/api/quizzes`, {
