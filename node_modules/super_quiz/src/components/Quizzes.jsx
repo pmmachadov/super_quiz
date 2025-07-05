@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BubbleEffect from "./BubbleEffect";
-import { getApiBaseUrl, fetchFromStaticJSON } from "../utils/apiConfig";
+import { getApiBaseUrl } from "../utils/apiConfig";
 import "./Quizzes.css";
 
 const globalQuizzesCache = {
@@ -35,27 +35,22 @@ const Quizzes = () => {
       setError(null);
 
       let data;
+      const baseUrl = getApiBaseUrl();
 
-      if (import.meta.env.PROD) {
-        data = await fetchFromStaticJSON("/api/quizzes");
-      } else {
-        const baseUrl = getApiBaseUrl();
+      const response = await fetch(`${baseUrl}/api/quizzes`, {
+        method: "GET",
+        cache: "no-cache",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
-        const response = await fetch(`${baseUrl}/api/quizzes`, {
-          method: "GET",
-          cache: "no-cache",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-
-        data = await response.json();
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
+
+      data = await response.json();
 
       let processedData = [];
       if (Array.isArray(data)) {
