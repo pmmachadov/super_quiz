@@ -2,6 +2,7 @@
   "name": "super_quiz",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "frontend",
     "backend"
@@ -11,6 +12,10 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
+    "vercel-build": "cd frontend && npm run build",
     "deploy": "npm run build && git add docs && git commit -m \"chore: deploy docs to GitHub Pages\" && git push origin main"
+  },
+  "dependencies": {
+    "mongoose": "^8.0.0"
   }
 }

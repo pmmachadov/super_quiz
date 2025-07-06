@@ -1,5 +1,11 @@
 export const getApiBaseUrl = () => {
-  return import.meta.env.PROD ? "/super_quiz" : "";
+  if (import.meta.env.PROD) {
+    // En producción (Vercel), usar las funciones serverless
+    return "";
+  } else {
+    // En desarrollo, usar el backend local
+    return "http://localhost:3000";
+  }
 };
 
 export const fetchFromStaticJSON = async endpoint => {
