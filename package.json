@@ -1,5 +1,5 @@
 {
-  "name": "super-quiz-app",
+  "name": "super-quiz-mongodb-app",
   "version": "1.0.0",
   "private": true,
   "type": "module",

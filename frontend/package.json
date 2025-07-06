@@ -1,5 +1,5 @@
 {
-  "name": "super-quiz-frontend",
+  "name": "super-quiz-mongodb-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
