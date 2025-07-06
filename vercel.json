@@ -1,17 +1,4 @@
 {
-  "version": 2,
-  "buildCommand": "cd frontend && npm run vercel-build",
-  "outputDirectory": "frontend/dist",
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
-    }
-  ],
   "functions": {
     "api/*.js": {
       "runtime": "@vercel/node@18"
