@@ -88,12 +88,12 @@ const Quizzes = () => {
 
       if (import.meta.env.PROD) {
         setQuizzes(prevQuizzes =>
-          prevQuizzes.filter(quiz => quiz.id !== quizId)
+          prevQuizzes.filter(quiz => quiz._id !== quizId)
         );
 
         if (globalQuizzesCache.data) {
           globalQuizzesCache.data = globalQuizzesCache.data.filter(
-            quiz => quiz.id !== quizId
+            quiz => quiz._id !== quizId
           );
         }
 
@@ -114,11 +114,13 @@ const Quizzes = () => {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz.id !== quizId));
+      setQuizzes(prevQuizzes =>
+        prevQuizzes.filter(quiz => quiz._id !== quizId)
+      );
 
       if (globalQuizzesCache.data) {
         globalQuizzesCache.data = globalQuizzesCache.data.filter(
-          quiz => quiz.id !== quizId
+          quiz => quiz._id !== quizId
         );
       }
 
@@ -288,7 +290,7 @@ const Quizzes = () => {
           <div className="quizzes-grid">
             {quizzes.map(quiz => (
               <div
-                key={quiz.id}
+                key={quiz._id}
                 className="quiz-card"
               >
                 <div>
@@ -312,7 +314,7 @@ const Quizzes = () => {
                 <div className="quiz-card-actions">
                   <button
                     className="start-quiz-btn multi-bubble"
-                    onClick={() => navigate(`/quiz/${quiz.id}`)}
+                    onClick={() => navigate(`/quiz/${quiz._id}`)}
                   >
                     <div
                       style={{
@@ -353,7 +355,7 @@ const Quizzes = () => {
                   </button>
                   <button
                     className="delete-quiz-btn multi-bubble"
-                    onClick={() => handleDeleteClick(quiz.id, quiz.title)}
+                    onClick={() => handleDeleteClick(quiz._id, quiz.title)}
                     aria-label="Delete quiz"
                     title="Delete quiz"
                   >
