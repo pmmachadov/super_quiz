@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 
-// Esquema de Quiz
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -77,7 +76,6 @@ export default async function handler(req, res) {
     await mongoose.connect(mongoUri);
     console.log("✅ Connected to MongoDB Atlas");
 
-    // Verificar si ya hay datos
     const count = await Quiz.countDocuments();
     if (count > 0) {
       return res.status(200).json({
@@ -86,7 +84,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Datos de ejemplo para inicializar
     const defaultQuizzes = [
       {
         title: "Basic Programming",

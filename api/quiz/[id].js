@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Reutilizar el esquema (deberías moverlo a un archivo común)
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -81,7 +80,6 @@ async function connectToDatabase() {
 }
 
 export default async function handler(req, res) {
-  // Configurar CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -97,7 +95,6 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "GET":
-        // GET /api/quiz/[id] - Obtener quiz específico
         const quiz = await Quiz.findById(id);
         if (!quiz) {
           return res.status(404).json({ error: "Quiz no encontrado" });
@@ -105,7 +102,6 @@ export default async function handler(req, res) {
         return res.status(200).json(quiz);
 
       case "PUT":
-        // PUT /api/quiz/[id] - Actualizar quiz
         const updatedQuiz = await Quiz.findByIdAndUpdate(id, req.body, {
           new: true,
           runValidators: true,
@@ -116,7 +112,6 @@ export default async function handler(req, res) {
         return res.status(200).json(updatedQuiz);
 
       case "DELETE":
-        // DELETE /api/quiz/[id] - Eliminar quiz
         const deletedQuiz = await Quiz.findByIdAndDelete(id);
         if (!deletedQuiz) {
           return res.status(404).json({ error: "Quiz no encontrado" });

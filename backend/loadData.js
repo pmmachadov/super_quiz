@@ -2,17 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
 
-// Conectar a MongoDB
 mongoose.connect("mongodb://localhost:27017/superquiz");
 
-// Esquema para las preguntas
 const questionSchema = new mongoose.Schema({
   question: { type: String, required: true, trim: true },
   options: [{ type: String, required: true }],
   correctAnswer: { type: Number, required: true, min: 0, max: 3 },
 });
 
-// Esquema para los quizzes
 const quizSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
   description: { type: String, required: true, trim: true },
@@ -31,7 +28,6 @@ const quizSchema = new mongoose.Schema({
 
 const Quiz = mongoose.model("Quiz", quizSchema);
 
-// Funciones auxiliares
 function getDescriptionFromTitle(title) {
   const descriptions = {
     "Basic Programming": "Conceptos fundamentales de programación",
@@ -75,13 +71,12 @@ async function loadData() {
 
     console.log(`📊 Encontrados ${jsonData.quizzes.length} quizzes en el JSON`);
 
-    // Convertir los datos del JSON al formato de MongoDB
     const quizzesForMongo = jsonData.quizzes.map(quiz => ({
       title: quiz.title,
       description: getDescriptionFromTitle(quiz.title),
       category: getCategoryFromTitle(quiz.title),
       difficulty: getDifficultyFromTitle(quiz.title),
-      timeLimit: quiz.questions.length * 15, // 15 segundos por pregunta
+      timeLimit: quiz.questions.length * 30,
       questions: quiz.questions,
     }));
 
@@ -89,7 +84,6 @@ async function loadData() {
     await Quiz.insertMany(quizzesForMongo);
     console.log(`✅ ${quizzesForMongo.length} quizzes cargados correctamente`);
 
-    // Verificar los datos
     const count = await Quiz.countDocuments();
     console.log(`🔍 Verificación: ${count} quizzes en la base de datos`);
 

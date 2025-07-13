@@ -1,5 +1,4 @@
-// Cargar variables de entorno desde el directorio raíz
-require('dotenv').config({ path: '../.env' });
+require("dotenv").config({ path: "../.env" });
 
 const express = require("express");
 const cors = require("cors");
@@ -11,10 +10,8 @@ const Quiz = require("./models/Quiz");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Conectar a MongoDB
 connectDB();
 
-// Función para inicializar datos en MongoDB desde el archivo JSON
 async function initializeDatabase() {
   try {
     console.log("🔍 Verificando estado de la base de datos...");
@@ -26,7 +23,6 @@ async function initializeDatabase() {
         "📁 Base de datos vacía. Cargando datos desde quizzes.json..."
       );
 
-      // Leer el archivo JSON real
       const jsonPath = path.join(__dirname, "data", "quizzes.json");
       console.log(`📂 Leyendo archivo: ${jsonPath}`);
 
@@ -37,7 +33,6 @@ async function initializeDatabase() {
       const jsonData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
       console.log(`📋 Quizzes encontrados en JSON: ${jsonData.quizzes.length}`);
 
-      // Convertir los datos del JSON al formato de MongoDB
       const quizzesForMongo = jsonData.quizzes.map((quiz, index) => {
         console.log(
           `📝 Procesando quiz ${index + 1}: ${quiz.title} (${
@@ -49,7 +44,7 @@ async function initializeDatabase() {
           description: getDescriptionFromTitle(quiz.title),
           category: getCategoryFromTitle(quiz.title),
           difficulty: getDifficultyFromTitle(quiz.title),
-          timeLimit: quiz.questions.length * 15, // 15 segundos por pregunta
+          timeLimit: quiz.questions.length * 30,
           questions: quiz.questions,
         };
       });
@@ -60,7 +55,6 @@ async function initializeDatabase() {
         `✅ ${quizzesForMongo.length} quizzes cargados exitosamente en MongoDB`
       );
 
-      // Verificar que se insertaron correctamente
       const newCount = await Quiz.countDocuments();
       console.log(
         `🔢 Verificación: Base de datos ahora tiene ${newCount} quizzes`
@@ -74,15 +68,11 @@ async function initializeDatabase() {
   }
 }
 
-// Inicializar datos después de conectar
 initializeDatabase();
 
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 
-// ============ RUTAS API ============
-
-// GET /api/quizzes - Obtener todos los quizzes
 app.get("/api/quizzes", async (req, res) => {
   try {
     const quizzes = await Quiz.find().select("-questions.correctAnswer");
@@ -93,7 +83,6 @@ app.get("/api/quizzes", async (req, res) => {
   }
 });
 
-// GET /api/quizzes/:id - Obtener un quiz específico
 app.get("/api/quizzes/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -113,7 +102,6 @@ app.get("/api/quizzes/:id", async (req, res) => {
   }
 });
 
-// POST /api/quizzes - Crear un nuevo quiz
 app.post("/api/quizzes", async (req, res) => {
   try {
     const quiz = new Quiz(req.body);
@@ -128,7 +116,6 @@ app.post("/api/quizzes", async (req, res) => {
   }
 });
 
-// PUT /api/quizzes/:id - Actualizar un quiz
 app.put("/api/quizzes/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -154,7 +141,6 @@ app.put("/api/quizzes/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/quizzes/:id - Eliminar un quiz
 app.delete("/api/quizzes/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -182,7 +168,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-// Funciones auxiliares para mapear categorías y dificultad
 function getDescriptionFromTitle(title) {
   const descriptions = {
     "Basic Programming": "Conceptos fundamentales de programación",

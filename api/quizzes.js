@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Esquema de Quiz para MongoDB
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -61,7 +60,6 @@ const quizSchema = new mongoose.Schema({
 
 const Quiz = mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);
 
-// Función para conectar a MongoDB
 async function connectToDatabase() {
   if (mongoose.connection.readyState >= 1) {
     return;
@@ -81,9 +79,7 @@ async function connectToDatabase() {
   }
 }
 
-// Función principal de la API
 export default async function handler(req, res) {
-  // Configurar CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -100,12 +96,10 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "GET":
-        // GET /api/quizzes - Obtener todos los quizzes
         const quizzes = await Quiz.find().select("-questions.correctAnswer");
         return res.status(200).json(quizzes);
 
       case "POST":
-        // POST /api/quizzes - Crear nuevo quiz
         const newQuiz = new Quiz(req.body);
         const savedQuiz = await newQuiz.save();
         return res.status(201).json(savedQuiz);

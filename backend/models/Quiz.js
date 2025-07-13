@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Esquema para las preguntas
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -21,7 +20,6 @@ const questionSchema = new mongoose.Schema({
   },
 });
 
-// Esquema para los quizzes
 const quizSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -60,7 +58,6 @@ const quizSchema = new mongoose.Schema({
   },
 });
 
-// Middleware para actualizar updatedAt
 quizSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();

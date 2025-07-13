@@ -15,7 +15,7 @@ export default function Quiz() {
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(15);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -46,7 +46,6 @@ export default function Quiz() {
       try {
         setIsLoading(true);
         setError(null);
-        const numericId = parseInt(id.replace(/\D/g, ""));
 
         let quizData;
 
@@ -54,17 +53,11 @@ export default function Quiz() {
           const data = await fetchFromStaticJSON("/api/quizzes");
           const list = Array.isArray(data) ? data : data.quizzes || [];
           if (!list.length) throw new Error("No quizzes available");
-          if (!isNaN(numericId)) {
-            quizData = list.find(q => q.id === numericId);
-          } else {
-            quizData = list.find(q => String(q.id) === id);
-          }
+          quizData = list.find(q => q._id === id || String(q.id) === id);
           if (!quizData) throw new Error("Quiz not found");
         } else {
           const baseUrl = getApiBaseUrl();
-          const apiEndpoint = `${baseUrl}/api/quizzes/${
-            isNaN(numericId) ? id : numericId
-          }`;
+          const apiEndpoint = `${baseUrl}/api/quizzes/${id}`;
 
           const response = await fetch(apiEndpoint, {
             method: "GET",
@@ -144,7 +137,7 @@ export default function Quiz() {
 
     if (currentQuestion < quiz?.questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setTimeLeft(15);
+      setTimeLeft(30);
       setSelectedAnswer(null);
 
       setTimeout(() => {
@@ -174,7 +167,7 @@ export default function Quiz() {
         selectedAnswer: answerIndex,
         correctAnswer: correctIndex,
         isCorrect: isCorrect,
-        responseTime: 15 - timeLeft,
+        responseTime: 30 - timeLeft,
       };
 
       allResultsRef.current.push(questionResult);
@@ -226,8 +219,8 @@ export default function Quiz() {
   }, [selectedAnswer]);
 
   const getTimerClass = () => {
-    if (timeLeft <= 3) return "timer-countdown danger";
-    if (timeLeft <= 5) return "timer-countdown warning";
+    if (timeLeft <= 6) return "timer-countdown danger";
+    if (timeLeft <= 10) return "timer-countdown warning";
     return "timer-countdown";
   };
 
@@ -235,14 +228,14 @@ export default function Quiz() {
     const baseClass = "timer-progress-bar";
     if (resetProgress) return `${baseClass} reset`;
     if (selectedAnswer !== null) return `${baseClass} paused`;
-    if (timeLeft <= 3) return `${baseClass} warning`;
+    if (timeLeft <= 6) return `${baseClass} warning`;
     return baseClass;
   };
 
   const getTimerBackground = () => {
-    if (timeLeft <= 3) {
+    if (timeLeft <= 6) {
       return "linear-gradient(to right, #f44336, #d32f2f)";
-    } else if (timeLeft <= 7) {
+    } else if (timeLeft <= 14) {
       return "linear-gradient(to right, #ff9800, #f57c00)";
     } else {
       return "linear-gradient(to right, #4caf50, #388e3c)";
@@ -384,8 +377,8 @@ export default function Quiz() {
             ref={timerProgressRef}
             className={getProgressBarClass()}
             style={{
-              animationDuration: `15s`,
-              width: `${(timeLeft / 15) * 100}%`,
+              animationDuration: `30s`,
+              width: `${(timeLeft / 30) * 100}%`,
               background: getTimerBackground(),
               height: "6px",
               transition: "width 1s linear",

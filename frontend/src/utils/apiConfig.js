@@ -1,9 +1,7 @@
 export const getApiBaseUrl = () => {
   if (import.meta.env.PROD) {
-    // En producción (Vercel), usar las funciones serverless
     return "";
   } else {
-    // En desarrollo, usar el backend local
     return "http://localhost:3000";
   }
 };
