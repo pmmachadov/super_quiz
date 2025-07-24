@@ -60,9 +60,11 @@ const quizSchema = new mongoose.Schema({
 
 const Quiz = mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);
 
+let cachedConnection = null;
+
 async function connectToDatabase() {
-  if (mongoose.connection.readyState >= 1) {
-    return;
+  if (cachedConnection && mongoose.connection.readyState === 1) {
+    return cachedConnection;
   }
 
   const mongoUri = process.env.MONGODB_URI;
@@ -71,7 +73,13 @@ async function connectToDatabase() {
   }
 
   try {
-    await mongoose.connect(mongoUri);
+    if (mongoose.connection.readyState === 0) {
+      cachedConnection = await mongoose.connect(mongoUri, {
+        bufferCommands: false,
+        maxPoolSize: 1,
+      });
+    }
+    return cachedConnection;
   } catch (error) {
     console.error("MongoDB connection error:", error);
     throw error;
@@ -108,9 +116,14 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error("API Error:", error);
+    console.error("Error stack:", error.stack);
+    console.error("MongoDB URI exists:", !!process.env.MONGODB_URI);
+    console.error("Mongoose connection state:", mongoose.connection.readyState);
+    
     return res.status(500).json({
       error: "Database connection failed",
       details: error.message,
+      timestamp: new Date().toISOString(),
     });
   }
 }
