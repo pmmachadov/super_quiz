@@ -72,9 +72,8 @@ async function connectToDatabase() {
 
   try {
     await mongoose.connect(mongoUri);
-    console.log("✅ Connected to MongoDB Atlas");
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
+    console.error("MongoDB connection error:", error);
     throw error;
   }
 }
@@ -114,11 +113,11 @@ export default async function handler(req, res) {
       case "DELETE":
         const deletedQuiz = await Quiz.findByIdAndDelete(id);
         if (!deletedQuiz) {
-          return res.status(404).json({ error: "Quiz no encontrado" });
+          return res.status(404).json({ error: "Quiz not found" });
         }
         return res
           .status(200)
-          .json({ message: "Quiz eliminado correctamente" });
+          .json({ message: "Quiz deleted successfully" });
 
       default:
         return res.status(405).json({ error: "Method not allowed" });
@@ -126,10 +125,10 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("API Error:", error);
     if (error.name === "CastError") {
-      return res.status(400).json({ error: "ID de quiz inválido" });
+      return res.status(400).json({ error: "Invalid quiz ID" });
     }
     return res.status(500).json({
-      error: "Error interno del servidor",
+      error: "Internal server error",
       details: error.message,
     });
   }

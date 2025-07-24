@@ -72,9 +72,8 @@ async function connectToDatabase() {
 
   try {
     await mongoose.connect(mongoUri);
-    console.log("✅ Connected to MongoDB Atlas");
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
+    console.error("MongoDB connection error:", error);
     throw error;
   }
 }
@@ -110,7 +109,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("API Error:", error);
     return res.status(500).json({
-      error: "No se pudo conectar a la base de datos. Verifica tu conexión.",
+      error: "Database connection failed",
       details: error.message,
     });
   }

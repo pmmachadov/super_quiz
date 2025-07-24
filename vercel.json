@@ -1,10 +1,26 @@
 {
+  "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
   "functions": {
     "api/*.js": {
-      "runtime": "@vercel/node@18"
+      "runtime": "@vercel/node@20"
     },
     "api/**/*.js": {
-      "runtime": "@vercel/node@18"
+      "runtime": "@vercel/node@20"
     }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "@mongodb_uri"
   }
 }
