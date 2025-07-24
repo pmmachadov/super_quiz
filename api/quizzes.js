@@ -77,6 +77,8 @@ async function connectToDatabase() {
       cachedConnection = await mongoose.connect(mongoUri, {
         bufferCommands: false,
         maxPoolSize: 1,
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 10000,
       });
     }
     return cachedConnection;

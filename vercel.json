@@ -1,34 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "@vercel/node@20"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/quizzes",
-      "dest": "/api/quizzes.js"
-    },
-    {
-      "src": "/api/quiz/([^/]+)",
-      "dest": "/api/quiz/[id].js?id=$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/$1"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     }
   ]
 }
