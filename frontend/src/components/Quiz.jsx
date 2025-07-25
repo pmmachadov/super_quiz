@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getApiBaseUrl, fetchFromStaticJSON } from "../utils/apiConfig";
+import { getApiBaseUrl } from "../utils/apiConfig";
 
 import "./Quiz.css";
 
@@ -50,7 +50,12 @@ export default function Quiz() {
         let quizData;
 
         if (import.meta.env.PROD) {
-          const data = await fetchFromStaticJSON("/api/quizzes");
+          const baseUrl = getApiBaseUrl();
+          const response = await fetch(`${baseUrl}/api/quizzes`);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch quizzes: ${response.status}`);
+          }
+          const data = await response.json();
           const list = Array.isArray(data) ? data : data.quizzes || [];
           if (!list.length) throw new Error("No quizzes available");
           quizData = list.find(q => q._id === id || String(q.id) === id);
