@@ -45,6 +45,24 @@
         "lastReview": "2025-09-21T18:46:41.666Z",
         "totalReviews": 1,
         "correctCount": 0
+      },
+      "mfu2gnk2bmwr74": {
+        "interval": 1,
+        "repetitions": 1,
+        "easeFactor": 2.36,
+        "nextReview": "2025-09-22T19:26:37.456Z",
+        "lastReview": "2025-09-21T19:26:37.456Z",
+        "totalReviews": 1,
+        "correctCount": 1
+      },
+      "mfu2gngagbck38": {
+        "interval": 1,
+        "repetitions": 1,
+        "easeFactor": 2.36,
+        "nextReview": "2025-09-22T19:26:58.890Z",
+        "lastReview": "2025-09-21T19:26:58.890Z",
+        "totalReviews": 1,
+        "correctCount": 1
       }
     }
   }
