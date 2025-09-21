@@ -158,17 +158,12 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
   const loadStudyCards = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
-
       const params = new URLSearchParams({
         deckId: deck.id,
         limit: settings.cardsPerSession || 20,
         mode: settings.reviewMode || 'mixed'
       });
-
-      const response = await fetch(`${baseUrl}/api/spaced-repetition/study?${params}`);
+      const response = await fetch(`/api/spaced-repetition/study?${params}`);
       if (!response.ok) throw new Error('Failed to load study cards');
 
       const studyCards = await response.json();
@@ -207,11 +202,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
 
     // Submit answer to backend
     try {
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
-
-      await fetch(`${baseUrl}/api/spaced-repetition/answer`, {
+      await fetch(`/api/spaced-repetition/answer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

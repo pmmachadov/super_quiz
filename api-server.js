@@ -17,6 +17,11 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+// Simple request logger for debugging
+app.use((req, res, next) => {
+  console.log(`[spaced-repetition] ${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
 
 // Spaced Repetition API Routes
 app.get('/api/spaced-repetition/decks', async (req, res) => {
@@ -25,7 +30,7 @@ app.get('/api/spaced-repetition/decks', async (req, res) => {
     res.json(decks);
   } catch (error) {
     console.error('Error fetching decks:', error);
-    res.status(500).json({ error: 'Failed to fetch decks' });
+    res.status(500).json({ error: 'Failed to fetch decks', details: error.message });
   }
 });
 

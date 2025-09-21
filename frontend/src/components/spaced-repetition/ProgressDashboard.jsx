@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react';
 const ProgressChart = ({ data, title, type = 'line' }) => {
   // Simple ASCII-style chart for now - could be replaced with proper charting library
   const maxValue = Math.max(...data.map(d => d.value));
-  
+
   return (
     <div className="progress-chart">
       <h4 className="chart-title">{title}</h4>
       <div className="chart-container">
         {data.map((point, index) => (
           <div key={index} className="chart-bar">
-            <div 
-              className="bar-fill" 
-              style={{ 
+            <div
+              className="bar-fill"
+              style={{
                 height: `${(point.value / maxValue) * 100}%`,
                 backgroundColor: point.color || '#4CAF50'
               }}
@@ -66,22 +66,22 @@ const DeckProgress = ({ deck, progress }) => {
           </span>
         </div>
       </div>
-      
+
       <div className="progress-visualization">
         <div className="card-distribution">
           <div className="distribution-bar">
-            <div 
-              className="bar-segment new-cards" 
+            <div
+              className="bar-segment new-cards"
               style={{ width: `${(progress.newCards / progress.totalCards) * 100}%` }}
               title={`${progress.newCards} new cards`}
             />
-            <div 
-              className="bar-segment learning-cards" 
+            <div
+              className="bar-segment learning-cards"
               style={{ width: `${(progress.learningCards / progress.totalCards) * 100}%` }}
               title={`${progress.learningCards} learning cards`}
             />
-            <div 
-              className="bar-segment mature-cards" 
+            <div
+              className="bar-segment mature-cards"
               style={{ width: `${(progress.matureCards / progress.totalCards) * 100}%` }}
               title={`${progress.matureCards} mature cards`}
             />
@@ -92,12 +92,12 @@ const DeckProgress = ({ deck, progress }) => {
             <span className="legend-item mature">Mature</span>
           </div>
         </div>
-        
+
         <div className="retention-indicator">
-          <div 
-            className="retention-circle" 
-            style={{ 
-              background: `conic-gradient(${getRetentionColor(progress.accuracy)} ${progress.accuracy * 3.6}deg, #eee 0deg)` 
+          <div
+            className="retention-circle"
+            style={{
+              background: `conic-gradient(${getRetentionColor(progress.accuracy)} ${progress.accuracy * 3.6}deg, #eee 0deg)`
             }}
           >
             <div className="retention-text">
@@ -114,13 +114,13 @@ const StudyCalendar = ({ studyData }) => {
   const today = new Date();
   const daysToShow = 30;
   const days = [];
-  
+
   for (let i = daysToShow - 1; i >= 0; i--) {
     const date = new Date();
     date.setDate(today.getDate() - i);
     const dateStr = date.toISOString().split('T')[0];
     const dayData = studyData[dateStr] || { reviews: 0, newCards: 0 };
-    
+
     days.push({
       date: dateStr,
       day: date.getDate(),
@@ -129,7 +129,7 @@ const StudyCalendar = ({ studyData }) => {
       intensity: Math.min((dayData.reviews + dayData.newCards) / 20, 1) // Normalize to 0-1
     });
   }
-  
+
   const getIntensityColor = (intensity) => {
     if (intensity === 0) return '#eee';
     if (intensity < 0.25) return '#c6e48b';
@@ -137,15 +137,15 @@ const StudyCalendar = ({ studyData }) => {
     if (intensity < 0.75) return '#239a3b';
     return '#196127';
   };
-  
+
   return (
     <div className="study-calendar">
       <h4>Study Activity (Last 30 Days)</h4>
       <div className="calendar-grid">
         {days.map((day, index) => (
-          <div 
+          <div
             key={index}
-            className="calendar-day" 
+            className="calendar-day"
             style={{ backgroundColor: getIntensityColor(day.intensity) }}
             title={`${day.date}: ${day.reviews} reviews, ${day.newCards} new cards`}
           >
@@ -157,9 +157,9 @@ const StudyCalendar = ({ studyData }) => {
         <span>Less</span>
         <div className="legend-scale">
           {[0, 0.25, 0.5, 0.75, 1].map(intensity => (
-            <div 
+            <div
               key={intensity}
-              className="legend-square" 
+              className="legend-square"
               style={{ backgroundColor: getIntensityColor(intensity) }}
             />
           ))}
@@ -185,26 +185,22 @@ const ProgressDashboard = ({ onBack }) => {
   const loadProgressData = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
-        : "http://localhost:3001";
-
-      // Load overall stats
-      const statsResponse = await fetch(`${baseUrl}/api/spaced-repetition/progress/overall?range=${timeRange}`);
+      // Use relative API paths so dev-time proxy routes to the right API server
+      const statsResponse = await fetch(`/api/spaced-repetition/progress/overall?range=${timeRange}`);
       if (statsResponse.ok) {
         const stats = await statsResponse.json();
         setOverallStats(stats);
       }
 
       // Load deck progress
-      const decksResponse = await fetch(`${baseUrl}/api/spaced-repetition/progress/decks`);
+      const decksResponse = await fetch(`/api/spaced-repetition/progress/decks`);
       if (decksResponse.ok) {
         const decks = await decksResponse.json();
         setDeckProgress(decks);
       }
 
       // Load study history
-      const historyResponse = await fetch(`${baseUrl}/api/spaced-repetition/progress/history?days=30`);
+      const historyResponse = await fetch(`/api/spaced-repetition/progress/history?days=30`);
       if (historyResponse.ok) {
         const history = await historyResponse.json();
         setStudyHistory(history);
@@ -246,10 +242,10 @@ const ProgressDashboard = ({ onBack }) => {
           <h2>📊 Learning Progress</h2>
           <p>Track your spaced repetition learning journey</p>
         </div>
-        
+
         <div className="header-controls">
-          <select 
-            value={timeRange} 
+          <select
+            value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
             className="time-range-select"
           >
@@ -263,27 +259,27 @@ const ProgressDashboard = ({ onBack }) => {
 
       {overallStats && (
         <div className="stats-overview">
-          <StatCard 
+          <StatCard
             title="Total Reviews"
             value={overallStats.totalReviews.toLocaleString()}
             icon="🔄"
             trend={overallStats.reviewsTrend}
             color="#2196F3"
           />
-          <StatCard 
+          <StatCard
             title="Average Accuracy"
             value={`${overallStats.averageAccuracy}%`}
             icon="🎯"
             trend={overallStats.accuracyTrend}
             color="#4CAF50"
           />
-          <StatCard 
+          <StatCard
             title="Study Streak"
             value={`${overallStats.studyStreak} days`}
             icon="🔥"
             color="#FF9800"
           />
-          <StatCard 
+          <StatCard
             title="Cards Mastered"
             value={overallStats.matureCards}
             icon="⭐"
@@ -296,9 +292,9 @@ const ProgressDashboard = ({ onBack }) => {
       <div className="dashboard-content">
         <div className="left-column">
           <StudyCalendar studyData={studyHistory} />
-          
+
           {overallStats && overallStats.accuracyHistory && (
-            <ProgressChart 
+            <ProgressChart
               title="Accuracy Over Time"
               data={overallStats.accuracyHistory.map((point, index) => ({
                 label: point.date,
@@ -308,14 +304,14 @@ const ProgressDashboard = ({ onBack }) => {
             />
           )}
         </div>
-        
+
         <div className="right-column">
           <div className="deck-progress-section">
             <h3>Deck Progress</h3>
             {deckProgress.length > 0 ? (
               <div className="deck-progress-list">
                 {deckProgress.map((item, index) => (
-                  <DeckProgress 
+                  <DeckProgress
                     key={item.deck.id || index}
                     deck={item.deck}
                     progress={item.progress}

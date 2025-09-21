@@ -186,11 +186,12 @@
 }
 
 .deck-card {
-  background: rgba(255, 255, 255, 0.95);
-  color: #333;
+  /* Softer, darker card surface so it's not too white on the dark page background */
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  color: #eef2ff; /* light text */
   border-radius: 15px;
   padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(3,10,23,0.6);
   transition: all 0.3s ease;
   border-left: 4px solid;
 }
@@ -208,7 +209,7 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: #eef2ff;
 }
 
 .deck-meta {
@@ -1135,6 +1136,8 @@
   .filter-controls, .sort-controls {
     justify-content: center;
   }
+}
+
 .card-text code {
   font-family: 'Fira Code', 'Courier New', monospace;
 }
@@ -1167,4 +1170,112 @@
 }
 .card-text .hljs-function .hljs-title {
   color: #82aaff;
+}
+
+/* Reset progress button styling to match other action buttons (destructive) */
+.reset-btn {
+  background: linear-gradient(45deg, #7c0a01, #991616);
+  border: none;
+  color: white;
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(244,67,54,0.25);
+}
+
+/* Reset confirmation overlay */
+.reset-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 6, 12, 0.6);
+  z-index: 1000;
+}
+.reset-confirm-box {
+  background: linear-gradient(180deg, #0f1724, #111827);
+  color: #eef2ff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 520px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(2,6,23,0.8);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.reset-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.reset-actions .btn {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+}
+.reset-actions .btn.cancel {
+  background: rgba(255,255,255,0.08);
+  color: #eef2ff;
+}
+.reset-actions .btn.confirm {
+  background: linear-gradient(45deg, #7c0a01, #991616);
+  color: white;
+}
+
+/* Make select and options readable on dark background and larger/rounded */
+select, .filter-controls select, .sort-controls select, .time-range-select {
+  color: #eef2ff;
+  background-color: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 999px; /* pill-shaped */
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-width: 160px;
+  display: inline-block;
+  position: relative;
+}
+
+/* Add a custom caret using a pseudo-element on the container when possible */
+.filter-controls, .sort-controls, .header-controls {
+  position: relative;
+}
+.filter-controls::after, .sort-controls::after {
+  content: '\25BE'; /* small down triangle */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Browser-native option styling is limited, but we can ensure readability */
+select option {
+  background-color: #0b1724; /* dark option bg */
+  color: #eef2ff;
+}
+
+/* For time-range select used in other areas */
+.time-range-select {
+  min-width: 140px;
+}
+
+/* Ensure selects expand nicely on small screens */
+@media (max-width: 768px) {
+  select, .filter-controls select, .sort-controls select {
+    width: 100%;
+    min-width: 0;
+  }
 }
