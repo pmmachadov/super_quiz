@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { apiConfig } from '../../utils/apiConfig';
 
 const DeckCard = ({ deck, stats, onStartStudy }) => {
   const getProgressColor = (accuracy) => {
@@ -107,7 +106,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
       setLoading(true);
       const baseUrl = import.meta.env.PROD 
         ? "https://backend-supersquiz.onrender.com" 
-        : "";
+        : "http://localhost:3001";
 
       // Load decks
       const decksResponse = await fetch(`${baseUrl}/api/spaced-repetition/decks`);
@@ -145,7 +144,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
       setLoading(true);
       const baseUrl = import.meta.env.PROD 
         ? "https://backend-supersquiz.onrender.com" 
-        : "";
+        : "http://localhost:3001";
       
       const response = await fetch(`${baseUrl}/api/spaced-repetition/init`, {
         method: 'POST'

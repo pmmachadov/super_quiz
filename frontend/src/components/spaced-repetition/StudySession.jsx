@@ -145,7 +145,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
       setLoading(true);
       const baseUrl = import.meta.env.PROD 
         ? "https://backend-supersquiz.onrender.com" 
-        : "";
+        : "http://localhost:3001";
 
       const params = new URLSearchParams({
         deckId: deck.id,
@@ -194,7 +194,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
     try {
       const baseUrl = import.meta.env.PROD 
         ? "https://backend-supersquiz.onrender.com" 
-        : "";
+        : "http://localhost:3001";
       
       await fetch(`${baseUrl}/api/spaced-repetition/answer`, {
         method: 'POST',

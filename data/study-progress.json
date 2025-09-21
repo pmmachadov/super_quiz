@@ -1,0 +1,15 @@
+{
+  "userProgress": {
+    "default": {
+      "mfu0n3lc3dumz3": {
+        "interval": 1,
+        "repetitions": 1,
+        "easeFactor": 2.5,
+        "nextReview": "2025-09-22T18:15:34.187Z",
+        "lastReview": "2025-09-21T18:15:34.187Z",
+        "totalReviews": 1,
+        "correctCount": 1
+      }
+    }
+  }
+}
