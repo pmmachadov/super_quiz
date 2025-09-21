@@ -233,9 +233,8 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
   };
 
   const handleFlip = () => {
-    if (!showAnswer) {
-      setShowAnswer(true);
-    }
+    // Toggle the answer view so the card can be flipped back and forth
+    setShowAnswer(prev => !prev);
   };
 
   const handleSkip = () => {
@@ -315,11 +314,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
         />
       </div>
 
-      {!showAnswer && (
-        <div className="study-hint">
-          💡 Think about your answer, then click the card to reveal the solution
-        </div>
-      )}
+      {/* hint removed as requested */}
     </div>
   );
 };
