@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+// Lightweight syntax highlighting
+import hljs from 'highlight.js/lib/common';
+import 'highlight.js/styles/vs2015.css';
 
 const FlashCard = ({ card, onAnswer, showAnswer, onFlip }) => {
   const getCardTypeIcon = (type) => {
@@ -19,7 +22,7 @@ const FlashCard = ({ card, onAnswer, showAnswer, onFlip }) => {
         </div>
         <div className="card-category">{card.category}</div>
       </div>
-      
+
       <div className={`flashcard ${showAnswer ? 'flipped' : ''}`} onClick={onFlip}>
         <div className="card-face card-front">
           <div className="card-content">
@@ -27,49 +30,49 @@ const FlashCard = ({ card, onAnswer, showAnswer, onFlip }) => {
           </div>
           <div className="flip-hint">Click to reveal answer</div>
         </div>
-        
+
         <div className="card-face card-back">
           <div className="card-content">
             <div className="card-text" dangerouslySetInnerHTML={{ __html: card.back.replace(/```(\w+)?\n([\s\S]*?)\n```/g, '<pre><code class="language-$1">$2</code></pre>') }} />
           </div>
           <div className="difficulty-buttons">
-            <button 
-              className="diff-btn blackout" 
+            <button
+              className="diff-btn blackout"
               onClick={(e) => { e.stopPropagation(); onAnswer(0); }}
               title="Blackout - Complete memory failure"
             >
               😵 Blackout
             </button>
-            <button 
-              className="diff-btn incorrect" 
+            <button
+              className="diff-btn incorrect"
               onClick={(e) => { e.stopPropagation(); onAnswer(1); }}
               title="Incorrect - Wrong answer"
             >
               ❌ Wrong
             </button>
-            <button 
-              className="diff-btn difficult" 
+            <button
+              className="diff-btn difficult"
               onClick={(e) => { e.stopPropagation(); onAnswer(2); }}
               title="Difficult - Correct with serious difficulty"
             >
               😰 Hard
             </button>
-            <button 
-              className="diff-btn hesitant" 
+            <button
+              className="diff-btn hesitant"
               onClick={(e) => { e.stopPropagation(); onAnswer(3); }}
               title="Hesitant - Correct with hesitation"
             >
               🤔 Medium
             </button>
-            <button 
-              className="diff-btn easy" 
+            <button
+              className="diff-btn easy"
               onClick={(e) => { e.stopPropagation(); onAnswer(4); }}
               title="Easy - Correct with ease"
             >
               😊 Easy
             </button>
-            <button 
-              className="diff-btn perfect" 
+            <button
+              className="diff-btn perfect"
               onClick={(e) => { e.stopPropagation(); onAnswer(5); }}
               title="Perfect - Perfect response"
             >
@@ -78,7 +81,7 @@ const FlashCard = ({ card, onAnswer, showAnswer, onFlip }) => {
           </div>
         </div>
       </div>
-      
+
       {card.tags && card.tags.length > 0 && (
         <div className="card-tags">
           {card.tags.map(tag => (
@@ -92,7 +95,7 @@ const FlashCard = ({ card, onAnswer, showAnswer, onFlip }) => {
 
 const StudyProgress = ({ current, total, correct, streak }) => {
   const progressPercent = (current / total) * 100;
-  
+
   return (
     <div className="study-progress">
       <div className="progress-stats">
@@ -109,11 +112,11 @@ const StudyProgress = ({ current, total, correct, streak }) => {
           <span className="stat-value">🔥 {streak}</span>
         </div>
       </div>
-      
+
       <div className="progress-bar-container">
         <div className="progress-bar">
-          <div 
-            className="progress-fill" 
+          <div
+            className="progress-fill"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -140,11 +143,23 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
     loadStudyCards();
   }, [deck, settings]);
 
+  // Highlight code blocks after cards update
+  useEffect(() => {
+    // small timeout to ensure DOM update
+    const t = setTimeout(() => {
+      document.querySelectorAll('.card-text pre code').forEach((el) => {
+        try { hljs.highlightElement(el); } catch (e) { /* ignore */ }
+      });
+    }, 50);
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cards]);
+
   const loadStudyCards = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
         : "http://localhost:3001";
 
       const params = new URLSearchParams({
@@ -155,9 +170,9 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
 
       const response = await fetch(`${baseUrl}/api/spaced-repetition/study?${params}`);
       if (!response.ok) throw new Error('Failed to load study cards');
-      
+
       const studyCards = await response.json();
-      
+
       if (settings.shuffleCards) {
         // Fisher-Yates shuffle
         for (let i = studyCards.length - 1; i > 0; i--) {
@@ -165,7 +180,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
           [studyCards[i], studyCards[j]] = [studyCards[j], studyCards[i]];
         }
       }
-      
+
       setCards(studyCards);
     } catch (err) {
       setError(err.message);
@@ -178,7 +193,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
   const handleAnswer = async (quality) => {
     const currentCard = cards[currentCardIndex];
     const isCorrect = quality >= 3;
-    
+
     // Update session stats
     const newStreak = isCorrect ? sessionStats.streak + 1 : 0;
     const newSessionStats = {
@@ -192,10 +207,10 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
 
     // Submit answer to backend
     try {
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
         : "http://localhost:3001";
-      
+
       await fetch(`${baseUrl}/api/spaced-repetition/answer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -222,7 +237,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
     // Show session summary before finishing
     const accuracy = cards.length > 0 ? Math.round((finalStats.correct / cards.length) * 100) : 0;
     alert(`Session Complete!\n\nCards reviewed: ${cards.length}\nCorrect answers: ${finalStats.correct}\nAccuracy: ${accuracy}%\nMax streak: ${finalStats.maxStreak}`);
-    
+
     onFinish();
   };
 
@@ -286,14 +301,14 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
             {settings.reviewMode === 'mixed' && '📚 Mixed Study'}
           </p>
         </div>
-        
+
         <div className="session-controls">
           <button onClick={onBack} className="back-btn">← Back</button>
           <button onClick={handleSkip} className="skip-btn">Skip →</button>
         </div>
       </div>
 
-      <StudyProgress 
+      <StudyProgress
         current={currentCardIndex + 1}
         total={cards.length}
         correct={sessionStats.correct}

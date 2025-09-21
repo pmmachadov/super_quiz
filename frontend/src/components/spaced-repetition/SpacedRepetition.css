@@ -1,8 +1,9 @@
 /* Spaced Repetition Styles */
 .spaced-repetition-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  /* Darker blue theme requested: deep navy to indigo */
+  background: linear-gradient(135deg, #0b2545 0%, #1b3b72 100%);
+  color: #fff;
 }
 
 .sr-header {
@@ -502,12 +503,15 @@
 }
 
 .card-text pre {
-  background: rgba(0, 0, 0, 0.1);
+  background: #0f1724; /* dark editor background */
+  color: #d6deeb; /* light text */
   padding: 1rem;
   border-radius: 8px;
-  overflow-x: auto;
-  text-align: left;
-  max-width: 100%;
+  overflow: auto;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 20px rgba(3,10,23,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 .card-text code {
@@ -1072,63 +1076,95 @@
   .sr-title {
     font-size: 2rem;
   }
-  
+
   .sr-icon {
     font-size: 2.5rem;
   }
-  
+
   .decks-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .overview-stats {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .dashboard-content {
     grid-template-columns: 1fr;
   }
-  
+
   .deck-actions {
     flex-direction: column;
   }
-  
+
   .study-btn {
     min-width: auto;
   }
-  
+
   .session-header {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .progress-stats {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .difficulty-buttons {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
   }
-  
+
   .diff-btn {
     padding: 1rem 0.75rem;
     font-size: 0.9rem;
   }
-  
+
   .calendar-grid {
     grid-template-columns: repeat(7, 1fr);
     gap: 2px;
   }
-  
+
   .overview-controls {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .filter-controls, .sort-controls {
     justify-content: center;
   }
+.card-text code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+/* Basic VS Code-like token colors (using CSS classes injected by highlight.js) */
+.card-text .hljs {
+  background: transparent;
+  color: #d6deeb;
+}
+.card-text .hljs-keyword,
+.card-text .hljs-selector-tag,
+.card-text .hljs-literal,
+.card-text .hljs-title {
+  color: #c792ea;
+}
+.card-text .hljs-string,
+.card-text .hljs-template-string,
+.card-text .hljs-meta-string {
+  color: #c3e88d;
+}
+.card-text .hljs-comment,
+.card-text .hljs-quote {
+  color: #546e7a;
+  font-style: italic;
+}
+.card-text .hljs-number,
+.card-text .hljs-regexp,
+.card-text .hljs-symbol {
+  color: #f78c6c;
+}
+.card-text .hljs-function .hljs-title {
+  color: #82aaff;
 }

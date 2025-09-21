@@ -9,6 +9,42 @@
         "lastReview": "2025-09-21T18:15:34.187Z",
         "totalReviews": 1,
         "correctCount": 1
+      },
+      "mfu0n3l6s6slf3": {
+        "interval": 1,
+        "repetitions": 1,
+        "easeFactor": 2.36,
+        "nextReview": "2025-09-22T18:46:30.308Z",
+        "lastReview": "2025-09-21T18:46:30.308Z",
+        "totalReviews": 1,
+        "correctCount": 1
+      },
+      "mfu0n3l8u7egcq": {
+        "interval": 1,
+        "repetitions": 0,
+        "easeFactor": 2.3,
+        "nextReview": "2025-09-22T18:46:34.986Z",
+        "lastReview": "2025-09-21T18:46:34.986Z",
+        "totalReviews": 1,
+        "correctCount": 0
+      },
+      "mfu0n3l8eg3lxx": {
+        "interval": 1,
+        "repetitions": 0,
+        "easeFactor": 2.3,
+        "nextReview": "2025-09-22T18:46:39.488Z",
+        "lastReview": "2025-09-21T18:46:39.488Z",
+        "totalReviews": 1,
+        "correctCount": 0
+      },
+      "mfu0n3l7wijk94": {
+        "interval": 1,
+        "repetitions": 0,
+        "easeFactor": 2.3,
+        "nextReview": "2025-09-22T18:46:41.666Z",
+        "lastReview": "2025-09-21T18:46:41.666Z",
+        "totalReviews": 1,
+        "correctCount": 0
       }
     }
   }

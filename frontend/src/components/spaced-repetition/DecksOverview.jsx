@@ -27,9 +27,9 @@ const DeckCard = ({ deck, stats, onStartStudy }) => {
           <span className="deck-category">{deck.category}</span>
         </div>
       </div>
-      
+
       <p className="deck-description">{deck.description}</p>
-      
+
       <div className="deck-stats">
         <div className="stat-group">
           <div className="stat-row">
@@ -45,12 +45,12 @@ const DeckCard = ({ deck, stats, onStartStudy }) => {
             <span className="stat-value new-cards">{stats.newCards}</span>
           </div>
         </div>
-        
+
         <div className="progress-section">
           <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ 
+            <div
+              className="progress-fill"
+              style={{
                 width: `${(stats.totalCards - stats.newCards) / stats.totalCards * 100}%`,
                 backgroundColor: getProgressColor(stats.accuracy)
               }}
@@ -61,23 +61,23 @@ const DeckCard = ({ deck, stats, onStartStudy }) => {
           </span>
         </div>
       </div>
-      
+
       <div className="deck-actions">
-        <button 
+        <button
           className="study-btn primary"
           onClick={() => onStartStudy(deck, { reviewMode: 'mixed' })}
           disabled={stats.dueCards === 0 && stats.newCards === 0}
         >
           📖 Study ({stats.dueCards + stats.newCards})
         </button>
-        <button 
+        <button
           className="study-btn secondary"
           onClick={() => onStartStudy(deck, { reviewMode: 'new' })}
           disabled={stats.newCards === 0}
         >
           ✨ New Cards ({stats.newCards})
         </button>
-        <button 
+        <button
           className="study-btn secondary"
           onClick={() => onStartStudy(deck, { reviewMode: 'due' })}
           disabled={stats.dueCards === 0}
@@ -96,6 +96,8 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, due, new
   const [sortBy, setSortBy] = useState('dueCards'); // dueCards, name, progress
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetInProgress, setResetInProgress] = useState(false);
 
   useEffect(() => {
     loadDecks();
@@ -104,8 +106,8 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   const loadDecks = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
         : "http://localhost:3001";
 
       // Load decks
@@ -142,14 +144,14 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   const initializeContent = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
+      const baseUrl = import.meta.env.PROD
+        ? "https://backend-supersquiz.onrender.com"
         : "http://localhost:3001";
-      
+
       const response = await fetch(`${baseUrl}/api/spaced-repetition/init`, {
         method: 'POST'
       });
-      
+
       if (response.ok) {
         await loadDecks(); // Reload decks after initialization
       } else {
@@ -179,7 +181,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
     return filtered.sort((a, b) => {
       const statsA = deckStats[a.id] || {};
       const statsB = deckStats[b.id] || {};
-      
+
       switch (sortBy) {
         case 'name':
           return a.name.localeCompare(b.name);
@@ -233,6 +235,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   }), { totalCards: 0, dueCards: 0, newCards: 0, totalReviews: 0 });
 
   return (
+    <>
     <div className="decks-overview">
       <div className="overview-header">
         <div className="overview-stats">
@@ -263,7 +266,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
               <option value="new">Has New Cards</option>
             </select>
           </div>
-          
+
           <div className="sort-controls">
             <label>Sort by:</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
@@ -275,6 +278,13 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
 
           <button onClick={onViewProgress} className="progress-btn">
             📊 View Progress
+          </button>
+          <button
+            className="reset-btn"
+            onClick={() => setShowResetConfirm(true)}
+            title="Reiniciar todo el progreso de estudio"
+          >
+            🔁 Reiniciar progreso
           </button>
         </div>
       </div>
@@ -289,13 +299,63 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
           />
         ))}
       </div>
-      
+
       {filteredAndSortedDecks().length === 0 && (
         <div className="no-decks-message">
           <p>No decks match the current filter criteria.</p>
         </div>
       )}
     </div>
+
+      {showResetConfirm && (
+        <div className="reset-confirm-overlay">
+          <div className="reset-confirm-box">
+            <h3>Reiniciar progreso</h3>
+            <p>¿Estás seguro? Esto reiniciará todo tu progreso de estudio y no se puede deshacer.</p>
+            <div className="reset-actions">
+              <button
+                className="btn cancel"
+                onClick={() => setShowResetConfirm(false)}
+                disabled={resetInProgress}
+              >
+                Cancelar
+              </button>
+              <button
+                className="btn confirm"
+                onClick={async () => {
+                  try {
+                    setResetInProgress(true);
+                    const baseUrl = import.meta.env.PROD
+                      ? "https://backend-supersquiz.onrender.com"
+                      : "http://localhost:3001";
+
+                    const res = await fetch(`${baseUrl}/api/spaced-repetition/progress/reset`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ userId: 'default', confirm: true })
+                    });
+
+                    if (!res.ok) throw new Error('Failed to reset progress');
+
+                    // Refresh decks and stats after successful reset
+                    await loadDecks();
+                    setShowResetConfirm(false);
+                  } catch (err) {
+                    console.error('Error resetting progress:', err);
+                    alert('No se pudo reiniciar el progreso. Revisa la consola para más detalles.');
+                  } finally {
+                    setResetInProgress(false);
+                  }
+                }}
+                disabled={resetInProgress}
+              >
+                {resetInProgress ? 'Reiniciando...' : 'Sí, reiniciar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

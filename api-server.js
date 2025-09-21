@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 // Import spaced repetition functions
 import { getAllDecks, getStudyStats, getCardsForReview, getAllCards, getCardsByDeckId, getUserProgress, updateCardProgress } from './lib/spaced-repetition-db.mjs';
+import { resetUserProgress } from './lib/spaced-repetition-db.mjs';
 import { createFullStackOpenDecks } from './lib/fullstack-open-content.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -40,9 +41,9 @@ app.post('/api/spaced-repetition/init', async (req, res) => {
     });
   } catch (error) {
     console.error('Error initializing content:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to initialize content',
-      details: error.message 
+      details: error.message
     });
   }
 });
@@ -50,27 +51,27 @@ app.post('/api/spaced-repetition/init', async (req, res) => {
 app.get('/api/spaced-repetition/study', async (req, res) => {
   try {
     const { deckId, limit = 20, mode = 'mixed', userId = 'default' } = req.query;
-    
+
     let cards = [];
-    
+
     if (mode === 'mixed' || mode === 'due') {
       const dueCards = getCardsForReview(userId, deckId, parseInt(limit));
       cards = dueCards;
     }
-    
+
     if (mode === 'new' || (mode === 'mixed' && cards.length < parseInt(limit))) {
       const allCards = deckId ? getCardsByDeckId(deckId) : getAllCards();
       const userProgress = getUserProgress(userId);
       const newCards = allCards.filter(card => !userProgress[card.id]);
-      
+
       const remainingSlots = parseInt(limit) - cards.length;
       cards.push(...newCards.slice(0, remainingSlots));
     }
-    
-    const uniqueCards = cards.filter((card, index, self) => 
+
+    const uniqueCards = cards.filter((card, index, self) =>
       self.findIndex(c => c.id === card.id) === index
     );
-    
+
     res.json(uniqueCards.slice(0, parseInt(limit)));
   } catch (error) {
     console.error('Error fetching study cards:', error);
@@ -91,7 +92,7 @@ app.post('/api/spaced-repetition/answer', async (req, res) => {
     }
 
     const updatedProgress = updateCardProgress(userId, cardId, quality);
-    
+
     res.json({
       success: true,
       cardId,
@@ -101,9 +102,9 @@ app.post('/api/spaced-repetition/answer', async (req, res) => {
     });
   } catch (error) {
     console.error('Error updating card progress:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to update card progress',
-      details: error.message 
+      details: error.message
     });
   }
 });
@@ -112,7 +113,7 @@ app.get('/api/spaced-repetition/stats/:deckId', async (req, res) => {
   try {
     const { deckId } = req.params;
     const { userId = 'default' } = req.query;
-    
+
     const stats = getStudyStats(userId, deckId);
     res.json(stats);
   } catch (error) {
@@ -124,17 +125,17 @@ app.get('/api/spaced-repetition/stats/:deckId', async (req, res) => {
 app.get('/api/spaced-repetition/progress/overall', async (req, res) => {
   try {
     const { userId = 'default', range = 'week' } = req.query;
-    
+
     const userProgress = getUserProgress(userId);
     const decks = getAllDecks();
-    
+
     let totalReviews = 0;
     let totalCorrect = 0;
     let matureCards = 0;
     let studyStreak = 0;
-    
+
     const cardProgresses = Object.values(userProgress);
-    
+
     cardProgresses.forEach(progress => {
       totalReviews += progress.totalReviews || 0;
       totalCorrect += progress.correctCount || 0;
@@ -142,9 +143,9 @@ app.get('/api/spaced-repetition/progress/overall', async (req, res) => {
         matureCards++;
       }
     });
-    
+
     const averageAccuracy = totalReviews > 0 ? Math.round((totalCorrect / totalReviews) * 100) : 0;
-    
+
     const accuracyHistory = [];
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
@@ -154,7 +155,7 @@ app.get('/api/spaced-repetition/progress/overall', async (req, res) => {
         accuracy: Math.max(0, averageAccuracy + (Math.random() - 0.5) * 20)
       });
     }
-    
+
     const stats = {
       totalReviews,
       averageAccuracy,
@@ -165,7 +166,7 @@ app.get('/api/spaced-repetition/progress/overall', async (req, res) => {
       masteredTrend: Math.floor(Math.random() * 15) - 5,
       accuracyHistory
     };
-    
+
     res.json(stats);
   } catch (error) {
     console.error('Error fetching overall progress:', error);
@@ -176,10 +177,10 @@ app.get('/api/spaced-repetition/progress/overall', async (req, res) => {
 app.get('/api/spaced-repetition/progress/decks', async (req, res) => {
   try {
     const { userId = 'default' } = req.query;
-    
+
     const decks = getAllDecks();
     const deckProgressData = [];
-    
+
     for (const deck of decks) {
       const stats = getStudyStats(userId, deck.id);
       deckProgressData.push({
@@ -187,7 +188,7 @@ app.get('/api/spaced-repetition/progress/decks', async (req, res) => {
         progress: stats
       });
     }
-    
+
     res.json(deckProgressData);
   } catch (error) {
     console.error('Error fetching deck progress:', error);
@@ -198,27 +199,27 @@ app.get('/api/spaced-repetition/progress/decks', async (req, res) => {
 app.get('/api/spaced-repetition/progress/history', async (req, res) => {
   try {
     const { userId = 'default', days = 30 } = req.query;
-    
+
     const userProgress = getUserProgress(userId);
     const studyHistory = {};
-    
+
     Object.values(userProgress).forEach(progress => {
       if (progress.lastReview) {
         const reviewDate = new Date(progress.lastReview);
         const dateStr = reviewDate.toISOString().split('T')[0];
-        
+
         if (!studyHistory[dateStr]) {
           studyHistory[dateStr] = { reviews: 0, newCards: 0 };
         }
-        
+
         studyHistory[dateStr].reviews += 1;
-        
+
         if (progress.totalReviews === 1) {
           studyHistory[dateStr].newCards += 1;
         }
       }
     });
-    
+
     res.json(studyHistory);
   } catch (error) {
     console.error('Error fetching study history:', error);
@@ -234,4 +235,21 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Spaced Repetition API Server running on port ${PORT}`);
   console.log(`📚 Access the API at http://localhost:${PORT}`);
+});
+
+app.post('/api/spaced-repetition/progress/reset', async (req, res) => {
+  try {
+    const { userId = 'default', confirm } = req.body;
+
+    // Require a simple confirmation flag to avoid accidental resets
+    if (!confirm) {
+      return res.status(400).json({ success: false, error: 'Confirmation required to reset progress' });
+    }
+
+    const result = resetUserProgress(userId);
+    res.json({ success: true, message: `Progress reset for user ${result.userId}` });
+  } catch (error) {
+    console.error('Error resetting progress:', error);
+    res.status(500).json({ success: false, error: 'Failed to reset progress' });
+  }
 });
