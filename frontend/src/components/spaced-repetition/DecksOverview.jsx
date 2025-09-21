@@ -95,7 +95,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, due, new
-  const [sortBy, setSortBy] = useState('dueCards'); // dueCards, name, progress
+  const [sortBy, setSortBy] = useState('partNumber'); // partNumber, dueCards, name, progress
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [resetInProgress, setResetInProgress] = useState(false);
 
@@ -181,6 +181,20 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
     return filtered.sort((a, b) => {
       const statsA = deckStats[a.id] || {};
       const statsB = deckStats[b.id] || {};
+
+      // Numeric-aware sorting for 'Part N' when requested
+      if (sortBy === 'partNumber') {
+        const extractPart = (name) => {
+          if (!name) return Number.POSITIVE_INFINITY;
+          const m = name.match(/part\s*(\d+)/i);
+          if (m) return parseInt(m[1], 10);
+          return Number.POSITIVE_INFINITY; // non-matching items go to the end
+        };
+        const pa = extractPart(a.name);
+        const pb = extractPart(b.name);
+        if (pa !== pb) return pa - pb;
+        return a.name.localeCompare(b.name);
+      }
 
       switch (sortBy) {
         case 'name':
@@ -270,6 +284,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
           <div className="sort-controls">
             <label>Sort by:</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="partNumber">Part order</option>
               <option value="dueCards">Due Cards</option>
               <option value="name">Name</option>
               <option value="progress">Progress</option>
