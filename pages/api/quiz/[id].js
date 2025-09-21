@@ -1,96 +1,11 @@
-import mongoose from "mongoose";
-
-const questionSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  options: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  correctAnswer: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 3,
-  },
-});
-
-const quizSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  category: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  difficulty: {
-    type: String,
-    required: true,
-    enum: ["easy", "medium", "hard"],
-    default: "medium",
-  },
-  timeLimit: {
-    type: Number,
-    required: true,
-    default: 30,
-  },
-  questions: [questionSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const Quiz = mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);
-
-let cachedConnection = null;
-
-async function connectToDatabase() {
-  if (cachedConnection && mongoose.connection.readyState === 1) {
-    return cachedConnection;
-  }
-
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) {
-    throw new Error("MONGODB_URI environment variable is not defined");
-  }
-
-  try {
-    if (mongoose.connection.readyState === 0) {
-      cachedConnection = await mongoose.connect(mongoUri, {
-        bufferCommands: false,
-        maxPoolSize: 1,
-        serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 10000,
-      });
-    }
-    return cachedConnection;
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    throw error;
-  }
-}
+import { getQuizById, updateQuiz, deleteQuiz } from "../../lib/json-db.mjs";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, PUT, DELETE, OPTIONS"
+  );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") {
@@ -100,43 +15,30 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   try {
-    await connectToDatabase();
-
     switch (req.method) {
-      case "GET":
-        const quiz = await Quiz.findById(id);
-        if (!quiz) {
-          return res.status(404).json({ error: "Quiz no encontrado" });
-        }
+      case "GET": {
+        const quiz = getQuizById(id);
+        if (!quiz) return res.status(404).json({ error: "Quiz no encontrado" });
         return res.status(200).json(quiz);
+      }
 
-      case "PUT":
-        const updatedQuiz = await Quiz.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
-        if (!updatedQuiz) {
-          return res.status(404).json({ error: "Quiz no encontrado" });
-        }
-        return res.status(200).json(updatedQuiz);
+      case "PUT": {
+        const updated = updateQuiz(id, req.body);
+        if (!updated) return res.status(404).json({ error: "Quiz no encontrado" });
+        return res.status(200).json(updated);
+      }
 
-      case "DELETE":
-        const deletedQuiz = await Quiz.findByIdAndDelete(id);
-        if (!deletedQuiz) {
-          return res.status(404).json({ error: "Quiz not found" });
-        }
-        return res
-          .status(200)
-          .json({ message: "Quiz deleted successfully" });
+      case "DELETE": {
+        const ok = deleteQuiz(id);
+        if (!ok) return res.status(404).json({ error: "Quiz not found" });
+        return res.status(200).json({ message: "Quiz deleted successfully" });
+      }
 
       default:
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {
     console.error("API Error:", error);
-    if (error.name === "CastError") {
-      return res.status(400).json({ error: "Invalid quiz ID" });
-    }
     return res.status(500).json({
       error: "Internal server error",
       details: error.message,

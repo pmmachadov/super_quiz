@@ -1,68 +1,32 @@
-const mongoose = require("mongoose");
+const fs = require("fs");
+const path = require("path");
 
-const questionSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  options: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  correctAnswer: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 3,
-  },
-});
+const DATA_PATH = path.join(__dirname, "..", "data", "quizzes.json");
 
-const quizSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  category: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  difficulty: {
-    type: String,
-    required: true,
-    enum: ["easy", "medium", "hard"],
-    default: "medium",
-  },
-  timeLimit: {
-    type: Number,
-    required: true,
-    default: 30,
-  },
-  questions: [questionSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+function read() {
+  if (!fs.existsSync(DATA_PATH)) return { quizzes: [] };
+  return JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+}
 
-quizSchema.pre("save", function (next) {
-  this.updatedAt = Date.now();
-  next();
-});
+function write(obj) {
+  fs.writeFileSync(DATA_PATH, JSON.stringify(obj, null, 2), "utf8");
+}
 
-const Quiz = mongoose.model("Quiz", quizSchema);
-
-module.exports = Quiz;
+module.exports = {
+  async deleteMany() {
+    write({ quizzes: [] });
+    return;
+  },
+  async insertMany(arr) {
+    const data = read();
+    const now = new Date().toISOString();
+    const items = arr.map(q => ({ id: q.id || Date.now().toString(36), ...q, createdAt: q.createdAt || now, updatedAt: q.updatedAt || now }));
+    data.quizzes = data.quizzes.concat(items);
+    write(data);
+    return items;
+  },
+  async countDocuments() {
+    const data = read();
+    return data.quizzes.length;
+  },
+};
