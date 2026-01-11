@@ -30,27 +30,13 @@ const Quizzes = () => {
       setError(null);
       return;
     }
+    
     try {
       setIsLoading(true);
       setError(null);
 
-      let data;
-      const baseUrl = getApiBaseUrl();
-
-      const response = await fetch(`${baseUrl}/api/quizzes`, {
-        method: "GET",
-        cache: "no-cache",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-      }
-
-      data = await response.json();
+      // Use new fallback system
+      const data = await fetchWithFallback('/api/quizzes');
 
       let processedData = [];
       if (Array.isArray(data)) {
@@ -64,7 +50,6 @@ const Quizzes = () => {
 
       setQuizzes(processedData);
       setIsLoading(false);
-      setError(null);
     } catch (error) {
       console.error("Error fetching quizzes:", error);
 

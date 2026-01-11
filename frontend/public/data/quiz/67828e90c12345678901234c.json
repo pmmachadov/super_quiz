@@ -1,0 +1,41 @@
+{
+  "_id": "67828e90c12345678901234c",
+  "id": 3,
+  "title": "General Science",
+  "description": "Conocimientos básicos de ciencias generales",
+  "category": "ciencia",
+  "difficulty": "medium",
+  "timeLimit": 90,
+  "questions": [
+    {
+      "question": "Which is the largest planet in the solar system?",
+      "options": [
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "question": "Which chemical element has the symbol 'O'?",
+      "options": [
+        "Gold",
+        "Oxygen",
+        "Osmium",
+        "Organium"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "question": "Which of these animals is NOT a mammal?",
+      "options": [
+        "Whale",
+        "Bat",
+        "Shark",
+        "Dolphin"
+      ],
+      "correctAnswer": 2
+    }
+  ]
+}

@@ -20,4 +20,41 @@ export const fetchFromStaticJSON = async endpoint => {
   return await response.json();
 };
 
+// Fallback to local JSON when backend is unavailable
+export const fetchWithFallback = async (endpoint) => {
+  const baseUrl = getApiBaseUrl();
+  
+  try {
+    // Try backend first
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: "GET",
+      cache: "no-cache",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Backend error: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.warn(`Backend unavailable for ${endpoint}, using offline data:`, error.message);
+    
+    // Fallback to local static data
+    // In development: use absolute path, in production: use base path
+    const basePath = import.meta.env.PROD ? "/super_quiz" : "";
+    const localUrl = `${basePath}/data${endpoint.replace('/api', '')}.json`;
+    const fallbackResponse = await fetch(localUrl, { cache: "no-cache" });
+    
+    if (!fallbackResponse.ok) {
+      throw new Error(`Offline data not found: ${localUrl}`);
+    }
+    
+    return await fallbackResponse.json();
+  }
+};
+
 export default getApiBaseUrl;

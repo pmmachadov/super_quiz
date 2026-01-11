@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getApiBaseUrl } from "../utils/apiConfig";
+import { fetchWithFallback } from "../utils/apiConfig";
 
 import "./Quiz.css";
 
@@ -47,37 +47,19 @@ export default function Quiz() {
         setIsLoading(true);
         setError(null);
 
+        // Use fetchWithFallback with custom endpoint for individual quiz
         let quizData;
-
-        if (import.meta.env.PROD) {
-          const baseUrl = getApiBaseUrl();
-          const response = await fetch(`${baseUrl}/api/quizzes`);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch quizzes: ${response.status}`);
+        try {
+          quizData = await fetchWithFallback(`/api/quizzes/${id}`);
+        } catch (error) {
+          console.warn("Backend failed, trying individual quiz file:", error.message);
+          // Try individual quiz file with base path support
+          const basePath = import.meta.env.PROD ? "/super_quiz" : "";
+          const fallbackResponse = await fetch(`${basePath}/data/quiz-${id}.json`, { cache: "no-cache" });
+          if (!fallbackResponse.ok) {
+            throw new Error(`Quiz ${id} not found`);
           }
-          const data = await response.json();
-          const list = Array.isArray(data) ? data : data.quizzes || [];
-          if (!list.length) throw new Error("No quizzes available");
-          quizData = list.find(q => q._id === id || String(q.id) === id);
-          if (!quizData) throw new Error("Quiz not found");
-        } else {
-          const baseUrl = getApiBaseUrl();
-          const apiEndpoint = `${baseUrl}/api/quizzes/${id}`;
-
-          const response = await fetch(apiEndpoint, {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            cache: "no-cache",
-          });
-
-          if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
-          }
-
-          quizData = await response.json();
+          quizData = await fallbackResponse.json();
         }
 
         if (quizData.questions && quizData.questions.length > 0) {

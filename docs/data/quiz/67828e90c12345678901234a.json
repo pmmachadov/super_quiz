@@ -1,0 +1,41 @@
+{
+  "_id": "67828e90c12345678901234a",
+  "id": 1,
+  "title": "Basic Programming",
+  "description": "Conceptos fundamentales de programación",
+  "category": "tecnologia", 
+  "difficulty": "easy",
+  "timeLimit": 90,
+  "questions": [
+    {
+      "question": "What does HTML stand for?",
+      "options": [
+        "Hyper Text Markup Language",
+        "High Tech Modern Language", 
+        "Hyper Technical Machine Learning",
+        "Home Tool Markup Language"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which of these is NOT a programming language?",
+      "options": [
+        "JavaScript",
+        "Python",
+        "HTML",
+        "Java"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "question": "What does the console.log() function do in JavaScript?",
+      "options": [
+        "Logs information to the console",
+        "Creates an error log",
+        "Prints a web page",
+        "Shows an alert to the user"
+      ],
+      "correctAnswer": 0
+    }
+  ]
+}
