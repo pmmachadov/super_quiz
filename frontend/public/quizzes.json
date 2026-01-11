@@ -1,0 +1,125 @@
+[
+  {
+    "_id": "1",
+    "id": 1,
+    "title": "Basic Programming",
+    "description": "Conceptos fundamentales de programación",
+    "category": "tecnologia",
+    "difficulty": "easy",
+    "timeLimit": 90,
+    "questions": [
+      {
+        "question": "What does HTML stand for?",
+        "options": [
+          "Hyper Text Markup Language",
+          "High Tech Modern Language",
+          "Hyper Technical Machine Learning",
+          "Home Tool Markup Language"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "question": "Which of these is NOT a programming language?",
+        "options": [
+          "JavaScript",
+          "Python",
+          "HTML",
+          "Java"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What does the console.log() function do in JavaScript?",
+        "options": [
+          "Logs information to the console",
+          "Creates an error log",
+          "Prints a web page",
+          "Shows an alert to the user"
+        ],
+        "correctAnswer": 0
+      }
+    ]
+  },
+  {
+    "_id": "2",
+    "id": 2,
+    "title": "Advanced JavaScript",
+    "description": "Conceptos avanzados de JavaScript moderno",
+    "category": "tecnologia",
+    "difficulty": "hard",
+    "timeLimit": 90,
+    "questions": [
+      {
+        "question": "What is a Promise in JavaScript?",
+        "options": [
+          "A type of variable",
+          "An object that represents a value that may be available now, in the future, or never",
+          "A built-in function",
+          "A type of loop"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which method converts a JSON object to a string?",
+        "options": [
+          "JSON.parse()",
+          "JSON.stringify()",
+          "JSON.toString()",
+          "JSON.convert()"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is hoisting in JavaScript?",
+        "options": [
+          "An optimization technique",
+          "The process of moving declarations to the top of their scope",
+          "A common error in JavaScript",
+          "A method to lift elements on the page"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "_id": "3",
+    "id": 3,
+    "title": "General Science",
+    "description": "Conocimientos básicos de ciencias generales",
+    "category": "ciencia",
+    "difficulty": "medium",
+    "timeLimit": 90,
+    "questions": [
+      {
+        "question": "Which is the largest planet in the solar system?",
+        "options": [
+          "Earth",
+          "Mars",
+          "Jupiter",
+          "Saturn"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Which chemical element has the symbol 'O'?",
+        "options": [
+          "Gold",
+          "Oxygen",
+          "Osmium",
+          "Organium"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of these animals is NOT a mammal?",
+        "options": [
+          "Whale",
+          "Bat",
+          "Shark",
+          "Dolphin"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+]

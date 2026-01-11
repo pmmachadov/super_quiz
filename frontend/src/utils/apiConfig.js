@@ -1,59 +1,71 @@
 export const getApiBaseUrl = () => {
   if (import.meta.env.PROD) {
-    // In production use VITE_API_BASE if provided, otherwise fallback
-    // to a deployed backend (update this URL to your deployed API).
     return import.meta.env.VITE_API_BASE || "https://backend-supersquiz.onrender.com";
   } else {
     return "http://localhost:3000";
   }
 };
 
-export const fetchFromStaticJSON = async endpoint => {
-  const baseUrl = getApiBaseUrl();
-  const url = `${baseUrl}${endpoint}.json`;
-  const response = await fetch(url, { cache: "no-cache" });
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`
-    );
-  }
-  return await response.json();
-};
-
-// Fallback to local JSON when backend is unavailable
-export const fetchWithFallback = async (endpoint) => {
+// Fetch quizzes - tries backend first, falls back to local JSON
+export const fetchQuizzes = async () => {
   const baseUrl = getApiBaseUrl();
   
   try {
-    // Try backend first
-    const response = await fetch(`${baseUrl}${endpoint}`, {
+    const response = await fetch(`${baseUrl}/api/quizzes`, {
       method: "GET",
       cache: "no-cache",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: { Accept: "application/json" },
     });
     
-    if (!response.ok) {
-      throw new Error(`Backend error: ${response.status}`);
-    }
-    
+    if (!response.ok) throw new Error(`Backend error: ${response.status}`);
     return await response.json();
   } catch (error) {
-    console.warn(`Backend unavailable for ${endpoint}, using offline data:`, error.message);
+    console.warn("Backend unavailable, using local JSON:", error.message);
     
-    // Fallback to local static data
-    // In development: use absolute path, in production: use base path
-    const basePath = import.meta.env.PROD ? "/super_quiz" : "";
-    const localUrl = `${basePath}/data${endpoint.replace('/api', '')}.json`;
-    const fallbackResponse = await fetch(localUrl, { cache: "no-cache" });
+    // Fallback to local static JSON
+    const basePath = import.meta.env.BASE_URL || "/";
+    const fallbackResponse = await fetch(`${basePath}quizzes.json`, { cache: "no-cache" });
     
     if (!fallbackResponse.ok) {
-      throw new Error(`Offline data not found: ${localUrl}`);
+      throw new Error("Could not load quizzes from backend or local file");
     }
     
     return await fallbackResponse.json();
+  }
+};
+
+// Fetch single quiz by ID - tries backend first, falls back to local JSON
+export const fetchQuizById = async (id) => {
+  const baseUrl = getApiBaseUrl();
+  
+  try {
+    const response = await fetch(`${baseUrl}/api/quizzes/${id}`, {
+      method: "GET",
+      cache: "no-cache",
+      headers: { Accept: "application/json" },
+    });
+    
+    if (!response.ok) throw new Error(`Backend error: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.warn(`Backend unavailable for quiz ${id}, using local JSON:`, error.message);
+    
+    // Fallback: load all quizzes and find the one we need
+    const basePath = import.meta.env.BASE_URL || "/";
+    const fallbackResponse = await fetch(`${basePath}quizzes.json`, { cache: "no-cache" });
+    
+    if (!fallbackResponse.ok) {
+      throw new Error("Could not load quiz from backend or local file");
+    }
+    
+    const quizzes = await fallbackResponse.json();
+    const quiz = quizzes.find(q => q._id === id || String(q.id) === id || q._id === String(id));
+    
+    if (!quiz) {
+      throw new Error(`Quiz with ID ${id} not found`);
+    }
+    
+    return quiz;
   }
 };
 

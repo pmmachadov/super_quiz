@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { fetchWithFallback } from "../utils/apiConfig";
+import { fetchQuizById } from "../utils/apiConfig";
 
 import "./Quiz.css";
 
@@ -47,20 +47,8 @@ export default function Quiz() {
         setIsLoading(true);
         setError(null);
 
-        // Use fetchWithFallback with custom endpoint for individual quiz
-        let quizData;
-        try {
-          quizData = await fetchWithFallback(`/api/quizzes/${id}`);
-        } catch (error) {
-          console.warn("Backend failed, trying individual quiz file:", error.message);
-          // Try individual quiz file with base path support
-          const basePath = import.meta.env.PROD ? "/super_quiz" : "";
-          const fallbackResponse = await fetch(`${basePath}/data/quiz-${id}.json`, { cache: "no-cache" });
-          if (!fallbackResponse.ok) {
-            throw new Error(`Quiz ${id} not found`);
-          }
-          quizData = await fallbackResponse.json();
-        }
+        // Use API with fallback to local JSON
+        const quizData = await fetchQuizById(id);
 
         if (quizData.questions && quizData.questions.length > 0) {
           quizData.questions = quizData.questions.map(q => ({

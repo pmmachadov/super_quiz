@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: "/super_quiz/",
+  base: mode === "production" ? "/super_quiz/" : "/",
   build: {
     outDir: "../docs",
     emptyOutDir: true,
@@ -19,4 +19,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

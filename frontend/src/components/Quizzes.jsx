@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BubbleEffect from "./BubbleEffect";
-import { getApiBaseUrl } from "../utils/apiConfig";
+import { fetchQuizzes as apiFetchQuizzes } from "../utils/apiConfig";
 import "./Quizzes.css";
 
 const globalQuizzesCache = {
@@ -35,8 +35,8 @@ const Quizzes = () => {
       setIsLoading(true);
       setError(null);
 
-      // Use new fallback system
-      const data = await fetchWithFallback('/api/quizzes');
+      // Use API with fallback to local JSON
+      const data = await apiFetchQuizzes();
 
       let processedData = [];
       if (Array.isArray(data)) {
