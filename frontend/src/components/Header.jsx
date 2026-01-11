@@ -11,6 +11,7 @@ const Header = ({ darkTheme, toggleTheme }) => {
   const navItems = [
     { path: "/", label: "Home" },
     { path: "/quizzes", label: "Quizzes" },
+    { path: "/spaced-repetition", label: "Study" },
     { path: "/create-quiz", label: "Create Quiz" },
     { path: "/analytics", label: "Analytics" },
   ];

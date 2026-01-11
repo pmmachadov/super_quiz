@@ -16,6 +16,7 @@
     "deploy": "npm run build && git add docs && git commit -m \"chore: deploy docs to GitHub Pages\" && git push origin main"
   },
   "dependencies": {
-    "mongoose": "^8.0.0"
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   }
 }
