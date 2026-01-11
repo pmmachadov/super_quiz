@@ -3,9 +3,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/",
+  base: "/super_quiz/",
   build: {
-    outDir: "dist",
+    outDir: "../docs",
     emptyOutDir: true,
   },
   server: {

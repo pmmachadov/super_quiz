@@ -1,0 +1,25 @@
+# GitHub Pages configuration
+name: Super Quiz
+description: Una aplicación de quiz interactiva
+baseurl: "/super_quiz"
+url: "https://pmmachadov.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+
+# Exclude files from processing
+exclude:
+  - node_modules/
+  - frontend/
+  - backend/
+  - api/
+  - pages/
+  - package.json
+  - README.md
+  - structure.md
