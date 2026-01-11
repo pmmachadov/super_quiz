@@ -1,6 +1,8 @@
 export const getApiBaseUrl = () => {
   if (import.meta.env.PROD) {
-    return "";
+    // In production use VITE_API_BASE if provided, otherwise fallback
+    // to a deployed backend (update this URL to your deployed API).
+    return import.meta.env.VITE_API_BASE || "https://backend-supersquiz.onrender.com";
   } else {
     return "http://localhost:3000";
   }
