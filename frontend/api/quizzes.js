@@ -1,89 +1,10 @@
-import mongoose from "mongoose";
-
-const questionSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  options: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  correctAnswer: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 3,
-  },
-});
-
-const quizSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  category: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  difficulty: {
-    type: String,
-    required: true,
-    enum: ["easy", "medium", "hard"],
-    default: "medium",
-  },
-  timeLimit: {
-    type: Number,
-    required: true,
-    default: 30,
-  },
-  questions: [questionSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const Quiz = mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);
-
-async function connectToDatabase() {
-  if (mongoose.connection.readyState >= 1) {
-    return;
-  }
-
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) {
-    throw new Error("MONGODB_URI environment variable is not defined");
-  }
-
-  try {
-    await mongoose.connect(mongoUri);
-    console.log("✅ Connected to MongoDB Atlas");
-  } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
-    throw error;
-  }
-}
+import { getAllQuizzes, createQuiz } from "../../lib/json-db.mjs";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
+    "GET, POST, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
@@ -92,17 +13,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    await connectToDatabase();
-
     switch (req.method) {
-      case "GET":
-        const quizzes = await Quiz.find().select("-questions.correctAnswer");
+      case "GET": {
+        const quizzes = getAllQuizzes();
         return res.status(200).json(quizzes);
+      }
 
-      case "POST":
-        const newQuiz = new Quiz(req.body);
-        const savedQuiz = await newQuiz.save();
-        return res.status(201).json(savedQuiz);
+      case "POST": {
+        const payload = req.body;
+        const created = createQuiz(payload);
+        return res.status(201).json(created);
+      }
 
       default:
         return res.status(405).json({ error: "Method not allowed" });
@@ -110,7 +31,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("API Error:", error);
     return res.status(500).json({
-      error: "No se pudo conectar a la base de datos. Verifica tu conexión.",
+      error: "Internal server error",
       details: error.message,
     });
   }

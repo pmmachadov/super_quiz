@@ -22,6 +22,14 @@ export default function Home() {
       actionLabel: "Play Now",
     },
     {
+      path: "/spaced-repetition",
+      label: "Spaced Repetition Learning",
+      description:
+        "Master Full Stack Open concepts with scientifically-proven spaced repetition. Learn efficiently and retain knowledge long-term!",
+      icon: "🧠",
+      actionLabel: "Start Learning",
+    },
+    {
       path: "/create-quiz",
       label: "Create Quiz",
       description:
