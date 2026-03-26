@@ -1,22 +1,60 @@
 {
   "name": "super-quiz-mongodb-app",
   "version": "1.0.0",
+  "description": "Aplicación full-stack de cuestionarios interactivos con React, Node.js y MongoDB",
   "private": true,
   "type": "module",
+  "author": "Pablo Machado",
+  "license": "MIT",
   "workspaces": [
     "frontend",
     "backend"
   ],
   "scripts": {
+    "setup": "node setup.js",
+    "postinstall": "echo 'Run npm run setup to configure the project'",
     "start": "cd backend && npm start",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && echo 'No lint configured for backend'",
+    "test": "echo 'Tests not implemented yet' && exit 0",
     "vercel-build": "cd frontend && npm run build",
-    "deploy": "npm run build && git add docs && git commit -m \"chore: deploy docs to GitHub Pages\" && git push origin main"
+    "deploy": "npm run build && git add docs && git commit -m \"chore: deploy docs to GitHub Pages\" && git push origin main",
+    "load-data": "cd backend && node loadData.js",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules && rm -rf frontend/dist"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0"
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmachado01/super_quiz.git"
+  },
+  "keywords": [
+    "react",
+    "nodejs",
+    "mongodb",
+    "express",
+    "quiz",
+    "mern-stack",
+    "vite",
+    "material-ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/pmachado01/super_quiz/issues"
+  },
+  "homepage": "https://pmachado01.github.io/super_quiz/"
 }
