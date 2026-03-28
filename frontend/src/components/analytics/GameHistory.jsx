@@ -45,9 +45,9 @@ const GameHistory = ({ games }) => {
               return (
                 <tr key={game.id}>
                   <td>{formatDate(game.date)}</td>
-                  <td>{game.title}</td>
+                  <td>{game.quizTitle || game.title}</td>
                   <td>{game.score}</td>
-                  <td>{`${game.correctAnswers} / ${game.totalQuestions}`}</td>
+                  <td>{`${game.score} / ${game.totalQuestions}`}</td>
                   <td>
                     <div className="mini-progress-bar">
                       <div
@@ -99,7 +99,7 @@ const GameHistory = ({ games }) => {
           <h4>Average Accuracy</h4>
           <p>
             {calculateAccuracy(
-              games.reduce((total, game) => total + game.correctAnswers, 0),
+              games.reduce((total, game) => total + game.score, 0),
               games.reduce((total, game) => total + game.totalQuestions, 0)
             )}
             %
@@ -115,7 +115,8 @@ GameHistory.propTypes = {
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       date: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
+      quizTitle: PropTypes.string,
+      title: PropTypes.string,
       score: PropTypes.number.isRequired,
       totalQuestions: PropTypes.number.isRequired,
       correctAnswers: PropTypes.number.isRequired,

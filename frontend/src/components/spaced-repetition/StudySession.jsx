@@ -158,9 +158,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
   const loadStudyCards = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
+      const baseUrl = import.meta.env.PROD ? window.location.origin : 'http://localhost:3001';
 
       const params = new URLSearchParams({
         deckId: deck.id,
@@ -207,9 +205,7 @@ const StudySession = ({ deck, settings, onFinish, onBack }) => {
 
     // Submit answer to backend
     try {
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
+      const baseUrl = import.meta.env.PROD ? window.location.origin : 'http://localhost:3001';
 
       await fetch(`${baseUrl}/api/spaced-repetition/answer`, {
         method: 'POST',

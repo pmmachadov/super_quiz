@@ -17,11 +17,7 @@ const QuestionPerformance = ({
     setLocalLoading(true);
     setLocalError(null);
     try {
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
-
-      const response = await fetch(`${baseUrl}/api/analytics`, {
+      const response = await fetch("/api/analytics", {
         cache: "no-cache",
         headers: {
           Accept: "application/json",
@@ -52,11 +48,7 @@ const QuestionPerformance = ({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
-
-      const response = await fetch(`${baseUrl}/api/quizzes`, {
+      const response = await fetch("/api/quizzes", {
         cache: "no-cache",
         headers: {
           Accept: "application/json",
@@ -104,11 +96,7 @@ const QuestionPerformance = ({
       return [];
     }
     try {
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
-
-      fetch(`${baseUrl}/api/analytics`, { cache: "no-cache" })
+      fetch("/api/analytics", { cache: "no-cache" })
         .then(res => res.json())
         .then(data => {
           if (data?.questionsData?.length > 0) {
@@ -152,24 +140,29 @@ const QuestionPerformance = ({
   }, [questions, selectedQuestion]);
 
   const questionStats = useMemo(() => {
-    if (!questions?.length || selectedQuestion >= questions.length) {
+    if (!questions?.length || selectedQuestion >= questions.length || !questions[selectedQuestion]) {
       return {
         title: "No data available",
         correctPercentage: 0,
         avgResponseTime: 0,
       };
     }
-    return questions[selectedQuestion];
+    const q = questions[selectedQuestion];
+    return {
+      title: q.title || "Untitled",
+      correctPercentage: q.correctPercentage || 0,
+      avgResponseTime: q.avgResponseTime || "0"
+    };
   }, [questions, selectedQuestion]);
 
   const chartData = useMemo(() => {
     if (!questions?.length) return [];
 
     return questions.slice(0, 7).map(q => ({
-      id: q.id,
-      title: q.title.length > 30 ? q.title.substring(0, 27) + "..." : q.title,
-      correctPercentage: q.correctPercentage,
-      incorrectPercentage: 100 - q.correctPercentage,
+      id: q.id || `q-${Math.random()}`,
+      title: q.title && q.title.length > 30 ? q.title.substring(0, 27) + "..." : (q.title || "Untitled"),
+      correctPercentage: q.correctPercentage || 0,
+      incorrectPercentage: 100 - (q.correctPercentage || 0),
     }));
   }, [questions]);
 
@@ -180,7 +173,7 @@ const QuestionPerformance = ({
 
     const tips = [];
     const avgCorrect =
-      questions.reduce((sum, q) => sum + q.correctPercentage, 0) /
+      questions.reduce((sum, q) => sum + (q.correctPercentage || 0), 0) /
       questions.length;
 
     if (avgCorrect < 60) {
@@ -247,9 +240,9 @@ const QuestionPerformance = ({
                 key={q.id || `question-${index}`}
                 value={index}
               >
-                {q.title.length > 50
+                {q.title && q.title.length > 50
                   ? q.title.substring(0, 47) + "..."
-                  : q.title}
+                  : (q.title || "Untitled")}
               </option>
             ))}
           </select>

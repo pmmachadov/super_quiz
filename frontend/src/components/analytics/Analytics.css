@@ -465,24 +465,30 @@
 .stat-row {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    gap: 40px;
 }
 
 .stat-label {
-    width: 200px;
-    font-weight: bold;
+    width: 160px;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--color-text-secondary, #555);
 }
 
 .stat-value {
     flex: 1;
+    font-size: 13px;
+    color: var(--color-text, #333);
 }
 
 .performance-bar-container {
     background-color: var(--color-bg, #eee);
-    height: 25px;
-    border-radius: 13px;
+    height: 18px;
+    border-radius: 9px;
     overflow: hidden;
     width: 100%;
+    max-width: 250px;
 }
 
 .performance-bar {
@@ -491,9 +497,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 10px;
+    padding-right: 6px;
     color: white;
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 11px;
     transition: width 0.5s ease;
     will-change: width, height;
     transform: translateZ(0);

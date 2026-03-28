@@ -1,6 +1,7 @@
 export const getApiBaseUrl = () => {
+  // Use current origin (works with any deployment)
   if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_BASE || "https://backend-supersquiz.onrender.com";
+    return window.location.origin;
   } else {
     return "http://localhost:3000";
   }
