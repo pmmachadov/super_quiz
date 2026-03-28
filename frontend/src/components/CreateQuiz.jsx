@@ -31,9 +31,7 @@ export default function CreateQuiz() {
 
     setValidationErrors([]);
     try {
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
+      const baseUrl = import.meta.env.PROD ? window.location.origin : "";
 
       const response = await fetch(`${baseUrl}/api/quizzes`, {
         method: "POST",
