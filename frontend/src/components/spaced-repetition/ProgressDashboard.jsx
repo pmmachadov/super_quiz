@@ -185,9 +185,7 @@ const ProgressDashboard = ({ onBack }) => {
   const loadProgressData = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD 
-        ? "https://backend-supersquiz.onrender.com" 
-        : "http://localhost:3001";
+      const baseUrl = import.meta.env.PROD ? window.location.origin : 'http://localhost:3001';
 
       // Load overall stats
       const statsResponse = await fetch(`${baseUrl}/api/spaced-repetition/progress/overall?range=${timeRange}`);

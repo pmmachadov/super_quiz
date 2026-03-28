@@ -1,0 +1,72 @@
+[
+  {
+    "id": "mfu0n3l5ow4i2v",
+    "name": "Part 0: Web Fundamentals",
+    "description": "HTTP protocols, web architecture, HTML forms, and traditional vs modern web applications",
+    "category": "Full Stack Open",
+    "difficulty": "beginner",
+    "color": "#2196F3",
+    "partNumber": 0,
+    "icon": "🌐"
+  },
+  {
+    "id": "mfu0n3l6t003q0",
+    "name": "Part 1: React Basics",
+    "description": "React fundamentals, JSX, props, state, hooks, event handling, and component lifecycle",
+    "category": "Full Stack Open",
+    "difficulty": "beginner",
+    "color": "#61DAFB",
+    "partNumber": 1,
+    "icon": "⚛️"
+  },
+  {
+    "id": "mfu0n3l8jbtpya",
+    "name": "Part 2: Communicating with Server",
+    "description": "REST APIs, HTTP requests with axios, useEffect hook, forms, and error handling",
+    "category": "Full Stack Open",
+    "difficulty": "intermediate",
+    "color": "#4CAF50",
+    "partNumber": 2,
+    "icon": "🔄"
+  },
+  {
+    "id": "mfu0n3laz3rm6v",
+    "name": "Part 3: Node.js and Express",
+    "description": "Server-side JavaScript, Express framework, middleware, CORS, routing, and REST API design",
+    "category": "Full Stack Open",
+    "difficulty": "intermediate",
+    "color": "#8BC34A",
+    "partNumber": 3,
+    "icon": "🟢"
+  },
+  {
+    "id": "mfu0n3leme9bvu",
+    "name": "Part 4: Testing and Authentication",
+    "description": "JWT authentication, bcrypt password hashing, Jest testing, and security best practices",
+    "category": "Full Stack Open",
+    "difficulty": "advanced",
+    "color": "#FF9800",
+    "partNumber": 4,
+    "icon": "🔐"
+  },
+  {
+    "id": "mfu0n3lhc71n6z",
+    "name": "Part 5: React Testing",
+    "description": "React Testing Library, Jest mocks, component testing, E2E testing, and testing strategies",
+    "category": "Full Stack Open",
+    "difficulty": "advanced",
+    "color": "#9C27B0",
+    "partNumber": 5,
+    "icon": "🧪"
+  },
+  {
+    "id": "mfu0n3lldzy2f8",
+    "name": "Part 6: Redux and Context",
+    "description": "Redux state management, reducers, actions, React Context, and state management choices",
+    "category": "Full Stack Open",
+    "difficulty": "advanced",
+    "color": "#764ABC",
+    "partNumber": 6,
+    "icon": "🔄"
+  }
+]

@@ -72,29 +72,28 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setError(null);
 
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "";
-
-      const response = await fetch(`${baseUrl}/api/analytics`, {
+      // Use relative URL - works on any deployment
+      const response = await fetch("/api/analytics", {
         cache: "no-cache",
       });
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Analytics data received:", data);
         setUserStats(data);
         setIsLoading(false);
         return true;
       }
 
+      console.error("Analytics response not OK:", response.status);
       setError(
-        "Could not load analytics data. Please ensure the server is running."
+        `Could not load analytics data. Server returned: ${response.status}`
       );
       setIsLoading(false);
       return false;
     } catch (error) {
       console.error("Error fetching analytics:", error);
-      setError("Failed to fetch analytics data. Please try again later.");
+      setError(`Failed to fetch: ${error.message}`);
       setIsLoading(false);
       return false;
     }
@@ -126,12 +125,9 @@ const AnalyticsDashboard = ({ userId }) => {
       setIsLoading(true);
       setResetError(null);
 
-      const response = await fetch(
-        "http://localhost:5173/api/game-results/reset",
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch("/api/game-results/reset", {
+        method: "POST",
+      });
 
       if (response.ok) {
         setUserStats(null);
@@ -166,17 +162,30 @@ const AnalyticsDashboard = ({ userId }) => {
 
     switch (activeTab) {
       case "performance":
+        // Transform API data to component format
+        const transformedQuestions = userStats.questionsData?.map(q => ({
+          id: q.questionId,
+          title: q.question,
+          correctPercentage: q.accuracy || 0,
+          avgResponseTime: "2.5"
+        })) || [];
         return (
           <MemoizedQuestionPerformance
-            questions={userStats.questionsData}
+            questions={transformedQuestions}
             isLoading={isLoading}
             error={error}
           />
         );
       case "history":
+        // Transform API data to component format
+        const transformedGames = userStats.gamesHistory?.map(g => ({
+          ...g,
+          title: g.quizTitle,
+          correctAnswers: g.score
+        })) || [];
         return (
           <MemoizedGameHistory
-            games={userStats.gamesHistory}
+            games={transformedGames}
             isLoading={isLoading}
             error={error}
           />

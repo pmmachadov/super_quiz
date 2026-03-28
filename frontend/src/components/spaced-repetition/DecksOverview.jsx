@@ -103,12 +103,14 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
     loadDecks();
   }, []);
 
+  const getBaseUrl = () => {
+    return import.meta.env.PROD ? window.location.origin : 'http://localhost:3001';
+  };
+
   const loadDecks = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
+      const baseUrl = getBaseUrl();
 
       // Load decks
       const decksResponse = await fetch(`${baseUrl}/api/spaced-repetition/decks`);
@@ -144,9 +146,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
   const initializeContent = async () => {
     try {
       setLoading(true);
-      const baseUrl = import.meta.env.PROD
-        ? "https://backend-supersquiz.onrender.com"
-        : "http://localhost:3001";
+      const baseUrl = getBaseUrl();
 
       const response = await fetch(`${baseUrl}/api/spaced-repetition/init`, {
         method: 'POST'
@@ -340,9 +340,7 @@ const DecksOverview = ({ onStartStudy, onViewProgress }) => {
                 onClick={async () => {
                   try {
                     setResetInProgress(true);
-                    const baseUrl = import.meta.env.PROD
-                      ? "https://backend-supersquiz.onrender.com"
-                      : "http://localhost:3001";
+                    const baseUrl = getBaseUrl();
 
                     const res = await fetch(`${baseUrl}/api/spaced-repetition/progress/reset`, {
                       method: 'POST',
